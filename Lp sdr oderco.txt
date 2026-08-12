@@ -1,0 +1,144 @@
+# Lp sdr oderco
+
+  Meeting started: 12/08/2026, 09:25:46
+  Duration: 21 minutes
+  Participants: Speaker 1, Speaker 2, Speaker 3
+
+  [View original transcript](https://app.tactiq.io/api/2/u/m/r/wgckhrfEKF44w5EA7rba?o=txt)
+
+    
+
+  
+
+  
+
+  ## Transcript
+
+  00:00 Speaker 1: Fechou. Nós
+00:12 Speaker 2: temos várias dificuldades em relação ao site order. Uma delas, que a gente está batendo a cabeça ali, é em relação aos usuários de e-mails, que a gente não consegue filtrar isso bem dentro do IP para poder fazer um disparo mais segmentado. Em relação aos anúncios, a gente faz captura de lead. para trazer remendedores para dentro da empresa. E a gente tem uma página de cadastro no site, uma página de cadastro no site, que ela é crua. O cara pede lá no CPJ, cria uma senha,
+00:46 Speaker 1: ele pede... E é
+00:49 Speaker 2: bem ruim, é redondo. Se a pessoa entrar no site... por uma outra fonte que não seja pelo nome da empresa, ela chega lá, ela não entende bem o que é aquele site e acaba saindo sem
+01:01 Speaker 1: fazer
+01:03 Speaker 2: o seu cadastro. Então, qual que é a minha ideia ali que o Leo Rodrigo sugereu te colocar? Criar uma landing page dentro da RD, onde a gente consiga... deixar um pouco mais atrativa para um lead que não nos conhece, né, que está buscando algo da nossa marca, da nossa empresa. Não conhece a gente ainda. Mas que não conhece é o Ders. Para que a gente consegui explicar ali na SNP o que a gente vende, né, de provedores, de informática e tudo mais.
+01:34 Speaker 2: E tentar filtrar o mais o que a gente conseguir para o time de SDL. Para que eles consigam... Porque o SDR faz dois tipos de cadastro. O cadastro no site e o cadastro no
+01:45 Speaker 1: DB1.
+01:47 Speaker 2: Para que eles consigam fazer um filtro a
+01:49 Speaker 1: parte, faça um filtro bom.
+01:51 Speaker 2: Para que o SDR não perca tempo com vários livros, por exemplo. Para a gente deixar espaço ali para o cara poder selecionar se o cara vai dar um shipping, se ele vai vender, se ele é revendedor, loja física, loja online, se é marketplace e tudo mais. E aí, nisso, vai cair no RD com a segmentação para cada um desses segmentos, drop e tudo mais, para que a hora que o RD pegue com o RD, que o SDR pegue essa base, veja, esse drop aqui,
+02:24 Speaker 1: não vamos nem mexer.
+02:25 Speaker 2: Aí o Leo criaria um espaço para que esses ruminhos nem sejam colocados, que já sejam colocados no link do lado. Pra gente não ficar perdendo tempo com eles. E pro Léo poder fazer e-mails segmentados pra esse pessoal. Então a pessoa fez o cadastro ali, que era um RD e depois foi avançando dentro do... de um funil nosso ali de captura, para não conseguir fazer os muitos falhos mais segmentados. Hoje
+02:53 Speaker 3: em dia, quando eu tenho algum anúncio da Odaers, eu tenho anúncio, né, imagina, para captura de lead. Sim. Eles vão direto para a página de cadastro e se vão para a página inicial. Direto para a página de cadastro. O foda é que a gente nem sabe mesmo.
+03:04 Speaker 2: Eu fiz um cadastro pra quê. Quando eu entrei, eu fiz dois testes. Fiz o teste da página do site normal e da página de cadastro. O que que acontece? As pessoas olham que elas entram no site, elas
+03:19 Speaker 1: olham,
+03:22 Speaker 2: elas clicam, elas veem que não tem preço, clicam, na época não abriu um espaço tipo, você precisa fazer seu cadastro. E aí, não aparece preço, a pessoa fechava o site e ia embora. E aí, com a página, manda dinheiro para a página para fazer o cadastro. Tem cadastro, só que 98% é de gente que digita a palavra DERCE. A gente já conhece a empresa, que já viu a empresa em algum lugar, mas que nunca fez o cadastro aqui. Então a gente não consegue atrair gente fora dessa bolha. Entende?
+03:53 Speaker 3: Nossa, é difícil, na verdade, no nosso caso específico, porque eu estou pensando enquanto usuário. Eu sou um revendedor e aí eu quero comprar alguma coisa na empresa. Eu não conheço o DERCE ainda. Eu vou clicar no anúncio e eu vou com o managing page. Eu estou querendo comprar aquilo logo, é claro. Eu vou ter que fazer um cadastro em algum lugar. Eu acho que faz mais sentido que o site, porque o site não explica, eu compro isso. Só que como usuário, uma merda também é porque eu quero comprar logo esse teclado. E aí eu vou ter que entender o que é a empresa, vou ter que entrar no formulário, vou ter que aceitar meu cadastro, aí eu vou para o lugar e aí eu vejo o valor. Tipo, é um fluxo muito amoroso. Mas eu entendo que é uma realidade.
+04:24 Speaker 2: Então o nosso fluxo será gigantesco. Será gigantesco. Nós gostaríamos de quando vocês forem mexer no site, que muita coisa seja resolvida nesse processo. Que a gente consiga cortar em algumas coisas. O cara que quer comprar a Vista, ele faz pedaço no site e já consegue comprar a Vista. Hoje ele não consegue fazer isso. Ele precisa passar para o consultor.
+04:55 Speaker 3: Ah, mas você estava comentando, a gente está mudando de checkout, já tem até mudado
+04:58 Speaker 2: pronto já de checkout para ele poder comprar a vista, aí só falta você implementar isso. Precisa passar para o consultor, às vezes precisa passar para o time de yesterday, porque precisa fazer o cadastro de um e-mail antes.
+05:08 Speaker 3: Verde, ué. Caraca. Tá, mas daí... Beleza, deixa o senhor entender. Então, o nosso objetivo é, o cara, ele gostou do produto, digamos, ele ia aparecer lá no Facebook, bem sagrado e tanto faz. Ele clica no anúncio, ele vai para o LinkedIn page explicando o que é o... da onde quer o produto e para fazer o cadastro. Então você está bem explícito tanto o que é que a gente vende, o que é a gente, o que vai acontecer quando ele se cadastrar. Porque quando ele se cadastrar, aquilo vai... pra algum lugar, porque o Evangelion tem que ir pra base do AVE, tanto faz, vai criar esse usuário ali, beleza. Então, ele não vai achar o produto dele naquele momento. Então, eu gostei de um teclado, eu vou deixar o meu interesse pra alguém me chamar depois, pra eu ir pro site da Odessa, eu já coloquei em senha mais tarde, porque não agora, porque eu não sei o valor ainda, porque no anúncio não tá no Evangelion que não colocou o meu valor. É,
+05:51 Speaker 2: porque a ideia é, eu nem faço mais pra anunciar no meta, justamente por causa desse tipo de problema. Porque aí, eu levo pro site, só a pessoa que tá procurando um fornecedor de Eletron. Então, aí a gente está se colocando como força eletrônica de provedor. Só que ele não vai ter nada, ele não vai ser preso, você tem que ver que a gente vende nada. É para ele fazer o cadastro.
+06:12 Speaker 3: Não faz sentido. Éóbvio que daí isso já lembrava, mas a gente ficou pensando que se a gente faz anúncios falando para ele que existe um lugar onde tem ofertas baúas, tem preços legais para se cadastrar, ele vai entrar no NG Page? sabendo que ele vai ter que se cadastrar ou que ele vai conhecer mais lugar. O único problema é se o cara está querendo muito revender um teclado específico, mas aí já é coisa de anúncios,
+06:32 Speaker 2: tanto faz. A gente já perde isso, gente. Hoje a gente já perde. Tanto é que o SDR, ele leva 24 horas para fazer esse primeiro pontap. Hoje é 24 anos porque o time não tem braço para fazer o atendimento na hora. E a gente precisaria de uma ferramenta de WhatsApp, de fazer esses contatos. De forma automática, né?
+06:58 Speaker 3: Tá, e precisa passar sempre pelo SDR. Precisa passar por eles. Porque depois que ele preencheu os dados lá na landing page, isso vai para elas do mesmo jeito, elas vão terminar do mesmo jeito. Isso, porque mesmo
+07:10 Speaker 2: que faça pelo landing page ou pelo website, ele vai criar o login para ele no site, beleza. Depois, ele precisa pegar simples nacional, precisa pegar dados da empresa para poder enviar para o financeiro.
+07:25 Speaker 3: Se o financeiro me recusar, reprova o login do usuário do cara?
+07:30 Speaker 2: Eu não sei qual é o processo interno deles não, mas eu acho que quando reprova ele tem a opção de comprar à vista.
+07:38 Speaker 3: Ah, tá. Não, a gente pode continuar contando. Tá, preciso.
+07:41 Speaker 1: Caralho.
+07:42 Speaker 3: Enfim, mas é que tem que ter que mudar o processo. Vou abrir outro, não é só a gente
+07:45 Speaker 2: criar uma NGP, tá bom? Não, o processo. A hora que sou eu estudar o processo, eu vou ver que o negócio é feio. Muito moroso, né, velho? Muito. Porque tem muita coisa, cara, que não tem porquê existir, cara. Foram criando barreiras para a gente formar aqui. Eu acho que é antes com isso.
+08:01 Speaker 3: Tá, beleza. Então o que a gente tem que fazer agora é uma NGPI com uma explicação breve na entrada, como é que eu estou entendendo?
+08:09 Speaker 2: Isso. E aí a gente precisa colocar uns dados específicos para o cara
+08:14 Speaker 1: poder preencher. Que é nome, CNPJ,
+08:16 Speaker 2: telefone, e-mail e qual é o tipo de beleza que ele tem. Seria um espaço para ele poder pujar o comum. O tipo de empresa. Loja online, loja física, marketplace, dropshipping, corporativo ou meio. Por isso que eu falo do próprio corporativo, aí ele cai no limbo lá que ele nem...
+08:38 Speaker 1: Corporativo? Em que caso é corporativo?
+08:40 Speaker 2: É tipo, se eu sei se o Marx vai comprar computador pra... para a área de usagem informática, por exemplo. Então eles não estão comprando para revender, estão usando para consumo da própria empresa. Mas a gente não vende o preço de gente? A gente vende, mas a gente não tem quem atenda. Porque o produto está 70% mais caro. Então essa pessoa já tem que ter um login diferente porque ela tem que
+09:05 Speaker 3: ver o preço diferente. Beleza.
+09:08 Speaker 2: Mas a gente não tem ninguém, a gente tem duas pessoas embaixo pelo que eu falei com a Fran, mas eles tem 500 pessoas na base, cada um, pra poder conversar.
+09:18 Speaker 3: Ou seja, mesmo que caia no limpo, eles ainda vão ser atingidos em algum momento.
+09:24 Speaker 2: Vai ficar como uma reserva. Isso, ótimo. Mas não vai ser o que a gente vai dar o foco agora. Agora o drop não, o drop vai ficar limpo para sempre. A gente não atende o drop.
+09:37 Speaker 3: Tá, beleza. Tem alguma coisa que ela pediu em específico, além dos campos de formulário,
+09:43 Speaker 2: que a Francine, eu acho, ela pediu? Cara, acho que mereceria isso, né? E depois você faria dentro do RB as automações. Mas eu fiz ela além de pedir mesmo, sem tomada. Ah tá, isso que eu queria saber, não é nada de
+09:58 Speaker 3: importante de início, que eu tenho comentado? Não, não.
+10:01 Speaker 2: É mais aquilo que a gente precisa mesmo. Tá,
+10:03 Speaker 3: beleza. Tô só pensando como é que a gente vai fazer. O que meu filme não fala nas contas, que a gente quer cadastro. Mas a gente quer que o cara se cadastre sabendo que a gente é. Então a gente precisa se contextualizar. Mas não pode ser muito moroso, porque o cara tem que ver logo de primeira, porque tem como se cadastrar. Então não estou pensando só como é que a gente faz isso, mas beleza.
+10:20 Speaker 2: Beleza, entendi. Se a gente puder, se a gente conseguisse alterar o layout do site, para mim seria muito melhor do que mandar para o RPA. Sim. Mas eu também entendo que mexer com isso agora não seria o ideal. Até porque ir lá pra outro novembro, se não pegar o set do deserto, não tem pra gente fazer isso agora. Como é que vai funcionar essa
+10:39 Speaker 3: NGP? Ela vai ser feita dentro dele? É isso. Não sei, tá? Porque daí ele vai ter que criar uma... Peraí. Tudo a ferramenta nova que eu tenho pra fazer uma NGP é uma merda, porque daí eu tenho que arrastar, eu tenho que puxar, descaralho. Ele aceita a NGP? Aceita, pelo menos eu consigo fazer por fora, tá bom. Se não a gente ia hospedar lá no mundo. Mas é bom que seja no RD porque já está conectado no banco de dados dos caras e já puxa, imagino, né? É o quê? É bom que seja no RD porque já está conectado no
+11:06 Speaker 1: banco de dados dos caras. Não, é bom que a gente sobe o manual porque não está integrado com Magento.
+11:12 Speaker 3: Ah tá, mas o RD para a gente por que só? O RD, além de base do RD.
+11:16 Speaker 1: Porque é o que a gente usa como régua de comunicação para o P2B.
+11:20 Speaker 3: Ah não, ótimo, graças a Deus. Então, caso eu tenha... O outro servidor de hospedagem. A gente só sobe o site, mas ele cai no RD não muda nada. Ele cai no RD não muda nada. Ele cai no RD não muda nada. Aí eu falo assim, 10 minutos, tipo se fizer em outro lugar. Por que do RD eu vou ter que... Nossa, tem a favor de aprendizado. Aí o HTML vai dar errado porque o RD não vai reconhecer. Agora é avance. Aí se eu fizer no meu, mas eu conectar no RD lá e cair do
+11:42 Speaker 2: mesmo jeito, aí... Não, se a gente conseguir fazer o que eu não preciso fazer na RD. Tá ótimo.
+11:48 Speaker 3: Perfeito, perfeito. Isso
+11:50 Speaker 2: aí. Beleza. Tem algo que você precisa.
+11:55 Speaker 1: Não. Fechou. Porque com um formulário para a indígena eu já consigo trabalhar.
+11:59 Speaker 3: Ah, fechou. Uma coisa que eu vou precisar mesmo?
+12:01 Speaker 1: Eu vou te dar uma fotinha aqui. Diz que você tinha notado. Então eu já faço.
+12:05 Speaker 3: O tipo de coisa que eu preciso.
+12:07 Speaker 1: Sim, sim. Aí você vê se você vê que por onde você faz não conseguiu integrar com um RD, aí ele te cria um login pra você. Beleza,
+12:21 Speaker 3: beleza. Ou se ele tiver curto, outro um de vocês vai pedir, mas depois já vai dar certo.
+12:26 Speaker 1: Beleza.
+12:27 Speaker 3: Mais uma coisa que o Fábio pediu,
+12:29 Speaker 1: o Rodrigo pediu, o Rodrigo pediu,
+12:31 Speaker 3: quanto mais nada, melhor pra fazer.
+12:33 Speaker 2: Eu acho que não, né, Léo? Acho que é nessa página e conseguir fazer assim isso. Vocês os param depois. É só porque,
+12:39 Speaker 3: no final das contas, a nossa página de cadastro está ruim. Mas por que a gente não muda a página de cadastro direto, sabe? Essa language page não vira página de cadastro. Eu acho que não, porque daí a gente ia criar em cadastre-se e ia ter tudo uma apresentação da empresa.
+12:54 Speaker 1: Tem que ter uma apresentação da empresa. No cadastre-se?
+12:57 Speaker 2: É, porque, por exemplo, a página da PCS para cadastro, ela é muito boa, ela é muito bonita.
+13:03 Speaker 3: Qual que é o cadastro? Essa.
+13:06 Speaker 1: Deixa
+13:07 Speaker 2: eu... Já
+13:08 Speaker 3: pego aqui a partilha só pra eu ter como
+13:10 Speaker 1: referência. Eita, beleza. Um segundo. Tá, agora sim.
+13:30 Speaker 3: Fale conosco... Seja remunerador? Seja influenciador? Onde você trabalhar?
+13:35 Speaker 1: De login, cara. De criar a conta. Ah, esse
+13:38 Speaker 3: aqui. Nossa, sabe como fica bugado no tablet? Tá, peraí, então. Criar minha conta aqui. Tipo assim, você tá falando?
+13:45 Speaker 2: Ou a gente não tem isso. Ou a gente tem dois campings aqui. Ah, eu vi ali. Mas não é dessa página não, porque eu tinha visto não. Pô, a gente tem... Eu acho que é a parte que você tá desenhando,
+13:55 Speaker 1: né, não? Você mostrou que tinha faltado a mão pra tudo. Da mão, né?
+14:02 Speaker 3: Ah, esse aqui, ó. Trabalha conosco, o que eu tô fazendo aqui agora. Que é essa daqui, ó, peraí. Tem o fundo. Ah, eu acho que era essa
+14:08 Speaker 2: aí. É essa aí mesmo. É essa aí, é essa aí. Ah, tá. Uma página assim que a gente consiga explicar a empresa. Cara,
+14:17 Speaker 3: é muito bom a gente fazer direto na Uderson. Tipo assim, de boa fazer uma landing page. É muito mais fácil, inclusive, pra mim fazer uma landing page do time da Uderson. Pra usar de dev, daí é chato. Mas, se a gente fizer direto na Uderson, daí nunca mais repetir esse trabalho, já ficava bonitão no site deles, né? Eu acho que você vai repetir esse trabalho
+14:31 Speaker 1: depois. É, enfim. Eu acho. É verdade.
+14:35 Speaker 3: Bom, então eu já vou fazer a landing page que a gente já deixa certo. Qualquer coisa lá na frente a gente só repete o layout no cadastro da Uderson. E filé. Beleza,
+14:43 Speaker 2: véi. Eu acho que vocês vão ter que fazer de...
+14:48 Speaker 3: Acho que dá pra fazer do zero, tipo, destruir a fundação. É mais fácil. Tá maluco, velho? Deixa eu entrar aqui pra gente só dar uma olhadinha. Ó, percebam uma coisa. Sei que nada a ver com vocês, mas todo mundo que vai desenhar qualquer coisa pra tablet é um boçal. Porque olha como é que fica. E eu sou o único que usa, aparentemente, tablet. Ó, quebra tudo, mano. Porque o pessoal só pensa no layout pra PC, que é esse aqui. Ó que bonitinho que fica. Ou no celular, que é menorzinho. Aí quando alguém vai usar um tablet, quebra tudo, porque ninguém pensa. E do layout. Isso pra tudo. Aqui, os ícones bugados. Enfim, só um adendo. Deixa eu cadastrar-se. Aqui. Ah tá, isso aqui. Ixi, eu tô precisando do CNPJ. Não vou saber o CNPJ. Mas eu lembro, tinha umas opções ali lá.
+15:29 Speaker 2: Fechou. Colocar o CNPJ e abre outro espaço. Outro campo, né? E, cara, tinha que ficar um lugar só, entende? Não colocar o CNPJ, né? E abre outro espaço pra daí. É porque eu entendo, assim, que aí eles querem já tirar o centro
+15:45 Speaker 3: que já tem na... que não tem.
+15:47 Speaker 1: Mas enfim...
+15:48 Speaker 3: Mas daria, daria pelo menos pra deixar um spoiler que vem depois, ou um step 1 de 2, por exemplo, sabe? Mostrar alguma coisinha que tem algo depois. Dá pra dar um sentimento ali. Mas tá. Ela acha que vai se cadastrar de primeira aqui, era clica e aparece um formulário enorme. Ela vai lá se tomando com o seu marco. Conta lá pra Raul, por favor.
+16:08 Speaker 2: Douders? Isso. Fica no produto. Ah, é isso aí também que eu acho que não veria
+16:15 Speaker 3: acontecer. Ver preço? É, tipo assim, se
+16:18 Speaker 2: a pessoa procura um produto, beleza, ela quer ver o produto, mas ela tá clica no produto, talvez, também pra ver preço. Então já deveria, em algum momento, já abrir um espaço pra ele fazer o cadastro, tentar incentivar o cara.
+16:33 Speaker 3: Ah, que isso! O que acontece? Sempre que ver preço vai ser dar o cadastro. Ah, esse aqui é longuinho.
+16:42 Speaker 2: O cliente foi pra outra página. Ah, não. É, o cliente que já ia cadastrar pra você fazer o seu cadastro. Não é nem pra ele
+16:48 Speaker 3: criar o cadastro. É, mas podia ser algo mais até descritivo. Não só ver preço, beleza, ver preço. Mas eu penso que eu clico aqui, vê tipo um olhinho e vai aparecer o preço. Deveria, tipo, ah, um textinho embaixo, sabe? Você não está alugado, logo. É, passou o login. Antes
+17:01 Speaker 1: de entrar, eu pesquisei o site que tava pro gato.
+17:05 Speaker 3: Você tá maluco, ué. Nossa, bem ruim mesmo, é verdade. Às vezes, é óbvio que isso é coisa de negócio, então não deve... tem motivo pra isso, mas faria sentido às vezes um preço. Qual que é o maior preço que a gente pode oferecer aqui? É pra...
+17:19 Speaker 1: corporativo, então
+17:20 Speaker 3: já bota o corporativo aqui como default, como padrão, tá ligado? E aí se o cara ele for outra coisa, que são as outras discussões que ele falou, aí pode abaixar o preço, mas já tem uma base de preço que o cara... Se uma pessoa
+17:31 Speaker 2: que não tem o login, vê um preço para o corporativo, ele não vai fazer o login, ele vai pular em outro site, ele vai achar
+17:39 Speaker 3: que é muito caro. Exato. Ah, faz
+17:41 Speaker 1: sentido, faz sentido. Verdade. Tá, neste caso, eu
+17:46 Speaker 3: vou fazer uma tagline de...
+18:19 Speaker 3: Mas não só isso, deixa eu só pegar aqui... O que tá bugado, as datas aqui, 35 anos. A gente tá com 38 anos já. Isso aqui faz 3 anos que a gente tem esse negócio. Tipo assim, como é que é? Pode, velho? Ninguém mexeu. E aí, se for ver, tá tudo errado aqui embaixo também. Aqui, ó. Contato arroba o Derso. Mas nem é o Derso, é o Dex. Tá ligado? Aí tá tudo, tipo, o site inteirinho também zoado. Aí pediram pra colocar um negócio de Bez aqui no meio também. Então, um monte de coisa que a gente tá... É, então. Eu achei que vocês sonham.
+18:52 Speaker 2: Como que é o negócio do Bez? Eu acho que era isso que a gente tinha pedido. Isso também.
+18:55 Speaker 3: Aí foi mexendo na hora que veio. Cara, tá tudo errado. As marcas, nem existem mais. A maioria das marcas estão aqui também, sabe? Tipo... Ah, é verdade. É verdade. Ah, tudo, tudo. Aqui, o blog não funciona? O blog nem existe.
+19:04 Speaker 2: O blog nem existe. O blog nem existe quando eu entrei. Faz quanto tempo? Dois anos e meio. Caralho.
+19:11 Speaker 3: Não pode não, velho. Pelo menos tira, tá ligado? Os caras abandonaram de vez. Não pode não. Enfim, aí eu vou passar pros devs pra gente mexer nisso aqui nessa semana. Essa é uma atividade que existe no nível de urgência, mas qual que é a data... Nossa, é isso aqui, Gabriel, que eu preciso.
+19:26 Speaker 2: Ebreu, coloca a tua rotina lá, cara. Porque assim, eu não vou saber se é uma... É urgente, assim, mas... De todas as coisas que tem que fazer, enquanto isso não é o grau de
+19:37 Speaker 3: prioridade máxima. Tá, beleza. Estou perguntando porque vai que a Francine tem que apresentar metas, não sei o que, ela veio correndo pedindo para a gente ajudar, não sei o que, vai que tem um contexto de urgência
+19:46 Speaker 2: que eu estou sabendo. Para apresentar metas, ela tem. O que a gente está fazendo hoje está relativamente ok. É só tentando realmente melhorar o processo para nós e para
+19:58 Speaker 3: ela. Por que eu estou perguntando isso? Essas alterações da Aldex, tem a feira da Aldex agora no final do mês. mas eu consigo finalizar isso que amanhã então acho que ainda amanhã mas fazendo a tarde já consigo mexer então já acho que até sexta já tá na nota quinta acho que tá finalizado beleza aí assim que eu for ter algumas dúvidas perguntando o que vocês acham pegando a opinião de vocês também está bonito está feio vai ficar feio das modelos a gente vai tentando a gente vai vendo
+20:24 Speaker 2: se precisar de escrever o texto vai falando
+20:26 Speaker 3: pra gente que a gente vai de novo beleza esse Cadê? Trabalho conosco. Aqui embaixo. Oxe, mudou o negócio, gente.
+20:37 Speaker 1: Acabou onde mudou.
+20:38 Speaker 3: Meu Deus. Ah, nossa, nada a ver outra bomba isso aqui também. Peraí, deixa eu sair. Ô, meu Deus. Tá,
+20:44 Speaker 1: pronto. Aqui. Trabalho conosco.
+20:49 Speaker 3: Tá, então, esse padrão, não estou falando desse padrão exato de ter um mascote, não isso. Mas o padrão de ser uma landing page, que tem dados em blocos, existe um formulário, ele faz sentido.
+21:01 Speaker 2: Faz. Só peço que o formulário não esteja na segunda dobra, seja, tipo,
+21:06 Speaker 3: já no cantinho assim. Mostrando que existe algo a ser feito também. Tá, beleza. É, tem um CTA de início, tá, vou pensar. Ou seja, o 1 vai estar aqui embaixo, né, no caso. A gente vai colocar ele mais um default.
+21:17 Speaker 1: Perfeito, perfeito. Pra já fazer,
+21:20 Speaker 3: então já eu mostro pra vocês.
+21:22 Speaker 1: Deixa eu acabar aqui a gravação.
+21:24 Speaker 3: Nossa, quantas vezes eu já...
+  
