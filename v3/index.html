@@ -175,24 +175,61 @@ p{margin:0}
 /* ramo só aparece depois da atividade: encurta o formulário na primeira olhada */
 .f--oculto{display:none}
 .f--oculto.on{display:block;animation:pop .34s cubic-bezier(.16,1,.3,1)}
-.reveal{margin-top:9px;border-left:3px solid var(--blue);background:var(--blue-lt);border-radius:0 10px 10px 0;padding:10px 12px;display:none}
+/* etapas: troca com deslize curto, sem pular a altura do card */
+.etapa[hidden]{display:none}
+.etapa{animation:entra .32s cubic-bezier(.16,1,.3,1)}
+@keyframes entra{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.etapa.volta{animation-name:entraVolta}
+@keyframes entraVolta{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+.voltar{
+  width:100%;margin-top:9px;background:none;border:0;cursor:pointer;padding:11px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--slate);transition:color .18s;
+}
+.voltar:hover{color:var(--ink)}
+.voltar:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* cartão da consulta de CNPJ */
+.reveal{
+  margin-top:10px;display:none;background:linear-gradient(180deg,#F7FAFF,#EEF4FF);
+  border:1px solid #D3E1FB;border-radius:12px;padding:13px 14px;
+}
 .reveal.on{display:block;animation:pop .34s cubic-bezier(.16,1,.3,1)}
-@keyframes pop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-.reveal__k{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue)}
-.reveal__v{font-size:13.5px;font-weight:700;line-height:1.3;margin-top:3px}
-.reveal__m{font-size:12px;color:var(--slate);margin-top:2px}
-.reveal.err{border-color:var(--grey);background:var(--paper)}
-.reveal.err .reveal__k{color:var(--grey)}
+.reveal__top{display:flex;align-items:flex-start;gap:10px}
+.reveal__ic{
+  width:19px;height:19px;border-radius:50%;flex:none;margin-top:1px;
+  background:var(--blue) no-repeat center/11px 9px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='9' viewBox='0 0 11 9'%3E%3Cpath d='M1 4.6 4 7.6 10 1.4' stroke='%23fff' stroke-width='1.9' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.reveal__nome{
+  font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.02em;
+  line-height:1.25;color:var(--ink);min-width:0;
+}
+.reveal__meta{margin:11px 0 0;padding:11px 0 0;border-top:1px solid #D9E4FA;display:grid;gap:7px}
+.reveal__meta div{display:flex;align-items:baseline;gap:10px}
+.reveal__meta dt{
+  font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  color:#7C93BE;flex:none;width:52px;
+}
+.reveal__meta dd{margin:0;font-size:12.5px;line-height:1.35;color:var(--slate);min-width:0}
+.reveal__aviso{
+  margin-top:10px;font-size:12px;line-height:1.4;color:#8A5A00;
+  background:#FFF6E5;border-radius:8px;padding:8px 10px;display:none;
+}
+.reveal__aviso.on{display:block}
+/* estado de busca e de falha */
+.reveal.carregando .reveal__ic{background-image:none;background:#C7D8F5;animation:pulsa 1s ease-in-out infinite}
+@keyframes pulsa{0%,100%{opacity:.45}50%{opacity:1}}
+.reveal.err{background:var(--paper);border-color:var(--line)}
+.reveal.err .reveal__ic{background:#B9BDC7 no-repeat center/9px 9px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 9 9'%3E%3Cpath d='M1 1l7 7M8 1l-7 7' stroke='%23fff' stroke-width='1.9' stroke-linecap='round'/%3E%3C/svg%3E");}
+.reveal.err .reveal__meta{border-top-color:var(--line)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 14px;font-size:13.5px;font-family:var(--text);cursor:pointer;transition:all .16s;line-height:1.2}
 .chip:hover{border-color:var(--navy)}
 .chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
 .chip[aria-pressed="true"].bk{background:var(--red);border-color:var(--red)}
 .chip:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-.note{margin-top:11px;border-radius:10px;padding:12px 13px;font-size:13px;line-height:1.5;display:none}
-.note.on{display:block;animation:pop .32s cubic-bezier(.16,1,.3,1)}
-.note--bk{background:#FEF3F2;border-left:3px solid var(--red);color:#7A271A}
-.note b{display:block;font-family:var(--display);font-weight:800;font-size:14px;margin-bottom:3px}
 .sub{width:100%;margin-top:17px;background:var(--blue);color:#fff;border:0;border-radius:12px;padding:15px;cursor:pointer;font-family:var(--display);font-weight:800;font-size:16px;transition:background .2s}
 .sub:hover:not(:disabled){background:var(--blue-dk)}
 .sub:disabled{background:var(--line);color:var(--grey);cursor:not-allowed}
@@ -421,7 +458,6 @@ p{margin:0}
   .sub{margin-top:16px;padding:16px;font-size:16.5px}
   .fine{font-size:12.5px;line-height:1.55}
   .reveal{padding:12px}
-  .note{font-size:13.5px;padding:13px}
 
   /* faixa de prova: uma coluna, respiro menor */
   .tr__g{grid-template-columns:1fr}
@@ -552,7 +588,7 @@ p{margin:0}
           <img src="../assets/logos/odex.jpg" alt="">
         </div>
         <p class="prova__txt">
-          <b>Marcas próprias, direto da fábrica.</b>
+          <b>Seis marcas próprias, direto da fábrica.</b>
           <span>E parceiras como Samsung, LG e Cooler Master no mesmo pedido.</span>
         </p>
       </div>
@@ -567,73 +603,77 @@ p{margin:0}
           </div>
           <span class="card__n">01 / 02</span>
         </div>
-        <div class="f">
-          <label class="f__lbl" for="cnpj">CNPJ <i class="req">*</i></label>
-          <input class="f__in" id="cnpj" inputmode="numeric" autocomplete="off" placeholder="00.000.000/0000-00" maxlength="18">
-          <div class="reveal" id="reveal">
-            <div class="reveal__k" id="revealK"></div>
-            <div class="reveal__v" id="revealV"></div>
-            <div class="reveal__m" id="revealM"></div>
+        <!-- etapa 1: quem é a empresa e como falar com ela -->
+        <div class="etapa" data-etapa="1">
+          <div class="f">
+            <label class="f__lbl" for="cnpj">CNPJ <i class="req">*</i></label>
+            <input class="f__in" id="cnpj" inputmode="numeric" autocomplete="off" placeholder="00.000.000/0000-00" maxlength="18">
+            <div class="reveal" id="reveal">
+              <div class="reveal__top">
+                <span class="reveal__ic" id="revealIc" aria-hidden="true"></span>
+                <div class="reveal__nome" id="revealV"></div>
+              </div>
+              <dl class="reveal__meta" id="revealM"></dl>
+              <div class="reveal__aviso" id="revealAviso"></div>
+            </div>
           </div>
-        </div>
-        <div class="f">
-          <label class="f__lbl" for="nome">Seu nome <i class="req">*</i></label>
-          <input class="f__in" id="nome" autocomplete="name" placeholder="Nome e sobrenome">
-        </div>
-
-        <div class="f f__row">
-          <div>
-            <label class="f__lbl" for="email">E-mail <i class="req">*</i></label>
-            <input class="f__in" id="email" type="email" autocomplete="email" placeholder="voce@empresa.com.br">
+          <div class="f">
+            <label class="f__lbl" for="nome">Seu nome <i class="req">*</i></label>
+            <input class="f__in" id="nome" autocomplete="name" placeholder="Nome e sobrenome">
           </div>
-          <div>
-            <label class="f__lbl" for="fone">WhatsApp <i class="req">*</i></label>
-            <input class="f__in" id="fone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" maxlength="15">
-          </div>
-        </div>
-
-        <div class="f">
-          <label class="f__lbl" for="atividade">Principal atividade <i class="req">*</i></label>
-          <div class="sel" id="selAtividade">
-            <button type="button" class="f__in sel__btn" role="combobox"
-                    aria-expanded="false" aria-haspopup="listbox" aria-controls="lstAtividade">
-              <span class="sel__val">Selecione</span>
-            </button>
-            <ul class="sel__list" id="lstAtividade" role="listbox" hidden></ul>
-          </div>
-          <input type="hidden" id="atividade">
-        </div>
-
-        <div class="f f--oculto" id="grupoRamo">
-          <label class="f__lbl" for="ramo">Ramo de atividade <i class="req">*</i></label>
-          <div class="sel" id="selRamo">
-            <button type="button" class="f__in sel__btn" role="combobox"
-                    aria-expanded="false" aria-haspopup="listbox" aria-controls="lstRamo">
-              <span class="sel__val">Selecione</span>
-            </button>
-            <ul class="sel__list" id="lstRamo" role="listbox" hidden></ul>
-          </div>
-          <input type="hidden" id="ramo">
-        </div>
-
-        <div class="f">
-          <span class="f__lbl">Perfil da sua empresa <i class="req">*</i></span>
-          <div class="chips" id="chips" role="group" aria-label="Perfil da sua empresa">
-            <button type="button" class="chip" data-seg="loja-fisica" aria-pressed="false">Loja física</button>
-            <button type="button" class="chip" data-seg="loja-online" aria-pressed="false">Loja online</button>
-            <button type="button" class="chip" data-seg="marketplace" aria-pressed="false">Marketplace</button>
-            <button type="button" class="chip" data-seg="corporativo" aria-pressed="false">Compro para consumo próprio</button>
-            <button type="button" class="chip" data-seg="mei" aria-pressed="false">MEI</button>
-            <button type="button" class="chip bk" data-seg="drop" aria-pressed="false">Dropshipping</button>
-          </div>
-          <div class="note note--bk" id="noteBlock">
-            <b>A gente não trabalha com dropshipping.</b>
-            Todo pedido sai do nosso estoque, com nota e prazo fechado. Se você tem ponto de venda
-            ou estoque próprio, <a href="#" data-pick="loja-fisica">troque a opção acima</a> e siga com o cadastro.
+          <div class="f f__row">
+            <div>
+              <label class="f__lbl" for="email">E-mail <i class="req">*</i></label>
+              <input class="f__in" id="email" type="email" autocomplete="email" placeholder="voce@empresa.com.br">
+            </div>
+            <div>
+              <label class="f__lbl" for="fone">WhatsApp <i class="req">*</i></label>
+              <input class="f__in" id="fone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" maxlength="15">
+            </div>
           </div>
         </div>
 
-        <button class="sub" id="submit" type="submit">Criar minha conta</button>
+        <!-- etapa 2: o que a empresa faz -->
+        <div class="etapa" data-etapa="2" hidden>
+          <div class="f">
+            <label class="f__lbl" for="atividade">Principal atividade <i class="req">*</i></label>
+            <div class="sel" id="selAtividade">
+              <button type="button" class="f__in sel__btn" role="combobox"
+                      aria-expanded="false" aria-haspopup="listbox" aria-controls="lstAtividade">
+                <span class="sel__val">Selecione</span>
+              </button>
+              <ul class="sel__list" id="lstAtividade" role="listbox" hidden></ul>
+            </div>
+            <input type="hidden" id="atividade">
+          </div>
+
+          <div class="f f--oculto" id="grupoRamo">
+            <label class="f__lbl" for="ramo">Ramo de atividade <i class="req">*</i></label>
+            <div class="sel" id="selRamo">
+              <button type="button" class="f__in sel__btn" role="combobox"
+                      aria-expanded="false" aria-haspopup="listbox" aria-controls="lstRamo">
+                <span class="sel__val">Selecione</span>
+              </button>
+              <ul class="sel__list" id="lstRamo" role="listbox" hidden></ul>
+            </div>
+            <input type="hidden" id="ramo">
+          </div>
+
+          <div class="f">
+            <span class="f__lbl">Perfil da sua empresa <i class="req">*</i></span>
+            <div class="chips" id="chips" role="group" aria-label="Perfil da sua empresa">
+              <button type="button" class="chip" data-seg="loja-fisica" aria-pressed="false">Loja física</button>
+              <button type="button" class="chip" data-seg="loja-online" aria-pressed="false">Loja online</button>
+              <button type="button" class="chip" data-seg="marketplace" aria-pressed="false">Marketplace</button>
+              <button type="button" class="chip" data-seg="corporativo" aria-pressed="false">Compro para consumo próprio</button>
+              <button type="button" class="chip" data-seg="mei" aria-pressed="false">MEI</button>
+              <button type="button" class="chip" data-seg="drop" aria-pressed="false">Dropshipping</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="sub" id="submit" type="submit">Continuar</button>
+        <button class="voltar" id="voltar" type="button" hidden>Voltar</button>
         <p class="fine">
           Conferimos seus dados e liberamos o acesso com os preços de atacado. Normalmente sai em até
           1 dia útil. Seus dados seguem a
@@ -641,7 +681,7 @@ p{margin:0}
         </p>
       </form>
       <div class="done" id="done">
-        <div class="done__s"><span class="card__n">02 / 02</span></div>
+        <div class="done__s"><span class="card__n">Pronto</span></div>
         <div class="done__i" aria-hidden="true">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 12.5 10 17.5 19 7.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
@@ -1206,7 +1246,7 @@ quadro();
 /* ==================== FORMULÁRIO ==================== */
 var cnpj = $("#cnpj"), fone = $("#fone"), chips = $("#chips"), form = $("#form"),
     card = $("#card"), submit = $("#submit"), done = $("#done"), reveal = $("#reveal"),
-    nBlock = $("#noteBlock"), seg = null;
+    seg = null;
 
 function maskCnpj(v){
   v = v.replace(/\D/g,"").slice(0,14);
@@ -1230,43 +1270,63 @@ var last = "";
 cnpj.addEventListener("input", function(){
   cnpj.value = maskCnpj(cnpj.value);
   var d = cnpj.value.replace(/\D/g,"");
-  if(d.length < 14){ reveal.classList.remove("on"); last = ""; return; }
+  if(d.length < 14){ reveal.classList.remove("on","err","carregando"); last = ""; return; }
   if(d === last) return;
   last = d;
-  mostrarReveal("Consultando…","",false);
+  buscando();
   fetch("https://brasilapi.com.br/api/cnpj/v1/" + d)
     .then(function(r){ if(!r.ok) throw 0; return r.json(); })
     .then(function(j){
       if(cnpj.value.replace(/\D/g,"") !== d) return;
-      var nome = j.razao_social || j.nome_fantasia || "Empresa localizada";
-      var meta = [j.municipio, j.uf, j.cnae_fiscal_descricao].filter(Boolean).join(" · ");
-      var sit  = j.descricao_situacao_cadastral;
-      if(sit && String(sit).toUpperCase() !== "ATIVA") mostrarReveal("Situação: " + sit, nome, true, meta);
-      else mostrarReveal("Empresa localizada", nome, false, meta);
+      var sit = (j.descricao_situacao_cadastral || "").toUpperCase();
+      achou({
+        nome: titulo(j.razao_social || j.nome_fantasia || "Empresa localizada"),
+        local: [j.municipio ? titulo(j.municipio) : "", j.uf].filter(Boolean).join(" · "),
+        ramo: j.cnae_fiscal_descricao || "",
+        situacao: sit
+      });
     })
     .catch(function(){
       if(cnpj.value.replace(/\D/g,"") !== d) return;
-      mostrarReveal("Não localizamos esse CNPJ","Seguimos com a conferência manual.",true);
+      falhou();
     });
 });
-function mostrarReveal(k,v,err,meta){
-  $("#revealK").textContent = k;
-  $("#revealV").textContent = v || "";
-  $("#revealM").textContent = meta || "";
-  reveal.classList.toggle("err", !!err);
-  reveal.classList.add("on");
-}
 
-/* Ramo de atividade: a lista real do cadastro do site, filtrada pela
-   atividade principal. Some da primeira olhada até a atividade ser escolhida. */
-var RAMOS_GERAIS = ["Informática","Musical","Automotivo","Segurança","Antenas","Telecom",
-  "Utilidades domésticas","Materiais elétricos","Ferramentas","Móveis e eletro","Papelaria",
-  "Eletrônica","Assistência técnica","Livraria","Brinquedos","Games","Home center (som e imagem)",
-  "Supermercado","Mercearia","Provedor","Material para construção","Armarinhos","Lan house",
-  "Farmácia","Conveniência de posto","Alimentos","Concessionária automotiva","Auto peças",
-  "E-commerce","Revenda corporativa (servidores)","Automação","Som profissional (iluminação e sonorização)",
-  "Cine e foto","Cabos (especializado)","Licitação"];
-var RAMOS_SOLAR = ["Integrador solar","Revendedor solar"];
+// A Receita devolve tudo em caixa alta; aqui vira caixa de texto
+function titulo(t){
+  var siglas = {"S.A.":1,"SA":1,"LTDA":1,"ME":1,"EPP":1,"EIRELI":1,"MEI":1,"S/A":1};
+  return String(t).toLowerCase().split(" ").map(function(w){
+    var u = w.toUpperCase();
+    if(siglas[u]) return u;
+    if(w.length <= 2 && ["de","da","do","e"].indexOf(w) >= 0) return w;
+    return w.charAt(0).toUpperCase() + w.slice(1);
+  }).join(" ");
+}
+function buscando(){
+  reveal.className = "reveal on carregando";
+  $("#revealV").textContent = "Consultando a Receita…";
+  $("#revealM").innerHTML = "";
+  $("#revealAviso").classList.remove("on");
+}
+function achou(d){
+  reveal.className = "reveal on";
+  $("#revealV").textContent = d.nome;
+  var linhas = "";
+  if(d.local) linhas += '<div><dt>Sede</dt><dd>' + esc(d.local) + '</dd></div>';
+  if(d.ramo)  linhas += '<div><dt>Atividade</dt><dd>' + esc(d.ramo) + '</dd></div>';
+  $("#revealM").innerHTML = linhas;
+  var av = $("#revealAviso");
+  if(d.situacao && d.situacao !== "ATIVA"){
+    av.textContent = "Situação cadastral: " + titulo(d.situacao) + ". Nosso time confere isso no cadastro.";
+    av.classList.add("on");
+  } else av.classList.remove("on");
+}
+function falhou(){
+  reveal.className = "reveal on err";
+  $("#revealV").textContent = "Não localizamos esse CNPJ";
+  $("#revealM").innerHTML = '<div><dt>Tudo bem</dt><dd>Seguimos com a conferência manual no cadastro.</dd></div>';
+  $("#revealAviso").classList.remove("on");
+}
 
 /* ---- combobox próprio: teclado, clique fora, busca por letra ---- */
 function criarSelect(raizId, campoId, aoMudar){
@@ -1277,7 +1337,7 @@ function criarSelect(raizId, campoId, aoMudar){
   function preencher(opcoes){
     itens = opcoes;
     lista.innerHTML = opcoes.map(function(o,i){
-      return '<li role="option" data-i="'+i+'" aria-selected="false">'+o+'</li>';
+      return '<li role="option" data-i="'+i+'" aria-selected="false">'+esc(o)+'</li>';
     }).join("");
     definir("", true);
   }
@@ -1294,29 +1354,21 @@ function criarSelect(raizId, campoId, aoMudar){
   function abrir(){
     raiz.classList.add("on"); lista.hidden = false;
     btn.setAttribute("aria-expanded","true");
-    foco = itens.indexOf(campo.value);
-    marcar();
-    var sel = $("li.foco", lista);
-    if(sel) sel.scrollIntoView({block:"nearest"});
+    foco = itens.indexOf(campo.value); marcar();
+    var sel = $("li.foco", lista); if(sel) sel.scrollIntoView({block:"nearest"});
   }
   function fechar(){
     raiz.classList.remove("on"); lista.hidden = true;
-    btn.setAttribute("aria-expanded","false");
-    foco = -1; marcar();
+    btn.setAttribute("aria-expanded","false"); foco = -1; marcar();
   }
-  function alternar(){ lista.hidden ? abrir() : fechar(); }
-  function marcar(){
-    $$("li", lista).forEach(function(li,i){ li.classList.toggle("foco", i === foco); });
-  }
+  function marcar(){ $$("li", lista).forEach(function(li,i){ li.classList.toggle("foco", i === foco); }); }
   function mover(passo){
     if(lista.hidden) return abrir();
-    foco = Math.max(0, Math.min(itens.length-1, foco + passo));
-    marcar();
-    var li = $("li.foco", lista);
-    if(li) li.scrollIntoView({block:"nearest"});
+    foco = Math.max(0, Math.min(itens.length-1, foco + passo)); marcar();
+    var li = $("li.foco", lista); if(li) li.scrollIntoView({block:"nearest"});
   }
 
-  btn.addEventListener("click", function(e){ e.stopPropagation(); alternar(); });
+  btn.addEventListener("click", function(e){ e.stopPropagation(); lista.hidden ? abrir() : fechar(); });
   lista.addEventListener("click", function(e){
     var li = e.target.closest("li"); if(!li) return;
     definir(li.textContent); fechar(); btn.focus();
@@ -1326,13 +1378,10 @@ function criarSelect(raizId, campoId, aoMudar){
     else if(e.key === "ArrowUp"){ e.preventDefault(); mover(-1); }
     else if(e.key === "Enter" || e.key === " "){
       e.preventDefault();
-      if(lista.hidden) abrir();
-      else if(foco >= 0){ definir(itens[foco]); fechar(); }
+      if(lista.hidden) abrir(); else if(foco >= 0){ definir(itens[foco]); fechar(); }
     }
-    else if(e.key === "Escape"){ fechar(); }
-    else if(e.key === "Tab"){ fechar(); }
+    else if(e.key === "Escape" || e.key === "Tab"){ fechar(); }
     else if(e.key.length === 1){
-      // busca por letra, como no select nativo
       clearTimeout(tDigito); digitado += e.key.toLowerCase();
       tDigito = setTimeout(function(){ digitado = ""; }, 700);
       var i = itens.findIndex(function(o){ return o.toLowerCase().startsWith(digitado); });
@@ -1342,7 +1391,7 @@ function criarSelect(raizId, campoId, aoMudar){
   });
   document.addEventListener("click", function(e){ if(!raiz.contains(e.target)) fechar(); });
 
-  return { preencher:preencher, definir:definir, botao:btn, valor:function(){ return campo.value; } };
+  return { preencher:preencher, definir:definir, botao:btn };
 }
 
 /* Ramo de atividade: a lista real do cadastro do site, filtrada pela atividade. */
@@ -1364,50 +1413,80 @@ var comboAtividade = criarSelect("selAtividade", "atividade", function(v){
 comboAtividade.preencher(["Atacado","Varejo","Indústria","Solar"]);
 comboRamo.preencher(RAMOS_GERAIS);
 
-// Só dropshipping é barrado. Para barrar outro perfil, some a classe "bk" ao chip.
+/* Todos os perfis podem se cadastrar. A separação acontece depois, na base:
+   o valor de data-seg vai junto com o lead para o time definir o tratamento. */
 chips.addEventListener("click", function(e){
   var b = e.target.closest(".chip"); if(!b) return;
   $$(".chip", chips).forEach(function(c){ c.setAttribute("aria-pressed","false"); });
   b.setAttribute("aria-pressed","true");
   seg = b;
-  var bk = b.classList.contains("bk");
-  nBlock.classList.toggle("on", bk);
-  card.classList.toggle("blocked", bk);
-  submit.disabled = bk;
-  submit.textContent = bk ? "Perfil não atendido" : "Criar minha conta";
 });
-nBlock.addEventListener("click", function(e){
-  var a = e.target.closest("[data-pick]"); if(!a) return;
-  e.preventDefault();
-  var t = chips.querySelector('[data-seg="' + a.getAttribute("data-pick") + '"]');
-  if(t) t.click();
-});
+
+/* ---- etapas ---- */
+var etapa = 1;
+var etapa1 = $('.etapa[data-etapa="1"]'), etapa2 = $('.etapa[data-etapa="2"]');
+var passo = $(".card__n"), btVoltar = $("#voltar");
+
+function irEtapa(n, voltando){
+  etapa = n;
+  etapa1.hidden = n !== 1;
+  etapa2.hidden = n !== 2;
+  var atual = n === 1 ? etapa1 : etapa2;
+  atual.classList.toggle("volta", !!voltando);
+  // reinicia a animação
+  atual.style.animation = "none"; atual.offsetHeight; atual.style.animation = "";
+  passo.textContent = "0" + n + " / 02";
+  submit.textContent = n === 1 ? "Continuar" : "Criar minha conta";
+  btVoltar.hidden = n === 1;
+  card.scrollIntoView({ behavior: LESS ? "auto" : "smooth", block: "nearest" });
+}
+btVoltar.addEventListener("click", function(){ irEtapa(1, true); });
+
+function marcarFalta(lista){
+  lista[0].focus({preventScroll:true});
+  lista[0].scrollIntoView({block:"center", behavior: LESS ? "auto" : "smooth"});
+  lista.forEach(function(el){
+    el.style.borderColor = "#D92D20";
+    var limpa = function(){ el.style.borderColor = ""; el.removeEventListener("input", limpa); el.removeEventListener("click", limpa); };
+    el.addEventListener("input", limpa); el.addEventListener("click", limpa);
+  });
+}
 
 form.addEventListener("submit", function(e){
   e.preventDefault();
-  var miss = [];
-  if(cnpj.value.replace(/\D/g,"").length !== 14) miss.push(cnpj);
-  if(!$("#nome").value.trim()) miss.push($("#nome"));
-  if(!/^\S+@\S+\.\S+$/.test($("#email").value)) miss.push($("#email"));
-  if(fone.value.replace(/\D/g,"").length < 10) miss.push(fone);
-  if(!campoAtividade.value) miss.push(comboAtividade.botao);
-  if(campoAtividade.value && !campoRamo.value) miss.push(comboRamo.botao);
-  if(miss.length){
-    miss[0].focus();
-    miss.forEach(function(el){
-      el.style.borderColor = "#D92D20";
-      el.addEventListener("input", function h(){ el.style.borderColor = ""; el.removeEventListener("input", h); });
-    });
+
+  if(etapa === 1){
+    var faltam = [];
+    if(cnpj.value.replace(/\D/g,"").length !== 14) faltam.push(cnpj);
+    if(!$("#nome").value.trim()) faltam.push($("#nome"));
+    if(!/^\S+@\S+\.\S+$/.test($("#email").value)) faltam.push($("#email"));
+    if(fone.value.replace(/\D/g,"").length < 10) faltam.push(fone);
+    if(faltam.length) return marcarFalta(faltam);
+    return irEtapa(2);
+  }
+
+  var f2 = [];
+  if(!campoAtividade.value) f2.push(comboAtividade.botao);
+  if(campoAtividade.value && !campoRamo.value) f2.push(comboRamo.botao);
+  if(f2.length) return marcarFalta(f2);
+  if(!seg){
+    var primeiro = chips.querySelector(".chip");
+    primeiro.focus({preventScroll:true});
+    primeiro.scrollIntoView({block:"center", behavior: LESS ? "auto" : "smooth"});
     return;
   }
-  if(!seg){ chips.querySelector(".chip").focus(); return; }
+
   $("#doneCnpj").textContent  = cnpj.value;
-  $("#doneRazao").textContent = (reveal.classList.contains("on") && !reveal.classList.contains("err")) ? $("#revealV").textContent : "";
-  $("#doneSeg").textContent   = seg.textContent.trim();
+  $("#doneRazao").textContent = (reveal.classList.contains("on") && !reveal.classList.contains("err"))
+                              ? $("#revealV").textContent : "";
   $("#doneAtiv").textContent  = campoAtividade.value + (campoRamo.value ? " · " + campoRamo.value : "");
+  $("#doneSeg").textContent   = seg.textContent.trim();
+  // segmento cru para o RD: é por aqui que o time separa cada perfil
+  form.dataset.segmento = seg.getAttribute("data-seg");
+
   form.style.display = "none";
+  btVoltar.hidden = true;
   done.classList.add("on");
-  card.classList.remove("blocked");
 });
 
 $$("[data-goto]").forEach(function(b){
