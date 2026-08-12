@@ -208,13 +208,16 @@ p{margin:0}
   font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.02em;
   line-height:1.25;color:var(--ink);min-width:0;
 }
-.reveal__meta{margin:11px 0 0;padding:11px 0 0;border-top:1px solid #D9E4FA;display:grid;gap:7px}
-.reveal__meta div{display:flex;align-items:baseline;gap:10px}
-.reveal__meta dt{
-  font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
-  color:#7C93BE;flex:none;width:52px;
+/* duas colunas: a do rótulo se ajusta sozinha ao mais longo, sem largura chutada */
+.reveal__meta{
+  margin:11px 0 0;padding:11px 0 0;border-top:1px solid #D9E4FA;
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 16px;align-items:baseline;
 }
-.reveal__meta dd{margin:0;font-size:12.5px;line-height:1.35;color:var(--slate);min-width:0}
+.reveal__meta dt{
+  font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;
+  color:#7C93BE;white-space:nowrap;
+}
+.reveal__meta dd{margin:0;font-size:12.5px;line-height:1.4;color:var(--slate);min-width:0}
 .reveal__aviso{
   margin-top:10px;font-size:12px;line-height:1.4;color:#8A5A00;
   background:#FFF6E5;border-radius:8px;padding:8px 10px;display:none;
@@ -1352,8 +1355,8 @@ function achou(d){
   reveal.className = "reveal on";
   $("#revealV").textContent = d.nome;
   var linhas = "";
-  if(d.local) linhas += '<div><dt>Sede</dt><dd>' + esc(d.local) + '</dd></div>';
-  if(d.ramo)  linhas += '<div><dt>Atividade</dt><dd>' + esc(d.ramo) + '</dd></div>';
+  if(d.local) linhas += '<dt>Sede</dt><dd>' + esc(d.local) + '</dd>';
+  if(d.ramo)  linhas += '<dt>Atividade</dt><dd>' + esc(d.ramo) + '</dd>';
   $("#revealM").innerHTML = linhas;
   var av = $("#revealAviso");
   if(d.situacao && d.situacao !== "ATIVA"){
@@ -1364,7 +1367,7 @@ function achou(d){
 function falhou(){
   reveal.className = "reveal on err";
   $("#revealV").textContent = "Não localizamos esse CNPJ";
-  $("#revealM").innerHTML = '<div><dt>Tudo bem</dt><dd>Seguimos com a conferência manual no cadastro.</dd></div>';
+  $("#revealM").innerHTML = '<dt>Tudo bem</dt><dd>Seguimos com a conferência manual no cadastro.</dd>';
   $("#revealAviso").classList.remove("on");
 }
 
