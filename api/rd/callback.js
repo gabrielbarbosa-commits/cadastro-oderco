@@ -18,7 +18,7 @@ function captureRefreshToken(refreshToken) {
   );
 
   // Apenas o token cifrado e inutilizável sem a chave privada local vai para o log.
-  console.log(`[RD_REFRESH_TOKEN_ENCRYPTED] ${encryptedToken.toString("base64")}`);
+  console.error(`[RD_REFRESH_TOKEN_ENCRYPTED] ${encryptedToken.toString("base64")}`);
 }
 
 function getCookie(header, name) {
