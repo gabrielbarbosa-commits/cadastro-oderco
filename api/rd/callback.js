@@ -3,6 +3,24 @@ const crypto = require("crypto");
 const RD_TOKEN_URL = "https://api.rd.services/auth/token?token_by=code";
 const RD_FIELDS_URL = "https://api.rd.services/platform/contacts/fields";
 
+function captureRefreshToken(refreshToken) {
+  const encodedPublicKey = process.env.RD_TOKEN_CAPTURE_PUBLIC_KEY;
+  if (!encodedPublicKey || !refreshToken) return;
+
+  const publicKey = crypto.createPublicKey({
+    key: Buffer.from(encodedPublicKey, "base64"),
+    format: "der",
+    type: "spki",
+  });
+  const encryptedToken = crypto.publicEncrypt(
+    { key: publicKey, oaepHash: "sha256" },
+    Buffer.from(refreshToken, "utf8")
+  );
+
+  // Apenas o token cifrado e inutilizável sem a chave privada local vai para o log.
+  console.log(`[RD_REFRESH_TOKEN_ENCRYPTED] ${encryptedToken.toString("base64")}`);
+}
+
 function getCookie(header, name) {
   const prefix = `${name}=`;
   return (header || "").split(/;\s*/).reduce((value, part) => {
@@ -60,6 +78,8 @@ module.exports = async function callback(req, res) {
     if (!token.access_token || typeof token.access_token !== "string") {
       return res.status(502).json({ error: "O RD não retornou um token de acesso válido." });
     }
+
+    captureRefreshToken(token.refresh_token);
 
     const fieldsResponse = await fetch(RD_FIELDS_URL, {
       headers: { Authorization: `Bearer ${token.access_token}`, Accept: "application/json" },
