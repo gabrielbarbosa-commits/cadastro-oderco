@@ -1353,9 +1353,7 @@ cnpj.addEventListener("input", function(){
   var d = cnpj.value.replace(/\D/g,"");
   if(d.length < 14){
     reveal.classList.remove("on","err","carregando"); last = "";
-    $("#selAtividade").classList.remove("sel--sugerido");
-    $("#selRamo").classList.remove("sel--sugerido");
-    $("#sugestao").classList.remove("on");
+    limparSugestaoCnpj();
     return;
   }
   if(d === last) return;
@@ -1394,6 +1392,7 @@ function daCnpjWs(j, d){
     bairro: [titulo(e.bairro || ""), cep(e.cep), [titulo((e.cidade||{}).nome || ""), uf].filter(Boolean).join(" - ")].filter(Boolean).join(" · "),
     ie: ie ? ie.inscricao_estadual + (ies.filter(function(i){return i.ativo;}).length > 1 ? " · " + uf : "") : "",
     cnae: [at.subclasse, at.descricao].filter(Boolean).join(" · "),
+    cnaeCode: normalizarCnae(at.subclasse),
     cnaeDesc: at.descricao || "",
     situacao: (e.situacao_cadastral || "").toUpperCase()
   };
@@ -1406,6 +1405,7 @@ function daBrasilApi(j, d){
     bairro: [titulo(j.bairro || ""), cep(j.cep), [titulo(j.municipio || ""), j.uf].filter(Boolean).join(" - ")].filter(Boolean).join(" · "),
     ie: "",
     cnae: [subclasse(j.cnae_fiscal), j.cnae_fiscal_descricao].filter(Boolean).join(" · "),
+    cnaeCode: normalizarCnae(j.cnae_fiscal),
     cnaeDesc: j.cnae_fiscal_descricao || "",
     situacao: (j.descricao_situacao_cadastral || "").toUpperCase()
   };
@@ -1424,6 +1424,10 @@ function subclasse(c){
   c = String(c || "").replace(/\D/g,"");
   return c.length === 7 ? c.slice(0,4) + "-" + c.slice(4,5) + "/" + c.slice(5) : "";
 }
+function normalizarCnae(c){
+  var n = String(c || "").replace(/\D/g, "");
+  return n.length === 7 ? n : "";
+}
 
 // A Receita devolve tudo em caixa alta; aqui vira caixa de texto
 function titulo(t){
@@ -1441,6 +1445,7 @@ function buscando(){
   $("#revealV").textContent = "Consultando a Receita…";
   $("#revealM").innerHTML = "";
   $("#revealAviso").classList.remove("on");
+  limparSugestaoCnpj();
 }
 function achou(d){
   reveal.className = "reveal on";
@@ -1458,13 +1463,14 @@ function achou(d){
     av.classList.add("on");
   } else av.classList.remove("on");
 
-  preencherAtividade(d.cnaeDesc);
+  preencherAtividade(d.cnaeDesc, d.cnaeCode);
 }
 function falhou(){
   reveal.className = "reveal on err";
   $("#revealV").textContent = "Não localizamos esse CNPJ";
   $("#revealM").innerHTML = '<dt>Tudo bem</dt><dd>Seguimos com a conferência manual no cadastro.</dd>';
   $("#revealAviso").classList.remove("on");
+  limparSugestaoCnpj();
 }
 
 /* ---- combobox próprio: teclado, clique fora, busca por letra ---- */
@@ -1609,14 +1615,36 @@ var RAMO_POR_PALAVRA = [
   [/utilidade dom[ée]stica/i,                                        "Utilidades domésticas"]
 ];
 
-function preencherAtividade(desc){
+function atividadePorCnae(cnae){
+  var secao = String(cnae || "").slice(0,2);
+  if(secao === "46") return "Atacado";
+  if(secao === "47") return "Varejo";
+  if(+secao >= 10 && +secao <= 33) return "Indústria";
+  return "";
+}
+
+function ramoPorCnae(cnae){
+  var prefixo = String(cnae || "").slice(0,4);
+  var porCodigo = {
+    "4651":"Informática", "4652":"Telecom", "4649":"Papelaria",
+    "4661":"Materiais elétricos", "4662":"Ferramentas", "4663":"Material para construção",
+    "4742":"Materiais elétricos", "4751":"Informática", "4752":"Eletrônica",
+    "4753":"Móveis e eletro", "4754":"Móveis e eletro", "4755":"Utilidades domésticas",
+    "4763":"Musical", "4771":"Farmácia", "4781":"Alimentos"
+  };
+  return porCodigo[prefixo] || "";
+}
+
+function preencherAtividade(desc, cnae){
   if(!desc) return;
-  var solar = /solar|fotovoltaic|energia el[ée]trica/i.test(desc);
-  var atividade = solar ? "Solar"
-                : /atacad|distribui/i.test(desc) ? "Atacado"
-                : /varejist|varejo|loja de departament|lojas de departament|magazine/i.test(desc) ? "Varejo"
-                : /fabrica|ind[úu]stria|industrial/i.test(desc) ? "Indústria"
-                : "";
+  var solar = /solar|fotovoltaic|pain[ée]is? solares?|sistema de energia solar/i.test(desc);
+  var atividade = solar ? "Solar" : atividadePorCnae(cnae);
+  if(!atividade){
+    atividade = /atacad|distribui/i.test(desc) ? "Atacado"
+              : /varejist|varejo|loja de departament|lojas de departament|magazine/i.test(desc) ? "Varejo"
+              : /fabrica|ind[úu]stria|industrial/i.test(desc) ? "Indústria"
+              : "";
+  }
   if(!atividade) return;
 
   comboAtividade.definir(atividade);          // dispara o preenchimento do ramo
@@ -1624,8 +1652,9 @@ function preencherAtividade(desc){
   if(solar){
     ramo = /instala|servi[çc]o/i.test(desc) ? "Integrador solar" : "Revendedor solar";
   } else {
+    ramo = ramoPorCnae(cnae);
     for(var i=0;i<RAMO_POR_PALAVRA.length;i++){
-      if(RAMO_POR_PALAVRA[i][0].test(desc)){ ramo = RAMO_POR_PALAVRA[i][1]; break; }
+      if(!ramo && RAMO_POR_PALAVRA[i][0].test(desc)){ ramo = RAMO_POR_PALAVRA[i][1]; break; }
     }
   }
   if(ramo) comboRamo.definir(ramo);
@@ -1636,6 +1665,18 @@ function marcarSugerido(temRamo){
   if(temRamo) $("#selRamo").classList.add("sel--sugerido");
   var aviso = $("#sugestao");
   if(aviso) aviso.classList.add("on");
+}
+function limparSugestaoCnpj(){
+  comboAtividade.definir("", true);
+  comboRamo.definir("", true);
+  campoAtividade.value = "";
+  campoRamo.value = "";
+  selRamoRaiz.classList.add("sel--travado");
+  btnRamo.disabled = true;
+  $(".sel__val", selRamoRaiz).textContent = "Escolha a atividade primeiro";
+  $("#selAtividade").classList.remove("sel--sugerido");
+  $("#selRamo").classList.remove("sel--sugerido");
+  $("#sugestao").classList.remove("on");
 }
 
 /* ---- etapas ---- */
