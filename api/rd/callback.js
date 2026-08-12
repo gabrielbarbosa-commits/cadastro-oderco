@@ -1,6 +1,5 @@
 const crypto = require("crypto");
 
-const REDIRECT_URI = "https://oderco-lp-revenda.vercel.app/api/rd/callback";
 const RD_TOKEN_URL = "https://api.rd.services/auth/token?token_by=code";
 const RD_FIELDS_URL = "https://api.rd.services/platform/contacts/fields";
 
@@ -50,7 +49,6 @@ module.exports = async function callback(req, res) {
         client_id: process.env.RD_CLIENT_ID,
         client_secret: process.env.RD_CLIENT_SECRET,
         code,
-        redirect_uri: REDIRECT_URI,
       }),
     });
 
