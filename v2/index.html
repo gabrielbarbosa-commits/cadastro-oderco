@@ -111,11 +111,15 @@ p{margin:0}
 .hero--video .hero__bg::before{display:none}
 .hero__video{
   position:absolute;top:50%;left:50%;width:177.78vh;height:100vh;min-width:100%;min-height:56.25vw;
-  transform:translate(-50%,-50%) scale(1.12);border:0;opacity:.58;filter:saturate(.72) contrast(1.08) brightness(.72);
+  transform:translate(-50%,-50%) scale(1.12);border:0;opacity:.72;filter:saturate(.82) contrast(1.08) brightness(.82);
   pointer-events:none;will-change:transform;z-index:0
 }
 .hero--video .hero__bg::after{
-  content:"";position:absolute;inset:0;z-index:1;background:rgba(7,14,39,.28);pointer-events:none
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(112deg,rgba(2,8,29,.78) 0%,rgba(5,18,59,.47) 39%,rgba(7,18,49,.12) 68%,rgba(2,7,25,.58) 100%),
+    radial-gradient(78% 105% at -10% 48%,rgba(0,90,255,.46) 0%,rgba(0,65,198,.18) 45%,transparent 72%),
+    radial-gradient(56% 74% at 91% 8%,rgba(48,110,255,.22) 0%,transparent 72%);
 }
 @keyframes kenburns{
   from{transform:scale(1.02) translate3d(0,0,0)}
@@ -131,6 +135,12 @@ p{margin:0}
   background:
     linear-gradient(96deg,var(--deep) 12%,rgba(7,14,39,.9) 27%,rgba(7,14,39,.5) 44%,rgba(7,14,39,.34) 62%,rgba(7,14,39,.6) 100%),
     linear-gradient(180deg,rgba(7,14,39,.82) 0%,rgba(7,14,39,.1) 26%,rgba(7,14,39,.16) 66%,var(--deep) 100%);
+}
+/* V2: o vídeo fica visível; as cores da marca criam profundidade e guardam a leitura. */
+.hero--video .hero__veil{
+  background:
+    linear-gradient(90deg,rgba(2,8,29,.64) 0%,rgba(3,11,37,.32) 38%,rgba(3,11,37,.04) 69%,rgba(2,8,29,.38) 100%),
+    linear-gradient(180deg,rgba(2,7,27,.62) 0%,transparent 24%,transparent 60%,rgba(2,7,27,.88) 100%);
 }
 .hero__in{position:relative;z-index:2;width:100%;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(400px,.9fr);gap:clamp(30px,4vw,68px);align-items:center;padding-top:104px;padding-bottom:60px}
 .hero h1{font-size:clamp(44px,6.6vw,100px)}
@@ -493,6 +503,9 @@ p{margin:0}
   .hero__veil{background:
     linear-gradient(180deg,rgba(7,14,39,.55) 0%,rgba(7,14,39,.16) 18%,rgba(7,14,39,.5) 46%,rgba(7,14,39,.9) 74%,var(--deep) 96%),
     linear-gradient(96deg,rgba(7,14,39,.7) 0%,rgba(7,14,39,.32) 60%,rgba(7,14,39,.55) 100%)}
+  .hero--video .hero__veil{background:
+    linear-gradient(180deg,rgba(2,7,27,.62) 0%,rgba(2,10,35,.18) 23%,rgba(2,9,31,.52) 58%,rgba(2,7,27,.92) 100%),
+    linear-gradient(96deg,rgba(0,62,194,.32) 0%,rgba(2,10,35,.08) 68%,rgba(2,7,27,.45) 100%)}
   .hero h1,.hero__sub{text-shadow:0 2px 24px rgba(5,11,34,.8)}
 
   /* formulário: 16px é o mínimo que impede o iOS de dar zoom no foco */
