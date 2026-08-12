@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Oderço · Abra sua conta de revenda</title>
-<meta name="description" content="Distribuidora com fábrica própria, dois centros de distribuição e pronta entrega para todo o Brasil. Cadastre seu CNPJ e compre no preço de atacado.">
+<meta name="description" content="Distribuidora com marcas próprias, dois centros de distribuição e pronta entrega para todo o Brasil. Cadastre seu CNPJ e compre no preço de atacado.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800;900&family=Red+Hat+Mono:wght@400;500;700&family=Red+Hat+Text:wght@400;500;700&display=swap" rel="stylesheet">
@@ -180,6 +180,14 @@ p{margin:0}
 .sel--travado .sel__btn{background:#F1F3F7;border-color:var(--line);cursor:not-allowed;color:#A9AEBB}
 .sel--travado .sel__btn::after{opacity:.4}
 .sel--travado .sel__val{color:#A9AEBB}
+/* campo que veio do CNPJ: sinaliza sem travar */
+.sel--sugerido .sel__btn{border-color:#BFD4FA;background:#F7FAFF}
+.sugestao{
+  display:none;margin-top:9px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--blue);align-items:center;gap:8px;
+}
+.sugestao.on{display:flex;animation:pop .3s cubic-bezier(.16,1,.3,1)}
+.sugestao::before{content:"";width:5px;height:5px;background:var(--blue);transform:rotate(45deg);flex:none}
 /* etapas: troca com deslize curto, sem pular a altura do card */
 .etapa[hidden]{display:none}
 .etapa{animation:entra .32s cubic-bezier(.16,1,.3,1)}
@@ -210,6 +218,11 @@ p{margin:0}
   font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.02em;
   line-height:1.25;color:var(--ink);min-width:0;
 }
+.reveal__cnpj{
+  display:block;margin-top:3px;font-family:var(--mono);font-size:11.5px;
+  font-weight:400;letter-spacing:.04em;color:#6F86B4;
+}
+.reveal__sub{display:block;margin-top:2px;color:#7C8AA5;font-size:12px}
 /* duas colunas: a do rótulo se ajusta sozinha ao mais longo, sem largura chutada */
 .reveal__meta{
   margin:11px 0 0;padding:11px 0 0;border-top:1px solid #D9E4FA;
@@ -250,6 +263,16 @@ p{margin:0}
 .done__i{width:48px;height:48px;border-radius:50%;background:var(--blue);margin:0 auto 18px;display:grid;place-items:center}
 .done__t{font-family:var(--display);font-weight:900;font-size:24px;letter-spacing:-.035em}
 .done__d{margin-top:11px;font-size:14px;color:var(--slate);line-height:1.55}
+.done__hora{
+  margin-top:12px;display:inline-flex;align-items:center;gap:8px;
+  background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:8px 14px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);
+}
+.done__hora::before{
+  content:"";width:13px;height:13px;flex:none;border-radius:50%;
+  border:1.6px solid var(--blue);position:relative;
+  background:linear-gradient(var(--blue),var(--blue)) no-repeat center/1.4px 4px;
+}
 .done__q{margin-top:20px;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:left;background:var(--paper)}
 .done__ql{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey)}
 .done__qv{font-size:14px;font-weight:700;margin-top:3px}
@@ -579,9 +602,9 @@ p{margin:0}
       <span class="lbl lbl--pale rv">Distribuição no atacado · desde 1988</span>
       <h1 class="rv rv-d1">Você vende.<span class="b">A gente abastece.</span></h1>
       <p class="hero__sub rv rv-d2">
-        A Oderço <b>fabrica as marcas que distribui</b><span class="so-lg"> e mantém estoque próprio
-        em dois centros de distribuição</span>. Cadastre seu CNPJ e compre no preço de atacado<span class="so-lg">,
-        direto de quem produz</span>.
+        A Oderço tem <b>marca própria e estoque próprio</b><span class="so-lg">, com dois centros de
+        distribuição</span>. Cadastre seu CNPJ e compre no preço de atacado<span class="so-lg">, sem
+        intermediário no meio do caminho</span>.
       </p>
       <div class="prova rv rv-d3">
         <div class="prova__logos" aria-hidden="true">
@@ -593,7 +616,7 @@ p{margin:0}
           <img src="../assets/logos/odex.jpg" alt="">
         </div>
         <p class="prova__txt">
-          <b>Seis marcas próprias, direto da fábrica.</b>
+          <b>Seis marcas próprias do Grupo Oderço.</b>
           <span>E parceiras como Samsung, LG e Cooler Master no mesmo pedido.</span>
         </p>
       </div>
@@ -672,14 +695,17 @@ p{margin:0}
             <input type="hidden" id="ramo">
           </div>
 
+          <p class="sugestao" id="sugestao">Preenchemos pelo CNPJ. Pode trocar se não bater.</p>
+
           <div class="f">
             <span class="f__lbl">Área de interesse <i class="req">*</i></span>
             <div class="chips" id="chips" role="group" aria-label="Área de interesse">
-              <button type="button" class="chip" data-seg="revenda" aria-pressed="false">Revenda</button>
+              <button type="button" class="chip" data-seg="drop" aria-pressed="false">Dropshipping</button>
               <button type="button" class="chip" data-seg="corporativo" aria-pressed="false">Uso e consumo (corporativo)</button>
+              <button type="button" class="chip" data-seg="revenda" aria-pressed="false">Revenda</button>
               <button type="button" class="chip" data-seg="licitacao" aria-pressed="false">Licitação</button>
               <button type="button" class="chip" data-seg="servico" aria-pressed="false">Prestação de serviço</button>
-              <button type="button" class="chip" data-seg="drop" aria-pressed="false">Dropshipping</button>
+              <button type="button" class="chip" data-seg="provedor" aria-pressed="false">Provedor</button>
             </div>
           </div>
         </div>
@@ -699,6 +725,7 @@ p{margin:0}
         </div>
         <div class="done__t">Cadastro enviado.</div>
         <p class="done__d">Conferimos os dados da empresa e liberamos seu acesso com os preços de atacado. Você recebe o login por e-mail.</p>
+        <p class="done__hora">Atendimento de segunda a sexta, das 8h às 18h.</p>
         <div class="done__q">
           <div class="done__ql">Enviado para conferência</div>
           <div class="done__qv" id="doneCnpj"></div>
@@ -729,7 +756,7 @@ p{margin:0}
       </div>
       <div class="tr__i rv rv-d2">
         <svg class="tr__ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 20v-6h6v6" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        <div><div class="tr__t">Fábrica própria</div><div class="tr__d">Seis marcas do Grupo Oderço</div></div>
+        <div><div class="tr__t">Marca própria</div><div class="tr__d">Seis marcas do Grupo Oderço</div></div>
       </div>
       <div class="tr__i rv rv-d3">
         <svg class="tr__ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
@@ -760,8 +787,8 @@ p{margin:0}
   <div class="wrap">
     <div class="br__hd">
       <span class="lbl lbl--amber rv">Marcas do grupo</span>
-      <h2 class="rv rv-d1">A fábrica é <span class="b">nossa.</span></h2>
-      <p class="br__d rv rv-d2">Seis marcas saem da linha de produção e entram direto no seu pedido. Sem intermediário no preço, na garantia ou no prazo de reposição.</p>
+      <h2 class="rv rv-d1">A marca é <span class="b">nossa.</span></h2>
+      <p class="br__d rv rv-d2">Seis marcas do grupo, com especificação, garantia e reposição sob nossa responsabilidade. Você negocia com quem responde pelo produto, sem intermediário no preço.</p>
     </div>
     <div class="cf rv rv-d2" id="cf" role="group" aria-label="Marcas do Grupo Oderço" tabindex="0">
       <div class="cf__stage" id="cfStage"></div>
@@ -901,7 +928,7 @@ var MARCAS = [
   {id:"pcyes",  nome:"PCYES",   desc:"Periféricos, hardware e linha gamer. A marca que puxa a maior parte do giro nas lojas de informática."},
   {id:"vinik",  nome:"Vinik",   desc:"Acessórios e conectividade. Cadeira, headset, controle e a linha de escritório."},
   {id:"skul",   nome:"Skul",    desc:"Computadores montados e monitores. Linha corporativa e home pronta para revenda."},
-  {id:"tonante",nome:"Tonante", desc:"Linha musical. Violão, cavaco e acessórios com garantia de fábrica."},
+  {id:"tonante",nome:"Tonante", desc:"Linha musical. Violão, cavaco e acessórios com garantia da marca."},
   {id:"odex",   nome:"Odex",    desc:"Energia solar. Painel, inversor e estrutura de fixação para o integrador."},
   {id:"quati",  nome:"Quati",   desc:"Malas, mochilas e bolsas. O departamento que sai junto com informática."}
 ];
@@ -1324,38 +1351,91 @@ var last = "";
 cnpj.addEventListener("input", function(){
   cnpj.value = maskCnpj(cnpj.value);
   var d = cnpj.value.replace(/\D/g,"");
-  if(d.length < 14){ reveal.classList.remove("on","err","carregando"); last = ""; return; }
+  if(d.length < 14){
+    reveal.classList.remove("on","err","carregando"); last = "";
+    $("#selAtividade").classList.remove("sel--sugerido");
+    $("#selRamo").classList.remove("sel--sugerido");
+    $("#sugestao").classList.remove("on");
+    return;
+  }
   if(d === last) return;
   last = d;
   buscando();
-  fetch("https://brasilapi.com.br/api/cnpj/v1/" + d)
-    .then(function(r){ if(!r.ok) throw 0; return r.json(); })
-    .then(function(j){
-      if(cnpj.value.replace(/\D/g,"") !== d) return;
-      var sit = (j.descricao_situacao_cadastral || "").toUpperCase();
-      achou({
-        nome: titulo(j.razao_social || j.nome_fantasia || "Empresa localizada"),
-        local: [j.municipio ? titulo(j.municipio) : "", j.uf].filter(Boolean).join(" · "),
-        ramo: j.cnae_fiscal_descricao || "",
-        situacao: sit
-      });
-    })
-    .catch(function(){
-      if(cnpj.value.replace(/\D/g,"") !== d) return;
-      falhou();
-    });
+  consultar(d);
 });
+
+/* Duas fontes: a primeira traz Inscrição Estadual, que é o que o cadastro da
+   Oderço mostra, mas limita a 3 consultas por minuto. A segunda é o plano B. */
+function consultar(d){
+  fetch("https://publica.cnpj.ws/cnpj/" + d)
+    .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(j){ if(atual(d)) achou(daCnpjWs(j, d)); })
+    .catch(function(){
+      fetch("https://brasilapi.com.br/api/cnpj/v1/" + d)
+        .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+        .then(function(j){ if(atual(d)) achou(daBrasilApi(j, d)); })
+        .catch(function(){ if(atual(d)) falhou(); });
+    });
+}
+function atual(d){ return cnpj.value.replace(/\D/g,"") === d; }
+
+function daCnpjWs(j, d){
+  var e = j.estabelecimento || {};
+  var at = e.atividade_principal || {};
+  var uf = (e.estado || {}).sigla || "";
+  var ies = e.inscricoes_estaduais || [];
+  // a IE que interessa é a do estado do estabelecimento
+  var ie = ies.filter(function(i){ return i.ativo && (i.estado||{}).sigla === uf; })[0]
+        || ies.filter(function(i){ return i.ativo; })[0] || null;
+  return {
+    cnpj: cnpj.value,
+    nome: titulo(j.razao_social || ""),
+    endereco: endereco([e.tipo_logradouro, e.logradouro].filter(Boolean).join(" "), e.numero, e.complemento),
+    bairro: [titulo(e.bairro || ""), cep(e.cep), [titulo((e.cidade||{}).nome || ""), uf].filter(Boolean).join(" - ")].filter(Boolean).join(" · "),
+    ie: ie ? ie.inscricao_estadual + (ies.filter(function(i){return i.ativo;}).length > 1 ? " · " + uf : "") : "",
+    cnae: [at.subclasse, at.descricao].filter(Boolean).join(" · "),
+    cnaeDesc: at.descricao || "",
+    situacao: (e.situacao_cadastral || "").toUpperCase()
+  };
+}
+function daBrasilApi(j, d){
+  return {
+    cnpj: cnpj.value,
+    nome: titulo(j.razao_social || j.nome_fantasia || ""),
+    endereco: endereco(j.logradouro, j.numero, j.complemento),
+    bairro: [titulo(j.bairro || ""), cep(j.cep), [titulo(j.municipio || ""), j.uf].filter(Boolean).join(" - ")].filter(Boolean).join(" · "),
+    ie: "",
+    cnae: [subclasse(j.cnae_fiscal), j.cnae_fiscal_descricao].filter(Boolean).join(" · "),
+    cnaeDesc: j.cnae_fiscal_descricao || "",
+    situacao: (j.descricao_situacao_cadastral || "").toUpperCase()
+  };
+}
+function endereco(via, num, compl){
+  var t = titulo(via || "");
+  if(num) t += ", " + num;
+  if(compl) t += " · " + titulo(compl);
+  return t;
+}
+function cep(v){
+  v = String(v || "").replace(/\D/g,"");
+  return v.length === 8 ? v.slice(0,5) + "-" + v.slice(5) : "";
+}
+function subclasse(c){
+  c = String(c || "").replace(/\D/g,"");
+  return c.length === 7 ? c.slice(0,4) + "-" + c.slice(4,5) + "/" + c.slice(5) : "";
+}
 
 // A Receita devolve tudo em caixa alta; aqui vira caixa de texto
 function titulo(t){
-  var siglas = {"S.A.":1,"SA":1,"LTDA":1,"ME":1,"EPP":1,"EIRELI":1,"MEI":1,"S/A":1};
-  return String(t).toLowerCase().split(" ").map(function(w){
+  var siglas = {"S.A.":1,"SA":1,"LTDA":1,"ME":1,"EPP":1,"EIRELI":1,"MEI":1,"S/A":1,"CEP":1};
+  return String(t).toLowerCase().split(" ").filter(Boolean).map(function(w){
     var u = w.toUpperCase();
     if(siglas[u]) return u;
-    if(w.length <= 2 && ["de","da","do","e"].indexOf(w) >= 0) return w;
+    if(["de","da","do","das","dos","e"].indexOf(w) >= 0) return w;
     return w.charAt(0).toUpperCase() + w.slice(1);
   }).join(" ");
 }
+
 function buscando(){
   reveal.className = "reveal on carregando";
   $("#revealV").textContent = "Consultando a Receita…";
@@ -1364,16 +1444,21 @@ function buscando(){
 }
 function achou(d){
   reveal.className = "reveal on";
-  $("#revealV").textContent = d.nome;
+  $("#revealV").innerHTML = esc(d.nome) + '<span class="reveal__cnpj">' + esc(d.cnpj) + '</span>';
   var linhas = "";
-  if(d.local) linhas += '<dt>Sede</dt><dd>' + esc(d.local) + '</dd>';
-  if(d.ramo)  linhas += '<dt>Atividade</dt><dd>' + esc(d.ramo) + '</dd>';
+  if(d.endereco) linhas += '<dt>Endereço</dt><dd>' + esc(d.endereco) +
+    (d.bairro ? '<span class="reveal__sub">' + esc(d.bairro) + '</span>' : '') + '</dd>';
+  if(d.ie)   linhas += '<dt>Inscr. estadual</dt><dd>' + esc(d.ie) + '</dd>';
+  if(d.cnae) linhas += '<dt>CNAE</dt><dd>' + esc(d.cnae) + '</dd>';
   $("#revealM").innerHTML = linhas;
+
   var av = $("#revealAviso");
   if(d.situacao && d.situacao !== "ATIVA"){
     av.textContent = "Situação cadastral: " + titulo(d.situacao) + ". Nosso time confere isso no cadastro.";
     av.classList.add("on");
   } else av.classList.remove("on");
+
+  preencherAtividade(d.cnaeDesc);
 }
 function falhou(){
   reveal.className = "reveal on err";
@@ -1486,6 +1571,73 @@ var contato = $("#contato"), via = null;
 escolhaUnica(chips, function(b){ seg = b; });
 escolhaUnica(contato, function(b){ via = b; });
 
+
+/* ---- CNAE preenche atividade e ramo ----
+   O texto do CNAE já diz se é atacado, varejo ou indústria. O ramo sai por
+   palavra-chave. Tudo fica editável: é sugestão, não trava.               */
+var RAMO_POR_PALAVRA = [
+  [/inform[áa]tica|computador|perif[ée]ric|processamento de dados/i, "Informática"],
+  [/instrumento musical|musical/i,                                   "Musical"],
+  [/provedor|acesso [àa] internet/i,                                  "Provedor"],
+  [/telecomunica|telefonia/i,                                        "Telecom"],
+  [/material el[ée]tric|el[ée]tric/i,                                "Materiais elétricos"],
+  [/ferramenta/i,                                                    "Ferramentas"],
+  [/m[óo]vel|m[óo]veis|eletrodom[ée]stic/i,                          "Móveis e eletro"],
+  [/papelaria|papel/i,                                               "Papelaria"],
+  [/eletr[óo]nic/i,                                                  "Eletrônica"],
+  [/manuten[çc][ãa]o|reparaç|assist[êe]ncia/i,                       "Assistência técnica"],
+  [/livr/i,                                                          "Livraria"],
+  [/brinquedo/i,                                                     "Brinquedos"],
+  [/jogo|game/i,                                                     "Games"],
+  [/supermercado|hipermercado/i,                                     "Supermercado"],
+  [/mercearia|minimercado/i,                                         "Mercearia"],
+  [/material de constru|constru[çc][ãa]o/i,                          "Material para construção"],
+  [/armarinho|arma[çc][õo]es/i,                                      "Armarinhos"],
+  [/farm[áa]cia|drogaria|farmac[êe]utic|medicamento/i,               "Farmácia"],
+  [/combust[íi]vel|posto/i,                                          "Conveniência de posto"],
+  [/produtos aliment[íi]cios|g[êe]neros aliment|bebidas/i,           "Alimentos"],
+  [/ve[íi]culo|automot|autom[óo]vel/i,                               "Concessionária automotiva"],
+  [/pe[çc]as/i,                                                      "Auto peças"],
+  [/internet|com[ée]rcio eletr[ôo]nico|e-?commerce/i,                "E-commerce"],
+  [/servidor/i,                                                      "Revenda corporativa (servidores)"],
+  [/automa[çc][ãa]o/i,                                               "Automação"],
+  [/som|sonoriza|ilumina/i,                                          "Som profissional (iluminação e sonorização)"],
+  [/fotogr[áa]fic|cinemat/i,                                         "Cine e foto"],
+  [/cabo|fio/i,                                                      "Cabos (especializado)"],
+  [/seguran[çc]a|vigil[âa]ncia|alarme/i,                             "Segurança"],
+  [/antena/i,                                                        "Antenas"],
+  [/utilidade dom[ée]stica/i,                                        "Utilidades domésticas"]
+];
+
+function preencherAtividade(desc){
+  if(!desc) return;
+  var solar = /solar|fotovoltaic|energia el[ée]trica/i.test(desc);
+  var atividade = solar ? "Solar"
+                : /atacad|distribui/i.test(desc) ? "Atacado"
+                : /varejist|varejo|loja de departament|lojas de departament|magazine/i.test(desc) ? "Varejo"
+                : /fabrica|ind[úu]stria|industrial/i.test(desc) ? "Indústria"
+                : "";
+  if(!atividade) return;
+
+  comboAtividade.definir(atividade);          // dispara o preenchimento do ramo
+  var ramo = "";
+  if(solar){
+    ramo = /instala|servi[çc]o/i.test(desc) ? "Integrador solar" : "Revendedor solar";
+  } else {
+    for(var i=0;i<RAMO_POR_PALAVRA.length;i++){
+      if(RAMO_POR_PALAVRA[i][0].test(desc)){ ramo = RAMO_POR_PALAVRA[i][1]; break; }
+    }
+  }
+  if(ramo) comboRamo.definir(ramo);
+  marcarSugerido(!!ramo);
+}
+function marcarSugerido(temRamo){
+  $("#selAtividade").classList.add("sel--sugerido");
+  if(temRamo) $("#selRamo").classList.add("sel--sugerido");
+  var aviso = $("#sugestao");
+  if(aviso) aviso.classList.add("on");
+}
+
 /* ---- etapas ---- */
 var etapa = 1;
 var etapa1 = $('.etapa[data-etapa="1"]'), etapa2 = $('.etapa[data-etapa="2"]');
@@ -1545,8 +1697,10 @@ form.addEventListener("submit", function(e){
   if(!seg) return apontarGrupo(chips);
 
   $("#doneCnpj").textContent  = cnpj.value;
-  $("#doneRazao").textContent = (reveal.classList.contains("on") && !reveal.classList.contains("err"))
-                              ? $("#revealV").textContent : "";
+  // só o nome: o CNPJ virou um filho do mesmo elemento e já aparece acima
+  var noNome = $("#revealV").firstChild;
+  $("#doneRazao").textContent = (reveal.classList.contains("on") && !reveal.classList.contains("err") && noNome)
+                              ? noNome.textContent.trim() : "";
   $("#doneAtiv").textContent  = campoAtividade.value + (campoRamo.value ? " · " + campoRamo.value : "");
   $("#doneSeg").textContent   = seg.textContent.trim();
   // segmento cru para o RD: é por aqui que o time separa cada perfil
