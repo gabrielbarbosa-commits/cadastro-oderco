@@ -112,7 +112,7 @@ p{margin:0}
 .hero__video{
   position:absolute;top:50%;left:50%;width:177.78vh;height:100vh;min-width:100%;min-height:56.25vw;
   transform:translate(-50%,-50%) scale(1.12);border:0;opacity:.72;filter:saturate(.82) contrast(1.08) brightness(.82);
-  pointer-events:none;will-change:transform;z-index:0
+  object-fit:cover;pointer-events:none;will-change:transform;z-index:0
 }
 .hero--video .hero__bg::after{
   content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
@@ -632,11 +632,9 @@ p{margin:0}
 <!-- ══════════ 01 · HERO ══════════ -->
 <section class="hero hero--video">
   <div class="hero__bg" aria-hidden="true">
-    <iframe class="hero__video"
-      src="https://www.youtube-nocookie.com/embed/wolCiTw-nHY?autoplay=1&amp;mute=1&amp;controls=0&amp;disablekb=1&amp;fs=0&amp;iv_load_policy=3&amp;loop=1&amp;playlist=wolCiTw-nHY&amp;modestbranding=1&amp;playsinline=1&amp;rel=0&amp;start=108"
-      title="Vídeo de fundo da Oderço"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      loading="eager"></iframe>
+    <video class="hero__video" id="heroVideo" autoplay muted playsinline preload="auto" aria-hidden="true">
+      <source src="../assets/video/Comercial%20resumo.mp4#t=11" type="video/mp4">
+    </video>
   </div>
   <div class="hero__grain" aria-hidden="true"></div>
   <div class="hero__veil" aria-hidden="true"></div>
@@ -1809,6 +1807,18 @@ var bar = $("#bar");
 if("IntersectionObserver" in window && bar){
   new IntersectionObserver(function(en){ bar.classList.toggle("on", !en[0].isIntersecting); },{threshold:.12}).observe(card);
 }
+
+/* O comercial começa no trecho mais forte e, ao terminar, volta para ele. */
+(function(){
+  var video = $("#heroVideo"), inicio = 11;
+  if(!video || LESS) return;
+  function tocarDoInicio(){
+    video.currentTime = inicio;
+    video.play().catch(function(){});
+  }
+  video.addEventListener("loadedmetadata", tocarDoInicio, {once:true});
+  video.addEventListener("ended", tocarDoInicio);
+})();
 })();
 </script>
 </body>
