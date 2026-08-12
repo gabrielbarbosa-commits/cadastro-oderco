@@ -68,9 +68,12 @@ p{margin:0}
 .hdr{position:fixed;top:0;left:0;right:0;z-index:80;transition:background .3s,box-shadow .3s,color .3s;color:#fff}
 .hdr.solid{background:rgba(255,255,255,.9);backdrop-filter:blur(18px);box-shadow:0 1px 0 var(--line);color:var(--ink)}
 .hdr__in{display:flex;align-items:center;gap:26px;height:68px}
-.brand{display:flex;align-items:center;gap:9px;text-decoration:none;flex:none}
-.brand__mk{width:19px;height:19px}
-.brand__wd{font-family:var(--display);font-weight:900;font-size:19px;letter-spacing:-.03em}
+/* duas versões do logo: a branca no hero, a azul quando o header vira branco */
+.brand{position:relative;display:block;flex:none;line-height:0;text-decoration:none}
+.brand__img{height:23px;width:auto;transition:opacity .3s}
+.brand__img--escuro{position:absolute;left:0;top:0;opacity:0}
+.hdr.solid .brand__img--claro{opacity:0}
+.hdr.solid .brand__img--escuro{opacity:1}
 .hdr__nav{display:flex;gap:24px;margin-left:auto}
 .hdr__nav+.hdr__log{margin-left:0}
 .hdr__log:first-of-type{margin-left:auto}
@@ -545,12 +548,9 @@ p{margin:0}
 
 <header class="hdr" id="hdr">
   <div class="wrap hdr__in">
-    <a class="brand" href="#topo">
-      <svg class="brand__mk" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 1.6 22.4 12 12 22.4 1.6 12 12 1.6Z" fill="#005AFF"/>
-        <path d="M12 6.8 17.2 12 12 17.2 6.8 12 12 6.8Z" fill="currentColor"/>
-      </svg>
-      <span class="brand__wd">ODERÇO</span>
+    <a class="brand" href="#topo" aria-label="Oderço, início">
+      <img class="brand__img brand__img--claro" src="../assets/logos/oderco-branco.png" alt="Oderço">
+      <img class="brand__img brand__img--escuro" src="../assets/logos/oderco-azul.png" alt="" aria-hidden="true">
     </a>
     <nav class="hdr__nav">
       <a href="#catalogo">Catálogo</a>
@@ -857,8 +857,8 @@ p{margin:0}
         <p class="ft__l">
           <a href="https://www.oderco.com.br/">Ir para a loja</a><br>
           <a href="https://www.oderco.com.br/customer/account/login/">Entrar na conta</a><br>
-          <a href="https://www.oderco.com.br/fale-conosco">Fale conosco</a><br>
-          <a href="https://www.oderco.com.br/rma">RMA</a><br>
+          <a href="https://www.oderco.com.br/pages/forms/faleconosco">Fale conosco</a><br>
+          <a href="https://www.oderco.com.br/garantia">Garantia e RMA</a><br>
           <a href="https://www.oderco.com.br/politica-de-privacidade">Política de privacidade</a>
         </p>
       </div>
@@ -1056,42 +1056,81 @@ var cfCards = [], cfDots = [], cfAtual = 2, cfDrag = 0, cfArrasto = null;
   }).join("");
   cfCards = $$(".cf__c", cfStage);
   cfDots  = $$(".cf__dot", cfNav);
-  cfCards.forEach(function(c){ c.addEventListener("click", function(){
-    var alvo = +c.dataset.i, n = MARCAS.length;
-    var delta = alvo - cfIdx(); delta = delta - n * Math.round(delta / n);
-    irPara(cfAtual + delta);
-  }); });
-  cfDots.forEach(function(d){ d.addEventListener("click", function(){
-    var alvo = +d.dataset.i, n = MARCAS.length;
-    var delta = alvo - cfIdx(); delta = delta - n * Math.round(delta / n);
-    irPara(cfAtual + delta);
-  }); });
+  /* Clique delegado no palco: cards em 3D dentro de preserve-3d não recebem
+     hit-test confiável no Chrome, então descobrimos o alvo pela posição do
+     ponteiro em vez de esperar o evento chegar no card. */
+  cf.addEventListener("click", function(e){
+    if(arrastou) return;
+    var alvo = null, menor = Infinity;
+    cfCards.forEach(function(c){
+      if(c.style.pointerEvents === "none") return;
+      var r = c.getBoundingClientRect();
+      var dist = Math.abs((r.left + r.width/2) - e.clientX);
+      if(dist < menor){ menor = dist; alvo = c; }
+    });
+    if(alvo) irPara(cfAtual + curto(+alvo.dataset.i));
+  });
+  cfDots.forEach(function(d){
+    d.addEventListener("click", function(){ irPara(cfAtual + curto(+d.dataset.i)); });
+  });
   cfLayout(); cfLegenda(true);
 
-  // arrastar
-  cf.addEventListener("pointerdown", function(e){
+  /* ---- arrasto: um único estado, sempre limpo ---- */
+  var arrastou = false, idPonteiro = null;
+
+  function comecar(e){
+    if(idPonteiro !== null) return;
+    idPonteiro = e.pointerId;
     cfArrasto = { x:e.clientX, base:cfAtual };
-    cf.classList.add("drag"); cf.setPointerCapture(e.pointerId);
-  });
-  cf.addEventListener("pointermove", function(e){
-    if(!cfArrasto) return;
-    cfDrag = (e.clientX - cfArrasto.x) / 190;
-    cfLayout();
-  });
-  function soltar(){
-    if(!cfArrasto) return;
-    var alvo = Math.round(cfArrasto.base - cfDrag);
-    cfArrasto = null; cfDrag = 0;
-    cf.classList.remove("drag");
-    irPara(alvo);
+    arrastou = false;
+    cf.classList.add("drag");
+    // a captura fica para o momento em que virar arrasto: se capturar já no
+    // toque, o clique passa a ser entregue ao container e o card para de responder
   }
+  function mover(e){
+    if(!cfArrasto || e.pointerId !== idPonteiro) return;
+    var dx = e.clientX - cfArrasto.x;
+    if(!arrastou && Math.abs(dx) > 5){
+      arrastou = true;
+      try { cf.setPointerCapture(e.pointerId); } catch(_){}
+    }
+    cfDrag = dx / 190;
+    cfLayout();
+  }
+  function soltar(e){
+    if(!cfArrasto) { encerrar(); return; }
+    if(e && e.pointerId !== idPonteiro) return;
+    var alvo = Math.round(cfArrasto.base - cfDrag);
+    encerrar();
+    irPara(alvo);
+    // o clique de sintetizado pelo navegador vem logo depois do pointerup
+    setTimeout(function(){ arrastou = false; }, 0);
+  }
+  function encerrar(){
+    cfArrasto = null; cfDrag = 0; idPonteiro = null;
+    cf.classList.remove("drag");
+  }
+
+  cf.addEventListener("pointerdown", comecar);
+  cf.addEventListener("pointermove", mover);
   cf.addEventListener("pointerup", soltar);
-  cf.addEventListener("pointercancel", soltar);
+  cf.addEventListener("pointercancel", function(){ encerrar(); cfLayout(); });
+  cf.addEventListener("lostpointercapture", function(){ if(cfArrasto){ encerrar(); cfLayout(); } });
+  // rede de segurança: soltar fora do componente não pode deixar o estado presa
+  window.addEventListener("pointerup", function(e){ if(cfArrasto) soltar(e); });
+  window.addEventListener("blur", function(){ if(cfArrasto){ encerrar(); cfLayout(); } });
+
   cf.addEventListener("keydown", function(e){
     if(e.key === "ArrowRight"){ e.preventDefault(); irPara(cfAtual+1); }
     if(e.key === "ArrowLeft"){  e.preventDefault(); irPara(cfAtual-1); }
   });
 })();
+
+// menor caminho no anel até o índice pedido
+function curto(alvo){
+  var n = MARCAS.length, delta = alvo - cfIdx();
+  return delta - n * Math.round(delta / n);
+}
 
 function irPara(i){
   // sem trava nas pontas: o índice corre livre e o desenho envolve
@@ -1121,6 +1160,7 @@ function cfLayout(){
     c.style.transform = "translateX(" + x + "%) translateZ(" + z + "px) rotateY(" + rot + "deg) scale(" + sc + ")";
     c.style.zIndex  = String(50 - Math.round(ad * 10));
     c.style.opacity = fora ? "0" : String(Math.max(.3, 1 - ad * .26));
+    c.style.pointerEvents = fora ? "none" : "";
     c.style.filter  = ad > .5 ? "saturate(.72) brightness(.86)" : "none";
 
     var ativo = Math.abs(d) < .5;
