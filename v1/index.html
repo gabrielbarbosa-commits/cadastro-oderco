@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oderço · Abra sua conta de revenda</title>
+<meta name="description" content="Distribuidora com marcas próprias, dois centros de distribuição e pronta entrega para todo o Brasil. Cadastre seu CNPJ e compre no preço de atacado.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800;900&family=Red+Hat+Mono:wght@400;500;700&family=Red+Hat+Text:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   ODERÇO · LP de captação · V3
+   Light mode com azul primário. Só o hero é escuro.
+   ========================================================== */
+:root{
+  --bg:#FFFFFF;
+  --paper:#F4F6F9;
+  --paper2:#EDF1F7;
+  --line:#E1E5EC;
+  --ink:#0A1230;
+  --navy:#0D1D52;
+  --slate:#4D5163;
+  --grey:#8E93A0;
+  --blue:#005AFF;
+  --blue-dk:#0043C2;
+  --blue-lt:#E5EFFF;
+  --amber:#FFA400;
+  --red:#D92D20;
+  --deep:#070E27;
+
+  --display:"Red Hat Display",system-ui,sans-serif;
+  --text:"Red Hat Text",system-ui,sans-serif;
+  --mono:"Red Hat Mono",ui-monospace,monospace;
+
+  --gut:clamp(20px,4.4vw,72px);
+  --maxw:1400px;
+  --r:16px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scrollbar-gutter:stable}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--text);font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut)}
+h1,h2,h3{font-family:var(--display);font-weight:900;letter-spacing:-.04em;line-height:.94;margin:0}
+p{margin:0}
+
+.lbl{
+  font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.18em;
+  text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;color:var(--blue);
+}
+.lbl::before{content:"";width:6px;height:6px;background:currentColor;transform:rotate(45deg);flex:none}
+.lbl--pale{color:rgba(255,255,255,.5)}
+.lbl--amber{color:var(--amber)}
+.lbl--white{color:rgba(255,255,255,.72)}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+.rv-d1{transition-delay:.07s}.rv-d2{transition-delay:.14s}.rv-d3{transition-delay:.21s}.rv-d4{transition-delay:.28s}
+
+/* ============ HEADER ============ */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:80;transition:background .3s,box-shadow .3s,color .3s;color:#fff}
+.hdr.solid{background:rgba(255,255,255,.9);backdrop-filter:blur(18px);box-shadow:0 1px 0 var(--line);color:var(--ink)}
+.hdr__in{display:flex;align-items:center;gap:26px;height:68px}
+/* duas versões do logo: a branca no hero, a azul quando o header vira branco */
+.brand{position:relative;display:block;flex:none;line-height:0;text-decoration:none}
+.brand__img{height:23px;width:auto;transition:opacity .3s}
+.brand__img--escuro{position:absolute;left:0;top:0;opacity:0}
+.hdr.solid .brand__img--claro{opacity:0}
+.hdr.solid .brand__img--escuro{opacity:1}
+.hdr__nav{display:flex;gap:24px;margin-left:auto}
+.hdr__nav+.hdr__log{margin-left:0}
+.hdr__log:first-of-type{margin-left:auto}
+.hdr__nav a{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.62;text-decoration:none;transition:opacity .2s}
+.hdr__nav a:hover{opacity:1}
+.versions{display:flex;align-items:center;gap:5px;margin-left:2px}
+.versions__label{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.42;margin-right:3px}
+.version{display:grid;place-items:center;min-width:30px;height:26px;padding:0 8px;border:1px solid rgba(255,255,255,.28);border-radius:99px;color:inherit;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-decoration:none;opacity:.72;transition:background .2s,border-color .2s,color .2s,opacity .2s}
+.version:hover{opacity:1;border-color:currentColor}
+.version.is-on{background:var(--blue);border-color:var(--blue);color:#fff;opacity:1}
+.hdr.solid .version{border-color:var(--line)}
+.hdr.solid .version.is-on{border-color:var(--blue)}
+.hdr__log{
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;opacity:.72;transition:opacity .2s;flex:none;
+}
+.hdr__log:hover{opacity:1}
+.hdr__cta{
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--blue);color:#fff;border:0;border-radius:99px;padding:11px 20px;cursor:pointer;
+  transition:background .2s;flex:none;
+}
+.hdr__cta:hover{background:var(--blue-dk)}
+
+/* ============ 01 · HERO (escuro) ============ */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;background:var(--deep);color:#fff}
+/* foto do CD tratada no tom da marca, com zoom lento — o fundo é o negócio */
+.hero__bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.hero__bg::before{
+  content:"";position:absolute;inset:-6%;
+  background:url(../assets/bg/galpao.jpg) center 42%/cover no-repeat;
+  animation:kenburns 34s ease-in-out infinite alternate;
+  will-change:transform;
+}
+@keyframes kenburns{
+  from{transform:scale(1.02) translate3d(0,0,0)}
+  to{transform:scale(1.11) translate3d(-1.4%,-1.2%,0)}
+}
+/* granulado discreto: tira o aspecto de banco de imagem */
+.hero__grain{
+  position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E");
+}
+.hero__veil{
+  pointer-events:none;position:absolute;inset:0;
+  background:
+    linear-gradient(96deg,var(--deep) 12%,rgba(7,14,39,.9) 27%,rgba(7,14,39,.5) 44%,rgba(7,14,39,.34) 62%,rgba(7,14,39,.6) 100%),
+    linear-gradient(180deg,rgba(7,14,39,.82) 0%,rgba(7,14,39,.1) 26%,rgba(7,14,39,.16) 66%,var(--deep) 100%);
+}
+.hero__in{position:relative;width:100%;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(400px,.9fr);gap:clamp(30px,4vw,68px);align-items:center;padding-top:104px;padding-bottom:60px}
+.hero h1{font-size:clamp(44px,6.6vw,100px)}
+.hero h1 .b{color:var(--blue);display:block}
+.hero__sub{margin-top:24px;max-width:42ch;font-size:clamp(15px,1.3vw,18px);line-height:1.6;color:rgba(255,255,255,.78)}
+.hero__sub b{color:#fff;font-weight:700}
+/* prova social: as marcas do grupo em círculos + a leitura ao lado */
+.prova{margin-top:30px;padding-top:18px;border-top:1px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;gap:16px;max-width:560px;flex-wrap:wrap}
+.prova__logos{display:flex;align-items:center;gap:7px;flex:none}
+.prova__logos img{
+  width:48px;height:48px;border-radius:50%;object-fit:cover;flex:none;
+  box-shadow:0 6px 18px -8px rgba(0,0,0,.6);
+}
+
+.prova__txt{font-size:14px;line-height:1.45;color:rgba(255,255,255,.72);min-width:0}
+.prova__txt b{display:block;color:#fff;font-weight:700;font-size:15px}
+
+/* ============ CARD ============ */
+.card{background:#fff;color:var(--ink);border-radius:var(--r);padding:clamp(22px,2vw,30px);position:relative;
+  border-top:4px solid var(--blue);transition:border-color .3s;box-shadow:0 30px 80px -24px rgba(0,0,0,.6)}
+.card.blocked{border-top-color:var(--red)}
+.card__hd{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.card__t{font-family:var(--display);font-weight:900;font-size:23px;letter-spacing:-.035em;line-height:1.05}
+.card__n{font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:var(--grey);flex:none;padding-top:4px}
+.card__d{margin-top:8px;font-size:13.5px;color:var(--slate);line-height:1.5}
+.f{margin-top:16px}
+.f__lbl{display:block;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.f__in{width:100%;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 13px;font-size:15px;font-family:var(--text);transition:border-color .16s,box-shadow .16s,background .16s}
+.f__in::placeholder{color:#AFB4C0}
+.f__in:focus{outline:none;background:#fff;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,90,255,.16)}
+.f__row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.req{color:var(--red);font-style:normal;font-weight:700;margin-left:1px}
+/* combobox próprio: o nativo abre um popup do sistema que não dá para estilizar
+   e, ao abrir, o Chrome esconde a barra de rolagem e o layout salta */
+.sel{position:relative}
+.sel__btn{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  text-align:left;cursor:pointer;padding-right:14px;
+}
+.sel__btn::after{
+  content:"";width:9px;height:9px;flex:none;border-right:1.8px solid var(--slate);
+  border-bottom:1.8px solid var(--slate);transform:rotate(45deg) translate(-2px,-2px);
+  transition:transform .22s;
+}
+.sel.on .sel__btn::after{transform:rotate(-135deg) translate(-3px,-3px)}
+.sel.on .sel__btn{background:#fff;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,90,255,.16)}
+.sel__val{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sel__val.vazio{color:#AFB4C0}
+.sel__list{
+  position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:30;margin:0;padding:5px;
+  list-style:none;background:#fff;border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 18px 40px -16px rgba(10,18,48,.42);max-height:238px;overflow-y:auto;
+  animation:pop .18s cubic-bezier(.16,1,.3,1);overscroll-behavior:contain;
+}
+.sel__list li{
+  padding:11px 12px;border-radius:8px;font-size:14.5px;line-height:1.3;cursor:pointer;
+}
+.sel__list li:hover,.sel__list li.foco{background:var(--paper)}
+.sel__list li[aria-selected="true"]{background:var(--blue-lt);color:var(--blue);font-weight:700}
+/* o ramo fica visível desde o começo, só bloqueado: some é pior, a pessoa
+   não vê que existe e leva susto quando o campo aparece do nada */
+.sel--travado .sel__btn{background:#F1F3F7;border-color:var(--line);cursor:not-allowed;color:#A9AEBB}
+.sel--travado .sel__btn::after{opacity:.4}
+.sel--travado .sel__val{color:#A9AEBB}
+/* campo que veio do CNPJ: sinaliza sem travar */
+.sel--sugerido .sel__btn{border-color:#BFD4FA;background:#F7FAFF}
+.sugestao{
+  display:none;margin-top:9px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--blue);align-items:center;gap:8px;
+}
+.sugestao.on{display:flex;animation:pop .3s cubic-bezier(.16,1,.3,1)}
+.sugestao::before{content:"";width:5px;height:5px;background:var(--blue);transform:rotate(45deg);flex:none}
+/* etapas: troca com deslize curto, sem pular a altura do card */
+.etapa[hidden]{display:none}
+.etapa{animation:entra .32s cubic-bezier(.16,1,.3,1)}
+@keyframes entra{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.etapa.volta{animation-name:entraVolta}
+@keyframes entraVolta{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+.voltar{
+  width:100%;margin-top:9px;background:none;border:0;cursor:pointer;padding:11px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--slate);transition:color .18s;
+}
+.voltar:hover{color:var(--ink)}
+.voltar:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* cartão da consulta de CNPJ */
+.reveal{
+  margin-top:10px;display:none;background:linear-gradient(180deg,#F7FAFF,#EEF4FF);
+  border:1px solid #D3E1FB;border-radius:12px;padding:13px 14px;
+}
+.reveal.on{display:block;animation:pop .34s cubic-bezier(.16,1,.3,1)}
+.reveal__top{display:flex;align-items:flex-start;gap:10px}
+.reveal__ic{
+  width:19px;height:19px;border-radius:50%;flex:none;margin-top:1px;
+  background:var(--blue) no-repeat center/11px 9px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='9' viewBox='0 0 11 9'%3E%3Cpath d='M1 4.6 4 7.6 10 1.4' stroke='%23fff' stroke-width='1.9' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.reveal__nome{
+  font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.02em;
+  line-height:1.25;color:var(--ink);min-width:0;
+}
+.reveal__cnpj{
+  display:block;margin-top:3px;font-family:var(--mono);font-size:11.5px;
+  font-weight:400;letter-spacing:.04em;color:#6F86B4;
+}
+.reveal__sub{display:block;margin-top:2px;color:#7C8AA5;font-size:12px}
+/* duas colunas: a do rótulo se ajusta sozinha ao mais longo, sem largura chutada */
+.reveal__meta{
+  margin:11px 0 0;padding:11px 0 0;border-top:1px solid #D9E4FA;
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 16px;align-items:baseline;
+}
+.reveal__meta dt{
+  font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;
+  color:#7C93BE;white-space:nowrap;
+}
+.reveal__meta dd{margin:0;font-size:12.5px;line-height:1.4;color:var(--slate);min-width:0}
+.reveal__aviso{
+  margin-top:10px;font-size:12px;line-height:1.4;color:#8A5A00;
+  background:#FFF6E5;border-radius:8px;padding:8px 10px;display:none;
+}
+.reveal__aviso.on{display:block}
+/* estado de busca e de falha */
+.reveal.carregando .reveal__ic{background-image:none;background:#C7D8F5;animation:pulsa 1s ease-in-out infinite}
+@keyframes pulsa{0%,100%{opacity:.45}50%{opacity:1}}
+.reveal.err{background:var(--paper);border-color:var(--line)}
+.reveal.err .reveal__ic{background:#B9BDC7 no-repeat center/9px 9px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 9 9'%3E%3Cpath d='M1 1l7 7M8 1l-7 7' stroke='%23fff' stroke-width='1.9' stroke-linecap='round'/%3E%3C/svg%3E");}
+.reveal.err .reveal__meta{border-top-color:var(--line)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 14px;font-size:13.5px;font-family:var(--text);cursor:pointer;transition:all .16s;line-height:1.2}
+.chip:hover{border-color:var(--navy)}
+.chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.chip[aria-pressed="true"].bk{background:var(--red);border-color:var(--red)}
+.chip:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.sub{width:100%;margin-top:17px;background:var(--blue);color:#fff;border:0;border-radius:12px;padding:15px;cursor:pointer;font-family:var(--display);font-weight:800;font-size:16px;transition:background .2s}
+.sub:hover:not(:disabled){background:var(--blue-dk)}
+.sub:disabled{background:var(--line);color:var(--grey);cursor:not-allowed}
+.sub:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.fine{margin-top:11px;font-size:12px;line-height:1.5;color:var(--slate)}
+.fine a{color:var(--blue)}
+.done{display:none;text-align:center;padding:4px 0 6px}
+.done.on{display:block;animation:pop .45s cubic-bezier(.16,1,.3,1)}
+.done__s{text-align:right;margin-bottom:14px}
+.done__i{width:48px;height:48px;border-radius:50%;background:var(--blue);margin:0 auto 18px;display:grid;place-items:center}
+.done__t{font-family:var(--display);font-weight:900;font-size:24px;letter-spacing:-.035em}
+.done__d{margin-top:11px;font-size:14px;color:var(--slate);line-height:1.55}
+.done__hora{
+  margin-top:12px;display:inline-flex;align-items:center;gap:8px;
+  background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:8px 14px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);
+}
+.done__hora::before{
+  content:"";width:13px;height:13px;flex:none;border-radius:50%;
+  border:1.6px solid var(--blue);position:relative;
+  background:linear-gradient(var(--blue),var(--blue)) no-repeat center/1.4px 4px;
+}
+.done__q{margin-top:20px;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:left;background:var(--paper)}
+.done__ql{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey)}
+.done__qv{font-size:14px;font-weight:700;margin-top:3px}
+.done__qm{font-size:12.5px;color:var(--slate);margin-top:2px;line-height:1.4}
+
+/* ============ 02 · FAIXA DE PROVA ============ */
+.tr{background:var(--paper);border-bottom:1px solid var(--line)}
+.tr__g{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+.tr__i{background:var(--paper);padding:26px clamp(14px,2vw,28px);display:flex;gap:13px;align-items:flex-start}
+.tr__ic{width:26px;height:26px;flex:none;color:var(--blue)}
+.tr__t{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.02em;line-height:1.2}
+.tr__d{font-size:13px;color:var(--slate);line-height:1.45;margin-top:4px}
+
+/* ============ 03 · GALERIA DE PRODUTOS (scroll) ============ */
+.gal{background:var(--bg)}
+.gal__scroll{position:relative;height:240vh}
+.gal__stick{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:flex-start;
+  perspective:1500px;perspective-origin:50% 26%}
+.gal__hd{position:absolute;left:0;right:0;top:clamp(80px,11vh,120px);z-index:3;text-align:center;pointer-events:none;padding:0 var(--gut)}
+.gal__hd h2{font-size:clamp(32px,4.8vw,68px);margin-top:16px}
+.gal__hd h2 .b{color:var(--blue)}
+.gal__hd p{margin:16px auto 0;max-width:50ch;color:var(--slate);font-size:15.5px;line-height:1.6}
+.gal__fade{position:absolute;left:0;right:0;z-index:2;pointer-events:none}
+.gal__fade--t{top:0;height:46vh;background:linear-gradient(180deg,#fff 0%,#fff 52%,rgba(255,255,255,.9) 70%,rgba(255,255,255,0) 100%)}
+.gal__fade--b{bottom:0;height:30vh;background:linear-gradient(0deg,#fff 12%,rgba(255,255,255,0) 100%)}
+.gal__cols{transform-origin:50% 0%;transform-style:preserve-3d;will-change:transform;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,22px);width:100%;padding:0 var(--gut);align-items:start}
+.gal__col{min-width:0;backface-visibility:hidden;display:flex;flex-direction:column;gap:clamp(12px,1.4vw,22px);will-change:transform}
+
+/* card = print real da página de produto, dentro de uma moldura de navegador */
+.pcard{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden;
+  box-shadow:0 4px 14px -8px rgba(10,18,48,.2);transition:box-shadow .3s,border-color .3s,transform .3s}
+.pcard:hover{box-shadow:0 22px 50px -22px rgba(10,18,48,.4);border-color:#C4CFE2;transform:translateY(-2px)}
+.pcard__bar{height:29px;background:var(--paper);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:5px;padding:0 11px}
+.pcard__dot{width:7px;height:7px;border-radius:50%;background:#D3D9E4;flex:none}
+.pcard__url{margin-left:7px;flex:1;min-width:0;background:#fff;border:1px solid var(--line);border-radius:99px;
+  padding:3px 9px;font-family:var(--mono);font-size:8.5px;color:var(--grey);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard__shot{position:relative;background:#fff}
+.pcard__shot img{width:100%;display:block}
+.pcard__b{padding:12px 14px 14px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.pcard__d{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--blue);flex:none}
+.pcard__t{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:-.02em;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+/* ============ 04 · MARCAS (coverflow) ============ */
+.br{background:var(--paper);padding:clamp(70px,8vw,120px) 0 clamp(60px,7vw,100px);overflow:hidden}
+.br__hd{text-align:center;max-width:60ch;margin:0 auto}
+.br__hd h2{font-size:clamp(32px,4.6vw,64px);margin-top:18px}
+.br__hd h2 .b{color:var(--blue)}
+.br__d{margin-top:18px;color:var(--slate);font-size:16px;line-height:1.62}
+.cf{position:relative;margin-top:clamp(34px,4vw,56px);height:clamp(360px,44vw,520px);perspective:1500px;perspective-origin:50% 45%;cursor:grab;touch-action:pan-y}
+.cf.drag{cursor:grabbing}
+.cf__stage{position:absolute;inset:0;transform-style:preserve-3d}
+.cf__c{
+  position:absolute;top:50%;left:50%;width:clamp(210px,22vw,290px);aspect-ratio:256/352;
+  margin:calc(-1 * clamp(210px,22vw,290px) * 352 / 256 / 2) 0 0 calc(-1 * clamp(210px,22vw,290px) / 2);
+  border-radius:16px;overflow:hidden;background:var(--navy);
+  box-shadow:0 30px 70px -24px rgba(10,18,48,.55);
+  transition:transform .55s cubic-bezier(.16,1,.3,1),opacity .55s,filter .55s;
+  will-change:transform;
+}
+.cf.drag .cf__c{transition:none}
+.cf__c img{width:100%;height:100%;object-fit:cover}
+.cf__c::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(7,14,39,.82));opacity:0;transition:opacity .45s}
+.cf__c.is-on::after{opacity:1}
+.cf__lg{position:absolute;left:16px;right:16px;bottom:16px;opacity:0;transform:translateY(8px);transition:all .45s;z-index:2}
+.cf__c.is-on .cf__lg{opacity:1;transform:none}
+.cf__mk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#fff;
+  border:1px solid rgba(255,255,255,.4);border-radius:99px;padding:5px 11px;display:inline-block}
+.cf__cap{text-align:center;margin-top:clamp(14px,2vw,26px);min-height:76px}
+.cf__t{font-family:var(--display);font-weight:900;font-size:clamp(24px,3vw,38px);letter-spacing:-.04em;transition:opacity .3s}
+.cf__s{margin-top:8px;color:var(--slate);font-size:15px;line-height:1.5;max-width:44ch;margin-inline:auto;transition:opacity .3s}
+.cf__cap.sw .cf__t,.cf__cap.sw .cf__s{opacity:0}
+.cf__nav{display:flex;justify-content:center;gap:8px;margin-top:22px}
+.cf__dot{width:7px;height:7px;border-radius:99px;border:0;background:var(--line);cursor:pointer;padding:0;transition:all .3s}
+.cf__dot.on{background:var(--blue);width:22px}
+.cf__dot:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* ============ 05 · APP (phone mockup) ============ */
+.app{background:var(--bg);padding:clamp(70px,8vw,120px) 0;overflow:hidden}
+.app__g{display:grid;grid-template-columns:1fr minmax(300px,.72fr);gap:clamp(34px,5vw,80px);align-items:center}
+.app__hd h2{font-size:clamp(32px,4.6vw,62px);margin-top:18px}
+.app__hd h2 .b{color:var(--blue)}
+.app__d{margin-top:20px;max-width:46ch;color:var(--slate);font-size:16px;line-height:1.65}
+.app__list{margin-top:28px;display:flex;flex-direction:column;gap:2px}
+.app__i{display:flex;gap:14px;align-items:flex-start;padding:15px 0;border-top:1px solid var(--line)}
+.app__i:last-child{border-bottom:1px solid var(--line)}
+.app__k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--blue);width:26px;flex:none;padding-top:3px}
+.app__t{font-family:var(--display);font-weight:800;font-size:15.5px;letter-spacing:-.02em}
+.app__s{font-size:13.5px;color:var(--slate);line-height:1.45;margin-top:3px}
+
+.ph{position:relative;justify-self:center;width:clamp(260px,26vw,320px)}
+.ph__glow{pointer-events:none;position:absolute;inset:-14% -22%;background:radial-gradient(50% 50% at 50% 50%,rgba(0,90,255,.2),transparent 70%);filter:blur(28px)}
+.ph__body{
+  position:relative;aspect-ratio:390/844;border-radius:52px;background:#0A1230;
+  padding:11px;box-shadow:0 40px 90px -30px rgba(10,18,48,.6),0 0 0 2px rgba(10,18,48,.9),inset 0 0 0 1px rgba(255,255,255,.14);
+}
+.ph__scr{position:relative;width:100%;height:100%;border-radius:42px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.ph__island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:78px;height:22px;border-radius:99px;background:#0A1230;z-index:6}
+.ph__scrn{flex:1;position:relative;overflow:hidden}
+.scr{position:absolute;inset:0;opacity:0;transform:translateX(18px);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1);overflow:hidden}
+.scr.on{opacity:1;transform:none}
+.scr img{width:100%;height:100%;object-fit:cover;object-position:top center;background:#fff}
+.scr__row img{width:40px;height:40px;object-fit:contain;background:var(--paper);border-radius:7px;flex:none;mix-blend-mode:multiply}
+.scr__bul.ok{background:var(--blue);border-color:var(--blue)}
+
+.ph__ctrl{display:flex;justify-content:center;align-items:center;gap:9px;margin-top:20px}
+.ph__b{width:34px;height:34px;border-radius:99px;border:1px solid var(--line);background:#fff;cursor:pointer;display:grid;place-items:center;color:var(--ink);transition:all .18s}
+.ph__b:hover{border-color:var(--blue);color:var(--blue)}
+.ph__b:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.ph__lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);min-width:96px;text-align:center}
+
+/* ============ 06 · NÚMEROS ============ */
+.nm{background:var(--blue);color:#fff;padding:clamp(58px,7vw,94px) 0}
+.nm__g{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,3vw,44px)}
+.nm__i{border-top:2px solid rgba(255,255,255,.4);padding-top:18px}
+.nm__v{font-family:var(--display);font-weight:900;font-size:clamp(44px,6vw,88px);letter-spacing:-.05em;line-height:.86}
+.nm__v small{font-size:.34em;letter-spacing:-.01em;margin-left:7px;opacity:.75}
+.nm__l{margin-top:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.8);line-height:1.5}
+
+/* ============ 07 · FECHO ============ */
+.cl{background:var(--paper);padding:clamp(76px,9vw,130px) 0;text-align:center}
+.cl h2{font-size:clamp(34px,5.6vw,84px);max-width:16ch;margin:18px auto 0}
+.cl h2 .b{color:var(--blue)}
+.cl__d{margin:22px auto 0;max-width:46ch;color:var(--slate);font-size:16px;line-height:1.6}
+.cl__b{margin-top:32px;display:inline-flex;align-items:center;gap:12px;background:var(--blue);color:#fff;border:0;border-radius:12px;padding:18px 34px;cursor:pointer;font-family:var(--display);font-weight:800;font-size:17px;transition:background .2s,gap .2s}
+.cl__b:hover{background:var(--blue-dk);gap:18px}
+.cl__f{margin-top:16px;font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--slate)}
+.cl__f a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(0,90,255,.35);padding-bottom:2px;transition:border-color .2s}
+.cl__f a:hover{border-bottom-color:var(--blue)}
+
+/* ============ FOOTER ============ */
+.ft{background:var(--navy);color:rgba(255,255,255,.64);padding:52px 0 28px;font-size:13.5px}
+.ft__g{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:36px}
+.ft__h{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#fff;margin-bottom:13px}
+.ft__l{line-height:1.8}
+.ft__l a{color:inherit;text-decoration:none}
+.ft__l a:hover{color:#fff}
+.ft__b{margin-top:38px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.42)}
+
+/* ============ BARRA FIXA ============ */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:70;display:none;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:11px var(--gut) calc(11px + env(safe-area-inset-bottom));align-items:center;gap:14px;transform:translateY(110%);transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.bar.on{transform:none}
+.bar__t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--slate);line-height:1.4}
+.bar__b{margin-left:auto;background:var(--blue);color:#fff;border:0;border-radius:10px;padding:12px 20px;cursor:pointer;flex:none;font-family:var(--display);font-weight:800;font-size:14.5px}
+
+/* ============ RESPONSIVO ============ */
+@media (max-width:1180px){
+  .hero__in{grid-template-columns:minmax(0,1fr) minmax(380px,.94fr);gap:28px;padding-top:92px}
+  .hero h1{font-size:clamp(40px,5.2vw,62px)}
+  .hero__sub{margin-top:18px;font-size:15px}
+  .prova{margin-top:22px;gap:14px}
+  .card{padding:22px}
+  .card__t{font-size:20px}
+  .f{margin-top:13px}
+  .f__in{padding:11px 12px;font-size:14.5px}
+  .sub{padding:14px;font-size:15px}
+  .tr__g{grid-template-columns:repeat(2,1fr)}
+  .nm__g{grid-template-columns:repeat(2,1fr);row-gap:34px}
+}
+@media (max-width:1180px) and (max-height:860px) and (orientation:landscape){
+}
+@media (max-width:900px){
+  .hdr__nav{display:none}
+  .hero{min-height:auto}
+  .hero__in{grid-template-columns:1fr;padding-top:86px;padding-bottom:44px;gap:26px}
+  .hero h1{font-size:clamp(38px,8.4vw,58px)}
+  .hero__sub{max-width:none}
+  .app__g{grid-template-columns:1fr;gap:40px}
+  .gal__scroll{height:200vh}
+  .gal__cols{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bar{display:flex}
+  body{padding-bottom:70px}
+}
+@media (max-width:680px){
+  .hdr__cta{display:none}
+  .hdr__log{margin-left:auto;padding:14px 4px}          /* alvo de toque de 44px */
+  .versions__label{display:none}
+  .versions{margin-left:auto}
+  .hdr__log{margin-left:4px}
+  .brand{padding:8px 0}
+  .cl__f a{display:inline-block;padding:8px 0}
+  .hero__bg::before{background-image:url(../assets/bg/galpao-sm.jpg);background-position:center 38%}
+
+  /* ---- hero: a manchete manda, o card só espia no fim da dobra ---- */
+  .so-lg{display:none}                       /* corta o meio da frase no celular */
+  h2{font-size:clamp(27px,7.4vw,32px)}
+  .hero h1{font-size:clamp(46px,13.2vw,58px);line-height:.9;letter-spacing:-.045em}
+  .hero__in{padding-top:104px;padding-bottom:40px;gap:34px}
+  .hero .lbl{font-size:10.5px;letter-spacing:.2em}
+  .hero__sub{margin-top:24px;font-size:16.5px;line-height:1.62;max-width:31ch;color:rgba(255,255,255,.84)}
+
+  /* prova social no celular: círculos menores, texto em duas linhas */
+  .prova{display:flex;flex-direction:column;align-items:flex-start;
+    margin-top:26px;padding-top:16px;gap:14px;flex-wrap:nowrap}
+  .prova__logos img{width:42px;height:42px}
+  .prova__logos{gap:5px}
+  .prova__txt{font-size:14px;line-height:1.45;max-width:34ch}
+  .prova__txt b{font-size:15px;margin-bottom:2px}
+
+  /* o topo pode mostrar mais o galpão: o texto tem sombra própria */
+  .hero__veil{background:
+    linear-gradient(180deg,rgba(7,14,39,.55) 0%,rgba(7,14,39,.16) 18%,rgba(7,14,39,.5) 46%,rgba(7,14,39,.9) 74%,var(--deep) 96%),
+    linear-gradient(96deg,rgba(7,14,39,.7) 0%,rgba(7,14,39,.32) 60%,rgba(7,14,39,.55) 100%)}
+  .hero h1,.hero__sub{text-shadow:0 2px 24px rgba(5,11,34,.8)}
+
+  /* formulário: 16px é o mínimo que impede o iOS de dar zoom no foco */
+  .card{padding:24px 22px 22px}
+  .card__t{font-size:21px}
+  .card__d{margin-top:8px;font-size:13.5px}
+  .f{margin-top:18px}
+  .f__lbl{font-size:10.5px;margin-bottom:7px}
+  .f__in{padding:13px 13px;font-size:16px}
+  .f__row{grid-template-columns:1fr}
+  .chips{gap:8px}
+  .chip{padding:0 16px;min-height:44px;display:inline-flex;align-items:center;font-size:14.5px}
+  .sub{margin-top:16px;padding:16px;font-size:16.5px}
+  .fine{font-size:12.5px;line-height:1.55}
+  .reveal{padding:12px}
+
+  /* faixa de prova: uma coluna, respiro menor */
+  .tr__g{grid-template-columns:1fr}
+  .tr__i{padding:19px var(--gut)}
+
+  /* galeria: 2 colunas, cartão compacto, cabeçalho opaco para não brigar */
+  .gal__scroll{height:230vh}
+  .gal__hd{top:76px}
+  .gal__hd h2{font-size:clamp(26px,7.4vw,32px)}
+  .gal__hd p{font-size:14.5px;max-width:34ch;margin-top:12px}
+  .gal__fade--t{height:50vh;background:linear-gradient(180deg,#fff 0%,#fff 74%,rgba(255,255,255,.94) 88%,rgba(255,255,255,0) 100%)}
+  .gal__cols{gap:10px}
+  .pcard__bar{height:22px;padding:0 8px}
+  .pcard__url{font-size:7px;padding:2px 6px;margin-left:5px}
+  .pcard__dot{width:5px;height:5px}
+  .pcard__b{padding:9px 10px 11px;flex-direction:column;align-items:flex-start;gap:4px}
+  .pcard__t{font-size:12px;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+
+  /* coverflow: mais alto e card menor, senão os vizinhos somem */
+  .cf{height:clamp(400px,112vw,470px)}
+  .cf__c{width:clamp(168px,46vw,200px);margin-top:calc(-1 * clamp(168px,46vw,200px) * 352 / 256 / 2);margin-left:calc(-1 * clamp(168px,46vw,200px) / 2)}
+  .cf__t{font-size:26px}
+  .cf__s{font-size:14.5px;max-width:34ch}
+  .cf__nav{margin-top:18px;gap:2px}
+  .cf__dot{width:auto;height:auto;padding:19px 6px;background:none;border-radius:0}
+  .cf__dot::after{content:"";display:block;width:7px;height:7px;border-radius:99px;background:var(--line);transition:all .3s}
+  .cf__dot.on{background:none}
+  .cf__dot.on::after{background:var(--blue);width:22px}
+
+  /* app */
+  .app__d{font-size:15.5px;max-width:36ch}
+  .app__i{padding:16px 0}
+  .app__t{font-size:16px}
+  .app__s{font-size:14px}
+  .ph__b{width:44px;height:44px}
+
+  .nm__g{grid-template-columns:1fr;row-gap:26px}
+  .cl h2{font-size:clamp(30px,8.6vw,40px)}
+  .cl__d{font-size:15.5px;max-width:34ch}
+  .cl__b{padding:17px 30px;font-size:16.5px}
+
+  .ft__g{grid-template-columns:1fr;gap:26px}
+  .ft__l{font-size:14.5px;line-height:2}
+  .ft__l a{display:inline-block;padding:3px 0}
+  .bar__b{padding:15px 22px;font-size:15.5px}
+}
+@media (max-width:420px){
+  .bar__t{display:none}
+  .bar__b{margin-left:0;width:100%}
+}
+
+/* ============ QUALQUER APARELHO DE TOQUE ============
+   Largura não diz se é dedo ou mouse. O tablet caía nas medidas
+   de mouse e ficava impossível de acertar. `pointer:coarse` resolve
+   sem afetar quem usa mouse numa tela pequena.                      */
+@media (pointer:coarse){
+  .f__in{font-size:16px;padding:13px}          /* < 16px faz o iOS dar zoom */
+  .chip{min-height:44px;display:inline-flex;align-items:center;padding:0 16px;font-size:14.5px}
+  .sub{padding:16px}
+  .cf__dot{width:auto;height:auto;padding:19px 6px;background:none;border-radius:0}
+  .cf__dot::after{content:"";display:block;width:7px;height:7px;border-radius:99px;background:var(--line);transition:all .3s}
+  .cf__dot.on{background:none}
+  .cf__dot.on::after{background:var(--blue);width:22px}
+  .ph__b{width:44px;height:44px}
+  .hdr__log{padding:14px 4px}
+  .hdr__cta{padding:14px 20px}
+  .brand{padding:8px 0}
+  .ft__l a{display:inline-block;padding:5px 0}
+  .cl__f a{display:inline-block;padding:8px 0}
+  .bar__b{padding:15px 22px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hero__bg::before{animation:none}
+  .rv{opacity:1;transform:none;transition:none}
+  .gal__col{transform:none !important}
+  .gal__cols{transform:none !important}
+  .cf__c{transition:none}
+  .scr{transition:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr" id="hdr">
+  <div class="wrap hdr__in">
+    <a class="brand" href="#topo" aria-label="Oderço, início">
+      <img class="brand__img brand__img--claro" src="../assets/logos/oderco-branco.png" alt="Oderço">
+      <img class="brand__img brand__img--escuro" src="../assets/logos/oderco-azul.png" alt="" aria-hidden="true">
+    </a>
+    <nav class="hdr__nav">
+      <a href="#catalogo">Catálogo</a>
+      <a href="#marcas">Marcas próprias</a>
+      <a href="#app">Aplicativo</a>
+    </nav>
+    <nav class="versions" aria-label="Versões da landing page">
+      <span class="versions__label">Versões</span>
+      <a class="version is-on" href="../v1/" aria-current="page">V1</a>
+      <a class="version" href="../v2/">V2</a>
+    </nav>
+    <a class="hdr__log" href="https://www.oderco.com.br/customer/account/login/">Entrar</a>
+    <button class="hdr__cta" data-goto>Cadastre-se</button>
+  </div>
+</header>
+
+<main id="topo">
+
+<!-- ══════════ 01 · HERO ══════════ -->
+<section class="hero">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="hero__grain" aria-hidden="true"></div>
+  <div class="hero__veil" aria-hidden="true"></div>
+  <div class="wrap hero__in">
+    <div>
+      <span class="lbl lbl--pale rv">Distribuição no atacado · desde 1988</span>
+      <h1 class="rv rv-d1">Você vende.<span class="b">A gente abastece.</span></h1>
+      <p class="hero__sub rv rv-d2">
+        A Oderço tem <b>marca própria e estoque próprio</b><span class="so-lg">, com dois centros de
+        distribuição</span>. Cadastre seu CNPJ e compre no preço de atacado<span class="so-lg">, sem
+        intermediário no meio do caminho</span>.
+      </p>
+      <div class="prova rv rv-d3">
+        <div class="prova__logos" aria-hidden="true">
+          <img src="../assets/logos/pcyes.jpg" alt="">
+          <img src="../assets/logos/vinik.jpg" alt="">
+          <img src="../assets/logos/skul.jpg" alt="">
+          <img src="../assets/logos/tonante.jpg" alt="">
+          <img src="../assets/logos/quati.jpg" alt="">
+          <img src="../assets/logos/odex.jpg" alt="">
+        </div>
+        <p class="prova__txt">
+          <b>Seis marcas próprias do Grupo Oderço.</b>
+          <span>E parceiras como Samsung, LG e Cooler Master no mesmo pedido.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="card rv rv-d2" id="card">
+      <form id="form" novalidate>
+        <div class="card__hd">
+          <div>
+            <div class="card__t">Abra sua conta de revenda</div>
+            <p class="card__d">Leva um minuto. Só para empresa com CNPJ ativo.</p>
+          </div>
+          <span class="card__n">01 / 02</span>
+        </div>
+        <!-- etapa 1: quem é a empresa e como falar com ela -->
+        <div class="etapa" data-etapa="1">
+          <div class="f">
+            <label class="f__lbl" for="cnpj">CNPJ <i class="req">*</i></label>
+            <input class="f__in" id="cnpj" inputmode="numeric" autocomplete="off" placeholder="00.000.000/0000-00" maxlength="18">
+            <div class="reveal" id="reveal">
+              <div class="reveal__top">
+                <span class="reveal__ic" id="revealIc" aria-hidden="true"></span>
+                <div class="reveal__nome" id="revealV"></div>
+              </div>
+              <dl class="reveal__meta" id="revealM"></dl>
+              <div class="reveal__aviso" id="revealAviso"></div>
+            </div>
+          </div>
+          <div class="f">
+            <label class="f__lbl" for="nome">Responsável pelo setor de compras <i class="req">*</i></label>
+            <input class="f__in" id="nome" autocomplete="name" placeholder="Nome de quem faz as compras">
+          </div>
+          <div class="f f__row">
+            <div>
+              <label class="f__lbl" for="email">E-mail <i class="req">*</i></label>
+              <input class="f__in" id="email" type="email" autocomplete="email" placeholder="voce@empresa.com.br">
+            </div>
+            <div>
+              <label class="f__lbl" for="fone">WhatsApp <i class="req">*</i></label>
+              <input class="f__in" id="fone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" maxlength="15">
+            </div>
+          </div>
+
+          <div class="f">
+            <span class="f__lbl">Como prefere ser atendido <i class="req">*</i></span>
+            <div class="chips" id="contato" role="group" aria-label="Como prefere ser atendido">
+              <button type="button" class="chip" data-via="mensagem" aria-pressed="false">Mensagem no WhatsApp</button>
+              <button type="button" class="chip" data-via="ligacao" aria-pressed="false">Ligação</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- etapa 2: o que a empresa faz -->
+        <div class="etapa" data-etapa="2" hidden>
+          <div class="f">
+            <label class="f__lbl" for="atividade">Principal atividade <i class="req">*</i></label>
+            <div class="sel" id="selAtividade">
+              <button type="button" class="f__in sel__btn" role="combobox"
+                      aria-expanded="false" aria-haspopup="listbox" aria-controls="lstAtividade">
+                <span class="sel__val">Selecione</span>
+              </button>
+              <ul class="sel__list" id="lstAtividade" role="listbox" hidden></ul>
+            </div>
+            <input type="hidden" id="atividade">
+          </div>
+
+          <div class="f" id="grupoRamo">
+            <label class="f__lbl" for="ramo">Ramo de atividade <i class="req">*</i></label>
+            <div class="sel sel--travado" id="selRamo">
+              <button type="button" class="f__in sel__btn" role="combobox" disabled
+                      aria-expanded="false" aria-haspopup="listbox" aria-controls="lstRamo">
+                <span class="sel__val">Escolha a atividade primeiro</span>
+              </button>
+              <ul class="sel__list" id="lstRamo" role="listbox" hidden></ul>
+            </div>
+            <input type="hidden" id="ramo">
+          </div>
+
+          <p class="sugestao" id="sugestao">Preenchemos pelo CNPJ. Pode trocar se não bater.</p>
+
+          <div class="f">
+            <span class="f__lbl">Área de interesse <i class="req">*</i></span>
+            <div class="chips" id="chips" role="group" aria-label="Área de interesse">
+              <button type="button" class="chip" data-seg="drop" aria-pressed="false">Dropshipping</button>
+              <button type="button" class="chip" data-seg="corporativo" aria-pressed="false">Uso e consumo (corporativo)</button>
+              <button type="button" class="chip" data-seg="revenda" aria-pressed="false">Revenda</button>
+              <button type="button" class="chip" data-seg="licitacao" aria-pressed="false">Licitação</button>
+              <button type="button" class="chip" data-seg="servico" aria-pressed="false">Prestação de serviço</button>
+              <button type="button" class="chip" data-seg="provedor" aria-pressed="false">Provedor</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="sub" id="submit" type="submit">Continuar</button>
+        <button class="voltar" id="voltar" type="button" hidden>Voltar</button>
+        <p class="fine">
+          Conferimos seus dados e liberamos o acesso com os preços de atacado. Normalmente sai em até
+          1 dia útil. Seus dados seguem a
+          <a href="https://www.oderco.com.br/politica-de-privacidade" target="_blank" rel="noopener">política de privacidade</a>.
+        </p>
+      </form>
+      <div class="done" id="done">
+        <div class="done__s"><span class="card__n">Pronto</span></div>
+        <div class="done__i" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 12.5 10 17.5 19 7.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="done__t">Cadastro enviado.</div>
+        <p class="done__d">Conferimos os dados da empresa e liberamos seu acesso com os preços de atacado. Você recebe o login por e-mail.</p>
+        <p class="done__hora">Atendimento de segunda a sexta, das 8h às 18h.</p>
+        <div class="done__q">
+          <div class="done__ql">Enviado para conferência</div>
+          <div class="done__qv" id="doneCnpj"></div>
+          <div class="done__qm" id="doneRazao"></div>
+          <div class="done__ql" style="margin-top:12px">Atividade</div>
+          <div class="done__qv" id="doneAtiv"></div>
+          <div class="done__ql" style="margin-top:12px">Área de interesse</div>
+          <div class="done__qv" id="doneSeg"></div>
+          <div class="done__ql" style="margin-top:12px">Contato preferido</div>
+          <div class="done__qv" id="doneVia"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 02 · FAIXA DE PROVA ══════════ -->
+<section class="tr">
+  <div class="wrap" style="padding:0">
+    <div class="tr__g">
+      <div class="tr__i rv">
+        <svg class="tr__ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="7" cy="18" r="2" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="18" r="2" stroke="currentColor" stroke-width="1.7"/></svg>
+        <div><div class="tr__t">Pronta entrega</div><div class="tr__d">Sai do nosso CD para todo o Brasil</div></div>
+      </div>
+      <div class="tr__i rv rv-d1">
+        <svg class="tr__ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 20 6v6c0 4.4-3.2 7.9-8 9-4.8-1.1-8-4.6-8-9V6z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <div><div class="tr__t">Sem dropshipping</div><div class="tr__d">Estoque próprio, nota e prazo fechado</div></div>
+      </div>
+      <div class="tr__i rv rv-d2">
+        <svg class="tr__ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 20v-6h6v6" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <div><div class="tr__t">Marca própria</div><div class="tr__d">Seis marcas do Grupo Oderço</div></div>
+      </div>
+      <div class="tr__i rv rv-d3">
+        <svg class="tr__ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <div><div class="tr__t">Acesso em 1 dia útil</div><div class="tr__d">Conferimos e liberamos seu login</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 03 · GALERIA DE PRODUTOS ══════════ -->
+<section class="gal" id="catalogo">
+  <div class="gal__scroll" id="galScroll">
+    <div class="gal__stick">
+      <div class="gal__fade gal__fade--t" aria-hidden="true"></div>
+      <div class="gal__fade gal__fade--b" aria-hidden="true"></div>
+      <div class="gal__hd">
+        <span class="lbl rv">O catálogo</span>
+        <h2 class="rv rv-d1">Dez departamentos. <span class="b">Um CNPJ só.</span></h2>
+        <p class="rv rv-d2">Placa de vídeo, violão, cabo de rede, furadeira e painel solar no mesmo pedido. O preço aparece assim que sua conta é liberada.</p>
+      </div>
+      <div class="gal__cols" id="galCols"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 04 · MARCAS ══════════ -->
+<section class="br" id="marcas">
+  <div class="wrap">
+    <div class="br__hd">
+      <span class="lbl lbl--amber rv">Marcas do grupo</span>
+      <h2 class="rv rv-d1">A marca é <span class="b">nossa.</span></h2>
+      <p class="br__d rv rv-d2">Seis marcas do grupo, com especificação, garantia e reposição sob nossa responsabilidade. Você negocia com quem responde pelo produto, sem intermediário no preço.</p>
+    </div>
+    <div class="cf rv rv-d2" id="cf" role="group" aria-label="Marcas do Grupo Oderço" tabindex="0">
+      <div class="cf__stage" id="cfStage"></div>
+    </div>
+    <div class="cf__cap" id="cfCap">
+      <div class="cf__t" id="cfT"></div>
+      <p class="cf__s" id="cfS"></p>
+    </div>
+    <div class="cf__nav" id="cfNav"></div>
+  </div>
+</section>
+
+<!-- ══════════ 05 · APP ══════════ -->
+<section class="app" id="app">
+  <div class="wrap app__g">
+    <div class="app__hd">
+      <span class="lbl rv">Oderço no bolso</span>
+      <h2 class="rv rv-d1">Reposição de estoque <span class="b">sem sair da loja.</span></h2>
+      <p class="app__d rv rv-d2">
+        O balcão não para para você abrir o computador. No aplicativo você confere preço,
+        escolhe a filial e fecha o pedido entre um cliente e outro.
+      </p>
+      <div class="app__list">
+        <div class="app__i rv rv-d2">
+          <span class="app__k">01</span>
+          <div><div class="app__t">Catálogo com o seu preço</div><div class="app__s">A tabela liberada para o seu perfil, já com IPI e ST calculados.</div></div>
+        </div>
+        <div class="app__i rv rv-d3">
+          <span class="app__k">02</span>
+          <div><div class="app__t">Filial que entrega mais rápido</div><div class="app__s">Compare PR e ES no mesmo produto e escolha na hora.</div></div>
+        </div>
+        <div class="app__i rv rv-d4">
+          <span class="app__k">03</span>
+          <div><div class="app__t">Desconto por quantidade na hora</div><div class="app__s">O app mostra quanto cai o preço em 20, 50, 100 ou 150 unidades.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ph rv rv-d2">
+      <div class="ph__glow" aria-hidden="true"></div>
+      <div class="ph__body">
+        <div class="ph__island" aria-hidden="true"></div>
+        <div class="ph__scr">
+          <div class="ph__scrn" id="phScrn"></div>
+        </div>
+      </div>
+      <div class="ph__ctrl">
+        <button class="ph__b" id="phPrev" aria-label="Tela anterior">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="ph__b" id="phPause" aria-label="Pausar troca de telas">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" id="phIcon"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        </button>
+        <button class="ph__b" id="phNext" aria-label="Próxima tela">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <span class="ph__lbl" id="phLbl">Catálogo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 06 · NÚMEROS ══════════ -->
+<section class="nm">
+  <div class="wrap nm__g">
+    <div class="nm__i rv"><div class="nm__v" data-to="38">0</div><div class="nm__l">Anos abastecendo<br>lojista brasileiro</div></div>
+    <div class="nm__i rv rv-d1"><div class="nm__v" data-to="2"><small>CDs</small></div><div class="nm__l">Paraná e<br>Espírito Santo</div></div>
+    <div class="nm__i rv rv-d2"><div class="nm__v" data-to="6">0</div><div class="nm__l">Marcas próprias<br>do grupo</div></div>
+    <div class="nm__i rv rv-d3"><div class="nm__v" data-to="10">0</div><div class="nm__l">Departamentos<br>no catálogo</div></div>
+  </div>
+</section>
+
+<!-- ══════════ 07 · FECHO ══════════ -->
+<section class="cl">
+  <div class="wrap">
+    <span class="lbl rv" style="justify-content:center">Cadastro de revenda</span>
+    <h2 class="rv rv-d1">Seu preço de atacado está a <span class="b">um CNPJ</span> de distância.</h2>
+    <p class="cl__d rv rv-d2">Empresa aberta e venda para o consumidor final. É só isso que a gente pede.</p>
+    <button class="cl__b rv rv-d3" data-goto>
+      Cadastre-se
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M12.5 5.5 19 12l-6.5 6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <p class="cl__f rv rv-d4">Já é parceiro? <a href="https://www.oderco.com.br/customer/account/login/">Entrar na sua conta</a></p>
+  </div>
+</section>
+
+</main>
+
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft__g">
+      <div>
+        <div class="ft__h">Oderço Distribuidora</div>
+        <p class="ft__l">
+          Av. Paranavaí, 1906, Parque Industrial Bandeirantes<br>
+          Maringá, Paraná<br>
+          <a href="tel:+554421011400">(44) 2101-1400</a><br>
+          <a href="mailto:contato@oderco.com.br">contato@oderco.com.br</a>
+        </p>
+      </div>
+      <div>
+        <div class="ft__h">Marcas do grupo</div>
+        <p class="ft__l">PCYES<br>Vinik<br>Skul<br>Tonante<br>Quati<br>Odex</p>
+      </div>
+      <div>
+        <div class="ft__h">Atendimento</div>
+        <p class="ft__l">
+          <a href="https://www.oderco.com.br/">Ir para a loja</a><br>
+          <a href="https://www.oderco.com.br/customer/account/login/">Entrar na conta</a><br>
+          <a href="https://www.oderco.com.br/pages/forms/faleconosco">Fale conosco</a><br>
+          <a href="https://www.oderco.com.br/garantia">Garantia e RMA</a><br>
+          <a href="https://www.oderco.com.br/politica-de-privacidade">Política de privacidade</a>
+        </p>
+      </div>
+    </div>
+    <div class="ft__b">
+      <span>Oderço Distribuidora © 1988-2026</span>
+      <span>Protótipo · não publicado</span>
+    </div>
+  </div>
+</footer>
+
+<div class="bar" id="bar">
+  <span class="bar__t">Preço de atacado<br>só depois do cadastro</span>
+  <button class="bar__b" data-goto>Cadastre-se</button>
+</div>
+
+<script>
+(function(){
+"use strict";
+var $  = function(s,r){ return (r||document).querySelector(s); };
+var $$ = function(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
+var LESS = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var A = "../assets/";
+
+var MARCAS = [
+  {id:"pcyes",  nome:"PCYES",   desc:"Periféricos, hardware e linha gamer. A marca que puxa a maior parte do giro nas lojas de informática."},
+  {id:"vinik",  nome:"Vinik",   desc:"Acessórios e conectividade. Cadeira, headset, controle e a linha de escritório."},
+  {id:"skul",   nome:"Skul",    desc:"Computadores montados e monitores. Linha corporativa e home pronta para revenda."},
+  {id:"tonante",nome:"Tonante", desc:"Linha musical. Violão, cavaco e acessórios com garantia da marca."},
+  {id:"odex",   nome:"Odex",    desc:"Energia solar. Painel, inversor e estrutura de fixação para o integrador."},
+  {id:"quati",  nome:"Quati",   desc:"Malas, mochilas e bolsas. O departamento que sai junto com informática."}
+];
+
+/* ==================== dados ====================
+   Tudo embutido: nada de fetch, então a página abre igual
+   servida por HTTP ou por file:// (duplo clique no arquivo).   */
+var PRINTS = [
+  {f:"00",d:"Informática",t:"GPU Asrock AMD Radeon RX 9060 XT Challenger OC, 16GB, GDDR6, 128-BIT, 90-GA5QZZ-00UANF",u:"gpu-asrock-amd-radeon-rx-9060-xt-challenger-oc"},
+  {f:"01",d:"Informática",t:"Memoria Pcyes Udimm 16GB DDR4 2666MHZ",u:"memoria-pcyes-udimm-16gb-ddr4-2666mhz-pm162666"},
+  {f:"02",d:"Informática",t:"GPU INNO3D Geforce RTX 5060 Twin X2 8GB 128BITS GDDR7 N50602-08D7-195071N",u:"gpu-inno3d-geforce-rtx-5060-twin-x2-8gb-128bit"},
+  {f:"03",d:"Computadores",t:"KIT Cooler FAN Para Gabinete 3UN Sangue Frio 3 Argb White Ghost 120MM Pcyes",u:"kit-cooler-fan-controladora-para-gabinete-3un-"},
+  {f:"04",d:"Redes",t:"ONT Xpon XC220-G3 AC1200 BR",u:"ont-roteador-wireless-dual-band-xpon-ac1200-xc"},
+  {f:"05",d:"Redes",t:"Adaptador DE Rede UE300C Tipo C Giga",u:"adaptador-de-rede-usb-tipo-c-p-rj45-gigabit-ue"},
+  {f:"06",d:"Musical",t:"Encordoamento Violao ACO EZ890-B 009.045",u:"encordoamento-de-aco-para-viol-o-ez890-b-6-cor"},
+  {f:"07",d:"Musical",t:"Cavaco Eletroacustico CS-14 EP Preto",u:"cavaco-eletroacustico-cs-14-ep-com-equalizador"},
+  {f:"08",d:"Cabos",t:"Cabo LAN U/utp 24AWG CAT.6 CMX 305M Azul 23400174",u:"cabo-lan-u-utp-24awg-x-4-pares-cat-6-cmx-caixa"},
+  {f:"09",d:"Figures",t:"Action Figure Chainsaw MAN - Denji",u:"action-figure-chainsaw-man-denji-figma-cp22865"},
+  {f:"10",d:"Eletrônicos",t:"Cartao Micro SD 32GB 16TBW 4600162",u:"cartao-micro-sd-32gb-16tbw-p-seguranca-eletron"},
+  {f:"11",d:"Casa e Construção",t:"Filtro DE Linha 6 Tomadas PP 3X0,75 3M 255 Preto",u:"filtro-de-linha-6-tomadas-pp-3x0-75-compriment"},
+  {f:"12",d:"Informática",t:"Placa DE Vídeo Nvidia Geforce RTX 3050 8GB GDDR6 128BIT Projeto Edge",u:"placa-de-video-gpu-nvidia-geforce-rtx-3050-8gb"},
+  {f:"13",d:"Informática",t:"Placa DE Video RX 550 4GB GDDR5 128 Bits Dual-fan Projeto Edge PVEX5504GBDF",u:"placa-de-video-amd-radeon-rx-550-4gb-gddr5-128"},
+  {f:"14",d:"Eletrônicos",t:"Adaptador Mini Hdmi Macho X Hdmi Fêmea Ahf-mh (5 Unidades)",u:"adaptador-mini-hdmi-macho-x-hdmi-femea-ahf-mh-"},
+  {f:"15",d:"Musical",t:"Damper EM Couro E TAG EM Metal Prata Metal DMMD01",u:"damper-em-couro-legitimo-e-tag-em-metal-prata-"},
+  {f:"16",d:"Ferramentas",t:"Cola Para Tela Celular IB7000 Transparente 110ML",u:"cola-para-tela-celular-ib7000-transparente-110"},
+  {f:"17",d:"Informática",t:"Water Cooler Pcyes Sangue Frio 3 Argb White Ghost 120MM - TDP 200W",u:"water-cooler-sangue-frio-3-argb-white-ghost-12"},
+  {f:"18",d:"Informática",t:"SSD Pcyes PY512 512GB Sata III 2,5 Leitura 550MB/S Escrita 400MB/S",u:"ssd-pcyes-py512-512gb-sata-iii-2-5-leitura-550"},
+  {f:"19",d:"Casa e Construção",t:"Porteiro Residencial IPR 1010 4521020",u:"porteiro-residencial-ipr-1010-4521020-cp28497."},
+  {f:"20",d:"Musical",t:"Violão Elétrico Abalone 40 - Natural - Tampo Sólido EM Spruce - EQ 3 Bandas - Fosco",u:"viol-o-eletrico-abalone-40-natural-tampo-solid"},
+  {f:"21",d:"Eletrônicos",t:"Campainha S/ FIO C/ Bat. CIB 101 Branca 4522001",u:"campainha-sem-fio-com-bateria-cib-101-branca-4"},
+  {f:"22",d:"Casa e Construção",t:"Video Porteiro IV 4010 HS Branco 4520020",u:"video-porteiro-iv-4010-hs-branco-4520020-cp239"},
+  {f:"23",d:"Ferramentas",t:"Solda Cobix 60X40 1.0MM 250G",u:"solda-cobix-60x40-1-0mm-250g-cp1994.html"},
+  {f:"24",d:"Cabos",t:"Adaptador HUB USB Tipo C P/ Hdmi/usb 3.0/TIPO C - 20 CM",u:"adaptador-hub-usb-tipo-c-x-usb-tipo-c-hdmi-4k-"},
+  {f:"25",d:"Eletrônicos",t:"Carregador DE Pilhas C/ 4AA /4AAA CB093",u:"carregador-de-pilhas-com-4-pilhas-aa-2500-mha-"},
+  {f:"26",d:"Figures",t:"Action Figure Demon Slayer: Kimetsu NO Yaiba - Zenitsu Agatsuma",u:"action-figure-demon-slayer-kimetsu-no-yaiba-ze"},
+  {f:"27",d:"Redes",t:"Mini Adaptador Wifi TL-WN823N N300 USB",u:"mini-adaptador-usb-wireless-n-300mbps-tl-wn823"},
+  {f:"28",d:"Redes",t:"Adaptador Wifi TL-WN781ND Pci-express 150MBPS",u:"placa-de-rede-wireless-pci-express-150mbps-c-l"},
+  {f:"29",d:"Musical",t:"Cavaco Acustico CS-14N Natural",u:"cavaco-acustico-cs-14n-natural-cp22169.html"},
+  {f:"30",d:"Eletrônicos",t:"Headset THS 40 RJ9 4010045",u:"headset-ths-40-rj9-4010045-cp107937.html"},
+  {f:"31",d:"Redes",t:"Computador Pcyes ONE B300 Dual Core I3 3220 3.30GHZ MEM 8GB DDR3 SSD 256GB Linux Ubuntu",u:"computador-b300-dual-core-i3-3220-3-30ghz-memo"},
+  {f:"32",d:"Redes",t:"Fonte Gamer Vinik Dash 500W Preto",u:"fonte-gamer-vinik-dash-500w-preto-vfg500wpv3-c"},
+  {f:"33",d:"Figures",t:"Pop! Moon Girl AND Devil Dinossaur",u:"pop-moon-girl-and-devil-dinossaur-moon-girl-11"},
+  {f:"34",d:"Redes",t:"Repetidor Wifi RE200 AC750",u:"repetidor-wireless-dual-band-2-4-5ghz-mesh-ac7"},
+  {f:"35",d:"Casa e Construção",t:"NVR Gravador DE Video NVR4032H 32 Canais Vigi",u:"gravador-de-video-digital-p-seguranca-32-canai"},
+  {f:"36",d:"Cabos",t:"Adaptador P2/P10 ST Vermelho",u:"adaptador-p2-p10-st-vermelho-cp195081.html"},
+  {f:"37",d:"Eletrônicos",t:"Interfone/telefone S/ FIO C/ Ramal Externo TIS 5010 4521102",u:"interfone-e-telefone-sem-fio-com-ramal-externo"},
+  {f:"38",d:"Musical",t:"Flauta Soprano (barroco) YRS-24B",u:"flauta-doce-soprano-barroco-yrs-24b-cp18591.ht"},
+  {f:"39",d:"Informática",t:"Cadeira Gamer Ergonomica Pcyes Sentinel RED Magma",u:"cadeira-gamer-sentinel-red-magma-vermelha-pcst"},
+  {f:"40",d:"Ferramentas",t:"Graxa Branca Para Mecanismos Pote 100G",u:"graxa-branca-para-mecanismos-pote-100g-cp32887"},
+  {f:"41",d:"Eletrônicos",t:"Bateria Chumbo Acido 12V XB1212 4821003",u:"bateria-chumbo-acido-12v-xb1212-4821003-cp2022"},
+  {f:"42",d:"Redes",t:"Correia Comfort 5CM CK518 Marrom",u:"correia-comfort-5cm-com-ponteiras-de-couro-ck5"},
+  {f:"43",d:"Informática",t:"Calculadora COM Bobina 12 Digitos MR-6125",u:"calculadora-com-bobina-12-digitos-impress-o-bi"},
+  {f:"44",d:"Casa e Construção",t:"Video Porteiro IVR 1070 HS 4520053",u:"video-porteiro-ivr-1070-hs-4520053-cp36694.htm"},
+  {f:"45",d:"Informática",t:"Mouse Gamer Pcyes Gaius - 12400 DPI - RGB - 6 Botões",u:"mouse-gamer-pcyes-gaius-12400-dpi-rgb-6-botoes"},
+  {f:"46",d:"Ferramentas",t:"Pasta Para Soldar Cobix 110 Gramas",u:"pasta-para-soldar-cobix-110-gramas-cp1995.html"},
+  {f:"47",d:"Musical",t:"Fone DE Ouvido Sound Sport Bluetooth",u:"fone-de-ouvido-sound-sport-bluetooth-com-micro"},
+  {f:"48",d:"Informática",t:"Memoria Pcyes Udimm 8GB DDR4 3200MHZ",u:"memoria-pcyes-udimm-8gb-ddr4-3200mhz-pm083200d"}
+];
+
+var APP = [
+  {f:"inicio",        r:"Início"},
+  {f:"catalogo",      r:"Catálogo"},
+  {f:"busca",         r:"Busca"},
+  {f:"produto",       r:"Produto"},
+  {f:"carrinho",      r:"Carrinho"},
+  {f:"departamentos", r:"Departamentos"}
+];
+function pad(n){ return String(n).padStart(2,"0"); }
+
+// fotos de produto por departamento — alimentam o campo do hero
+var DEPS = [["informatica",46],["computadores",16],["redes",13],["musical",26],["cabos",31],
+            ["figures",16],["eletronicos",15],["ferramentas",16],["casa",28],["solar",6]];
+var POOL = (function(){
+  var p = [], max = 0, i, k;
+  for(i=0;i<DEPS.length;i++) max = Math.max(max, DEPS[i][1]);
+  for(i=0;i<max;i++){
+    for(k=0;k<DEPS.length;k++){
+      if(i < DEPS[k][1]) p.push(A + "dep/" + DEPS[k][0] + "/" + pad(i) + ".jpg");
+    }
+  }
+  return p;
+})();
+
+/* ==================== 03 · GALERIA COM SCROLL ====================
+   Padrão do 21st.dev (animated-scroll-gallery): container alto, miolo
+   preso na viewport, três colunas correndo em velocidades diferentes.
+   O conteúdo são prints reais das páginas de produto do site.        */
+var galCols = [];
+(function(){
+  var host = $("#galCols"); if(!host) return;
+  // 27 cartões a partir dos prints, ordem diferente por coluna
+  // no celular são 2 colunas, no resto 3 — o CSS sozinho quebraria o parallax
+  var N = window.innerWidth <= 680 ? 2 : 3;
+  var cols = [], k;
+  for(k=0;k<N;k++) cols.push([]);
+  var usados = Math.min(N === 2 ? 20 : 24, PRINTS.length * N);
+  for(k=0;k<usados;k++) cols[k % N].push(PRINTS[k % PRINTS.length]);
+  host.style.gridTemplateColumns = "repeat(" + N + ",minmax(0,1fr))";
+  host.innerHTML = cols.map(function(c,ci){
+    return '<div class="gal__col" data-c="'+ci+'">' + c.map(cardHTML).join("") + '</div>';
+  }).join("");
+  galCols = $$(".gal__col", host);
+  posGaleria();
+})();
+function cardHTML(p){
+  return '<article class="pcard">'
+    + '<div class="pcard__bar" aria-hidden="true">'
+    +   '<span class="pcard__dot"></span><span class="pcard__dot"></span><span class="pcard__dot"></span>'
+    +   '<span class="pcard__url">oderco.com.br/'+esc(p.u)+'…</span>'
+    + '</div>'
+    + '<div class="pcard__shot"><img src="'+A+'prints/'+p.f+'.jpg" alt="Página do produto '+esc(p.t)+' no site da Oderço" loading="lazy"></div>'
+    + '<div class="pcard__b"><span class="pcard__d">'+esc(p.d)+'</span><span class="pcard__t">'+esc(p.t)+'</span></div>'
+    + '</article>';
+}
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]; }); }
+
+var galScroll = $("#galScroll");
+function posGaleria(){
+  if(LESS || !galScroll || !galCols.length) return;
+  var r = galScroll.getBoundingClientRect();
+  if(r.bottom < 0 || r.top > window.innerHeight) return;
+  var p = -r.top / (r.height - window.innerHeight);   // 0 → 1 no trecho preso
+  p = Math.max(0, Math.min(1, p));
+  var vh = window.innerHeight;
+
+  // fase 1 — a grade entra em perspectiva e vai endireitando
+  var t = Math.min(1, p / .34);
+  var e = 1 - Math.pow(1 - t, 3);
+  var cena = $("#galCols");
+  if(cena){
+    cena.style.transform =
+      "rotateX(" + ((1 - e) * 26).toFixed(2) + "deg)" +
+      " rotateZ(" + ((1 - e) * -8).toFixed(2) + "deg)" +
+      " scale(" + (.76 + e * .24).toFixed(3) + ")";
+  }
+
+  // fase 2 — já quase reta, as colunas começam a descer
+  var q = Math.max(0, Math.min(1, (p - .16) / .84));
+  // VEL amortece o percurso: 1 = a coluna inteira passa (rápido demais para ler),
+  // 0.6 deixa o conteúdo andar quase 1px por 1px de scroll. Como o percurso fica
+  // menor que a folga da coluna, nunca sobra faixa vazia.
+  var VEL = .6, FATOR = [1, .85, .75];
+  galCols.forEach(function(col, i){
+    var d = Math.max(0, col.offsetHeight - vh) * (FATOR[i] || .8) * VEL;
+    // ímpares entram deslocadas e descem: é o contraponto que cria o parallax
+    var y = (i % 2) ? (-d + d * q) : (-d * q);
+    col.style.transform = "translate3d(0," + y.toFixed(1) + "px,0)";
+  });
+}
+
+/* ==================== 04 · COVERFLOW ==================== */
+/* Perspectiva invertida: o card do meio fica de frente e os vizinhos
+   giram a aresta de FORA para o observador — a estante abre para você. */
+var cfStage = $("#cfStage"), cfNav = $("#cfNav"), cf = $("#cf"), cfCap = $("#cfCap");
+var cfCards = [], cfDots = [], cfAtual = 2, cfDrag = 0, cfArrasto = null;
+(function(){
+  if(!cfStage) return;
+  cfStage.innerHTML = MARCAS.map(function(m,i){
+    return '<div class="cf__c" data-i="'+i+'" role="button" tabindex="-1" aria-label="'+esc(m.nome)+'">'
+         +   '<img src="'+A+'banner/'+m.id+'.jpg" alt="'+esc(m.nome)+'" draggable="false" loading="lazy">'
+         +   '<div class="cf__lg"><span class="cf__mk">'+esc(m.nome)+'</span></div>'
+         + '</div>';
+  }).join("");
+  cfNav.innerHTML = MARCAS.map(function(m,i){
+    return '<button class="cf__dot" data-i="'+i+'" aria-label="Ver '+esc(m.nome)+'"></button>';
+  }).join("");
+  cfCards = $$(".cf__c", cfStage);
+  cfDots  = $$(".cf__dot", cfNav);
+  /* Clique delegado no palco: cards em 3D dentro de preserve-3d não recebem
+     hit-test confiável no Chrome, então descobrimos o alvo pela posição do
+     ponteiro em vez de esperar o evento chegar no card. */
+  cf.addEventListener("click", function(e){
+    if(arrastou) return;
+    var alvo = null, menor = Infinity;
+    cfCards.forEach(function(c){
+      if(c.style.pointerEvents === "none") return;
+      var r = c.getBoundingClientRect();
+      var dist = Math.abs((r.left + r.width/2) - e.clientX);
+      if(dist < menor){ menor = dist; alvo = c; }
+    });
+    if(alvo) irPara(cfAtual + curto(+alvo.dataset.i));
+  });
+  cfDots.forEach(function(d){
+    d.addEventListener("click", function(){ irPara(cfAtual + curto(+d.dataset.i)); });
+  });
+  cfLayout(); cfLegenda(true);
+
+  /* ---- arrasto: um único estado, sempre limpo ---- */
+  var arrastou = false, idPonteiro = null;
+
+  function comecar(e){
+    if(idPonteiro !== null) return;
+    idPonteiro = e.pointerId;
+    cfArrasto = { x:e.clientX, base:cfAtual };
+    arrastou = false;
+    cf.classList.add("drag");
+    // a captura fica para o momento em que virar arrasto: se capturar já no
+    // toque, o clique passa a ser entregue ao container e o card para de responder
+  }
+  function mover(e){
+    if(!cfArrasto || e.pointerId !== idPonteiro) return;
+    var dx = e.clientX - cfArrasto.x;
+    if(!arrastou && Math.abs(dx) > 5){
+      arrastou = true;
+      try { cf.setPointerCapture(e.pointerId); } catch(_){}
+    }
+    cfDrag = dx / 190;
+    cfLayout();
+  }
+  function soltar(e){
+    if(!cfArrasto) { encerrar(); return; }
+    if(e && e.pointerId !== idPonteiro) return;
+    var alvo = Math.round(cfArrasto.base - cfDrag);
+    encerrar();
+    irPara(alvo);
+    // o clique de sintetizado pelo navegador vem logo depois do pointerup
+    setTimeout(function(){ arrastou = false; }, 0);
+  }
+  function encerrar(){
+    cfArrasto = null; cfDrag = 0; idPonteiro = null;
+    cf.classList.remove("drag");
+  }
+
+  cf.addEventListener("pointerdown", comecar);
+  cf.addEventListener("pointermove", mover);
+  cf.addEventListener("pointerup", soltar);
+  cf.addEventListener("pointercancel", function(){ encerrar(); cfLayout(); });
+  cf.addEventListener("lostpointercapture", function(){ if(cfArrasto){ encerrar(); cfLayout(); } });
+  // rede de segurança: soltar fora do componente não pode deixar o estado presa
+  window.addEventListener("pointerup", function(e){ if(cfArrasto) soltar(e); });
+  window.addEventListener("blur", function(){ if(cfArrasto){ encerrar(); cfLayout(); } });
+
+  cf.addEventListener("keydown", function(e){
+    if(e.key === "ArrowRight"){ e.preventDefault(); irPara(cfAtual+1); }
+    if(e.key === "ArrowLeft"){  e.preventDefault(); irPara(cfAtual-1); }
+  });
+})();
+
+// menor caminho no anel até o índice pedido
+function curto(alvo){
+  var n = MARCAS.length, delta = alvo - cfIdx();
+  return delta - n * Math.round(delta / n);
+}
+
+function irPara(i){
+  // sem trava nas pontas: o índice corre livre e o desenho envolve
+  cfAtual = i;
+  cfLayout();
+  cfLegenda(false);
+}
+function cfIdx(){ var n = MARCAS.length; return ((cfAtual % n) + n) % n; }
+
+function cfLayout(){
+  var n = MARCAS.length, centro = cfAtual - cfDrag;
+  cfCards.forEach(function(c,i){
+    // distância pelo caminho mais curto do anel — é isso que torna infinito
+    var d = i - centro;
+    d = d - n * Math.round(d / n);
+    var ad = Math.abs(d);
+
+    // quem está fora de cena teleporta sem transição, senão atravessa a tela
+    var fora = ad > 2.4;
+    c.style.transition = fora ? "none" : "";
+
+    // aresta externa vem para frente => sinal invertido do coverflow clássico
+    var rot = Math.max(-52, Math.min(52, -d * 34));
+    var x   = d * (52 + Math.min(ad,1) * 26);
+    var z   = -Math.min(ad,3) * 130;
+    var sc  = 1 - Math.min(ad,3) * .07;
+    c.style.transform = "translateX(" + x + "%) translateZ(" + z + "px) rotateY(" + rot + "deg) scale(" + sc + ")";
+    c.style.zIndex  = String(50 - Math.round(ad * 10));
+    c.style.opacity = fora ? "0" : String(Math.max(.3, 1 - ad * .26));
+    c.style.pointerEvents = fora ? "none" : "";
+    c.style.filter  = ad > .5 ? "saturate(.72) brightness(.86)" : "none";
+
+    var ativo = Math.abs(d) < .5;
+    c.classList.toggle("is-on", ativo);
+    c.setAttribute("tabindex", ativo ? "0" : "-1");
+  });
+  var atual = cfIdx();
+  cfDots.forEach(function(dot,i){ dot.classList.toggle("on", i === atual); });
+}
+
+function cfLegenda(imediato){
+  var m = MARCAS[cfIdx()];
+  if($("#cfT").textContent === m.nome) return;
+  if(imediato){ $("#cfT").textContent = m.nome; $("#cfS").textContent = m.desc; return; }
+  cfCap.classList.add("sw");
+  setTimeout(function(){
+    var atual = MARCAS[cfIdx()];
+    $("#cfT").textContent = atual.nome;
+    $("#cfS").textContent = atual.desc;
+    cfCap.classList.remove("sw");
+  }, 200);
+}
+
+/* ==================== 05 · APP · telas do celular ====================
+   Prints reais do site da Oderço em viewport de iPhone.             */
+var phI = 0, phTimer = null, phRodando = false, phPausadoPeloUsuario = false;
+(function(){
+  var host = $("#phScrn"); if(!host) return;
+  host.innerHTML = APP.map(function(a,i){
+    return '<div class="scr'+(i?"":" on")+'"><img src="'+A+'app/'+a.f+'.jpg" alt="Tela de '+esc(a.r)+' no aplicativo" loading="lazy"></div>';
+  }).join("");
+  phMostrar(0);
+  // segura o carrossel até a seção aparecer, e dá um tempo para a pessoa
+  // olhar a primeira tela antes de começar a girar
+  if("IntersectionObserver" in window){
+    var espera = null;
+    new IntersectionObserver(function(en){
+      if(en[0].isIntersecting){
+        if(!phRodando && !phPausadoPeloUsuario && !espera){
+          espera = setTimeout(function(){ espera = null; phPlay(); }, 2200);
+        }
+      } else {
+        clearTimeout(espera); espera = null;
+        if(!phPausadoPeloUsuario) phParar();
+      }
+    },{ threshold:.45 }).observe($(".ph"));
+  } else { phPlay(); }
+  $("#phPrev").addEventListener("click", function(){ phPausar(); phMostrar(phI-1); });
+  $("#phNext").addEventListener("click", function(){ phPausar(); phMostrar(phI+1); });
+  $("#phPause").addEventListener("click", function(){
+    if(phRodando){ phPausar(); } else { phPausadoPeloUsuario = false; phPlay(); }
+  });
+})();
+
+function phMostrar(i){
+  var telas = $$(".scr");
+  if(!telas.length) return;
+  phI = (i + telas.length) % telas.length;
+  telas.forEach(function(s,k){ s.classList.toggle("on", k === phI); });
+  $("#phLbl").textContent = APP[phI].r;
+}
+function phPlay(){
+  phRodando = true;
+  $("#phIcon").innerHTML = '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>';
+  $("#phPause").setAttribute("aria-label","Pausar troca de telas");
+  clearInterval(phTimer);
+  if(!LESS) phTimer = setInterval(function(){ phMostrar(phI+1); }, 3400);
+}
+function phPausar(){
+  phPausadoPeloUsuario = true;
+  phParar();
+}
+function phParar(){
+  phRodando = false;
+  clearInterval(phTimer);
+  $("#phIcon").innerHTML = '<path d="M8 5l11 7-11 7z"/>';
+  $("#phPause").setAttribute("aria-label","Retomar troca de telas");
+}
+
+/* ==================== reveal + contadores ==================== */
+if("IntersectionObserver" in window){
+  var rvo = new IntersectionObserver(function(en){
+    en.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); rvo.unobserve(e.target); } });
+  },{ threshold:0, rootMargin:"0px 0px -6% 0px" });
+  $$(".rv").forEach(function(el){ rvo.observe(el); });
+  var nmo = new IntersectionObserver(function(en){
+    en.forEach(function(e){ if(e.isIntersecting){ contar(e.target); nmo.unobserve(e.target); } });
+  },{ threshold:0, rootMargin:"0px 0px -10% 0px" });
+  $$(".nm__v").forEach(function(el){ nmo.observe(el); });
+} else {
+  $$(".rv").forEach(function(el){ el.classList.add("in"); });
+}
+function contar(el){
+  var to = parseInt(el.getAttribute("data-to"),10), small = el.querySelector("small"), t0 = null, dur = 900;
+  if(!el.firstChild || el.firstChild.nodeType !== 3) el.insertBefore(document.createTextNode("0"), small || null);
+  if(LESS){ el.firstChild.nodeValue = String(to); return; }
+  requestAnimationFrame(function step(t){
+    if(!t0) t0 = t;
+    var k = Math.min(1,(t-t0)/dur), e = 1 - Math.pow(1-k,3);
+    el.firstChild.nodeValue = String(k < 1 ? Math.round(to*e) : to);
+    if(k < 1) requestAnimationFrame(step);
+  });
+}
+
+/* ==================== scroll ==================== */
+var hdr = $("#hdr"), tick = false;
+function quadro(){
+  tick = false;
+  hdr.classList.toggle("solid", window.scrollY > 60);
+  posGaleria();
+}
+addEventListener("scroll", function(){ if(!tick){ tick = true; requestAnimationFrame(quadro); } }, {passive:true});
+var larguraAnt = window.innerWidth;
+addEventListener("resize", function(){
+  // só remonta se cruzou o ponto de virada — evita rebuild a cada pixel
+  var agora = window.innerWidth;
+  if((larguraAnt <= 680) !== (agora <= 680)) location.reload();
+  larguraAnt = agora;
+  quadro();
+}, {passive:true});
+quadro();
+
+/* ==================== FORMULÁRIO ==================== */
+var cnpj = $("#cnpj"), fone = $("#fone"), chips = $("#chips"), form = $("#form"),
+    card = $("#card"), submit = $("#submit"), done = $("#done"), reveal = $("#reveal"),
+    seg = null;
+
+function maskCnpj(v){
+  v = v.replace(/\D/g,"").slice(0,14);
+  if(v.length > 12) return v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2}).*/,"$1.$2.$3/$4-$5");
+  if(v.length >  8) return v.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4})/,"$1.$2.$3/$4");
+  if(v.length >  5) return v.replace(/^(\d{2})(\d{3})(\d{0,3})/,"$1.$2.$3");
+  if(v.length >  2) return v.replace(/^(\d{2})(\d{0,3})/,"$1.$2");
+  return v;
+}
+function maskFone(v){
+  v = v.replace(/\D/g,"").slice(0,11);
+  if(v.length > 10) return v.replace(/^(\d{2})(\d{5})(\d{0,4}).*/,"($1) $2-$3");
+  if(v.length >  6) return v.replace(/^(\d{2})(\d{4})(\d{0,4})/,"($1) $2-$3");
+  if(v.length >  2) return v.replace(/^(\d{2})(\d{0,5})/,"($1) $2");
+  if(v.length >  0) return "(" + v;
+  return v;
+}
+fone.addEventListener("input", function(){ fone.value = maskFone(fone.value); });
+
+var last = "";
+cnpj.addEventListener("input", function(){
+  cnpj.value = maskCnpj(cnpj.value);
+  var d = cnpj.value.replace(/\D/g,"");
+  if(d.length < 14){
+    reveal.classList.remove("on","err","carregando"); last = "";
+    limparSugestaoCnpj();
+    return;
+  }
+  if(d === last) return;
+  last = d;
+  buscando();
+  consultar(d);
+});
+
+/* Duas fontes: a primeira traz Inscrição Estadual, que é o que o cadastro da
+   Oderço mostra, mas limita a 3 consultas por minuto. A segunda é o plano B. */
+function consultar(d){
+  fetch("https://publica.cnpj.ws/cnpj/" + d)
+    .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(j){ if(atual(d)) achou(daCnpjWs(j, d)); })
+    .catch(function(){
+      fetch("https://brasilapi.com.br/api/cnpj/v1/" + d)
+        .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+        .then(function(j){ if(atual(d)) achou(daBrasilApi(j, d)); })
+        .catch(function(){ if(atual(d)) falhou(); });
+    });
+}
+function atual(d){ return cnpj.value.replace(/\D/g,"") === d; }
+
+function daCnpjWs(j, d){
+  var e = j.estabelecimento || {};
+  var at = e.atividade_principal || {};
+  var uf = (e.estado || {}).sigla || "";
+  var ies = e.inscricoes_estaduais || [];
+  // a IE que interessa é a do estado do estabelecimento
+  var ie = ies.filter(function(i){ return i.ativo && (i.estado||{}).sigla === uf; })[0]
+        || ies.filter(function(i){ return i.ativo; })[0] || null;
+  return {
+    cnpj: cnpj.value,
+    nome: titulo(j.razao_social || ""),
+    endereco: endereco([e.tipo_logradouro, e.logradouro].filter(Boolean).join(" "), e.numero, e.complemento),
+    bairro: [titulo(e.bairro || ""), cep(e.cep), [titulo((e.cidade||{}).nome || ""), uf].filter(Boolean).join(" - ")].filter(Boolean).join(" · "),
+    ie: ie ? ie.inscricao_estadual + (ies.filter(function(i){return i.ativo;}).length > 1 ? " · " + uf : "") : "",
+    cnae: [at.subclasse, at.descricao].filter(Boolean).join(" · "),
+    cnaeCode: normalizarCnae(at.subclasse),
+    cnaeDesc: at.descricao || "",
+    situacao: (e.situacao_cadastral || "").toUpperCase()
+  };
+}
+function daBrasilApi(j, d){
+  return {
+    cnpj: cnpj.value,
+    nome: titulo(j.razao_social || j.nome_fantasia || ""),
+    endereco: endereco(j.logradouro, j.numero, j.complemento),
+    bairro: [titulo(j.bairro || ""), cep(j.cep), [titulo(j.municipio || ""), j.uf].filter(Boolean).join(" - ")].filter(Boolean).join(" · "),
+    ie: "",
+    cnae: [subclasse(j.cnae_fiscal), j.cnae_fiscal_descricao].filter(Boolean).join(" · "),
+    cnaeCode: normalizarCnae(j.cnae_fiscal),
+    cnaeDesc: j.cnae_fiscal_descricao || "",
+    situacao: (j.descricao_situacao_cadastral || "").toUpperCase()
+  };
+}
+function endereco(via, num, compl){
+  var t = titulo(via || "");
+  if(num) t += ", " + num;
+  if(compl) t += " · " + titulo(compl);
+  return t;
+}
+function cep(v){
+  v = String(v || "").replace(/\D/g,"");
+  return v.length === 8 ? v.slice(0,5) + "-" + v.slice(5) : "";
+}
+function subclasse(c){
+  c = String(c || "").replace(/\D/g,"");
+  return c.length === 7 ? c.slice(0,4) + "-" + c.slice(4,5) + "/" + c.slice(5) : "";
+}
+function normalizarCnae(c){
+  var n = String(c || "").replace(/\D/g, "");
+  return n.length === 7 ? n : "";
+}
+
+// A Receita devolve tudo em caixa alta; aqui vira caixa de texto
+function titulo(t){
+  var siglas = {"S.A.":1,"SA":1,"LTDA":1,"ME":1,"EPP":1,"EIRELI":1,"MEI":1,"S/A":1,"CEP":1};
+  return String(t).toLowerCase().split(" ").filter(Boolean).map(function(w){
+    var u = w.toUpperCase();
+    if(siglas[u]) return u;
+    if(["de","da","do","das","dos","e"].indexOf(w) >= 0) return w;
+    return w.charAt(0).toUpperCase() + w.slice(1);
+  }).join(" ");
+}
+
+function buscando(){
+  reveal.className = "reveal on carregando";
+  $("#revealV").textContent = "Consultando a Receita…";
+  $("#revealM").innerHTML = "";
+  $("#revealAviso").classList.remove("on");
+  limparSugestaoCnpj();
+}
+function achou(d){
+  reveal.className = "reveal on";
+  $("#revealV").innerHTML = esc(d.nome) + '<span class="reveal__cnpj">' + esc(d.cnpj) + '</span>';
+  var linhas = "";
+  if(d.endereco) linhas += '<dt>Endereço</dt><dd>' + esc(d.endereco) +
+    (d.bairro ? '<span class="reveal__sub">' + esc(d.bairro) + '</span>' : '') + '</dd>';
+  if(d.ie)   linhas += '<dt>Inscr. estadual</dt><dd>' + esc(d.ie) + '</dd>';
+  if(d.cnae) linhas += '<dt>CNAE</dt><dd>' + esc(d.cnae) + '</dd>';
+  $("#revealM").innerHTML = linhas;
+
+  var av = $("#revealAviso");
+  if(d.situacao && d.situacao !== "ATIVA"){
+    av.textContent = "Situação cadastral: " + titulo(d.situacao) + ". Nosso time confere isso no cadastro.";
+    av.classList.add("on");
+  } else av.classList.remove("on");
+
+  preencherAtividade(d.cnaeDesc, d.cnaeCode);
+}
+function falhou(){
+  reveal.className = "reveal on err";
+  $("#revealV").textContent = "Não localizamos esse CNPJ";
+  $("#revealM").innerHTML = '<dt>Tudo bem</dt><dd>Seguimos com a conferência manual no cadastro.</dd>';
+  $("#revealAviso").classList.remove("on");
+  limparSugestaoCnpj();
+}
+
+/* ---- combobox próprio: teclado, clique fora, busca por letra ---- */
+function criarSelect(raizId, campoId, aoMudar){
+  var raiz = $("#"+raizId), campo = $("#"+campoId);
+  var btn = $(".sel__btn", raiz), rotulo = $(".sel__val", raiz), lista = $(".sel__list", raiz);
+  var itens = [], foco = -1, digitado = "", tDigito;
+
+  function preencher(opcoes){
+    itens = opcoes;
+    lista.innerHTML = opcoes.map(function(o,i){
+      return '<li role="option" data-i="'+i+'" aria-selected="false">'+esc(o)+'</li>';
+    }).join("");
+    definir("", true);
+  }
+  function definir(valor, silencioso){
+    campo.value = valor;
+    if(valor || !btn.disabled) rotulo.textContent = valor || "Selecione";
+    rotulo.classList.toggle("vazio", !valor);
+    $$("li", lista).forEach(function(li){
+      li.setAttribute("aria-selected", String(li.textContent === valor));
+    });
+    btn.style.borderColor = "";
+    if(!silencioso && aoMudar) aoMudar(valor);
+  }
+  function abrir(){
+    raiz.classList.add("on"); lista.hidden = false;
+    btn.setAttribute("aria-expanded","true");
+    foco = itens.indexOf(campo.value); marcar();
+    var sel = $("li.foco", lista); if(sel) sel.scrollIntoView({block:"nearest"});
+  }
+  function fechar(){
+    raiz.classList.remove("on"); lista.hidden = true;
+    btn.setAttribute("aria-expanded","false"); foco = -1; marcar();
+  }
+  function marcar(){ $$("li", lista).forEach(function(li,i){ li.classList.toggle("foco", i === foco); }); }
+  function mover(passo){
+    if(lista.hidden) return abrir();
+    foco = Math.max(0, Math.min(itens.length-1, foco + passo)); marcar();
+    var li = $("li.foco", lista); if(li) li.scrollIntoView({block:"nearest"});
+  }
+
+  btn.addEventListener("click", function(e){ e.stopPropagation(); lista.hidden ? abrir() : fechar(); });
+  lista.addEventListener("click", function(e){
+    var li = e.target.closest("li"); if(!li) return;
+    definir(li.textContent); fechar(); btn.focus();
+  });
+  btn.addEventListener("keydown", function(e){
+    if(e.key === "ArrowDown"){ e.preventDefault(); mover(1); }
+    else if(e.key === "ArrowUp"){ e.preventDefault(); mover(-1); }
+    else if(e.key === "Enter" || e.key === " "){
+      e.preventDefault();
+      if(lista.hidden) abrir(); else if(foco >= 0){ definir(itens[foco]); fechar(); }
+    }
+    else if(e.key === "Escape" || e.key === "Tab"){ fechar(); }
+    else if(e.key.length === 1){
+      clearTimeout(tDigito); digitado += e.key.toLowerCase();
+      tDigito = setTimeout(function(){ digitado = ""; }, 700);
+      var i = itens.findIndex(function(o){ return o.toLowerCase().startsWith(digitado); });
+      if(i >= 0){ if(lista.hidden) abrir(); foco = i; marcar();
+        var li = $("li.foco", lista); if(li) li.scrollIntoView({block:"nearest"}); }
+    }
+  });
+  document.addEventListener("click", function(e){ if(!raiz.contains(e.target)) fechar(); });
+
+  return { preencher:preencher, definir:definir, botao:btn };
+}
+
+/* Ramo de atividade: a lista real do cadastro do site, filtrada pela atividade. */
+var RAMOS_GERAIS = ["Informática","Musical","Automotivo","Segurança","Antenas","Telecom",
+  "Utilidades domésticas","Materiais elétricos","Ferramentas","Móveis e eletro","Papelaria",
+  "Eletrônica","Assistência técnica","Livraria","Brinquedos","Games","Home center (som e imagem)",
+  "Supermercado","Mercearia","Provedor","Material para construção","Armarinhos","Lan house",
+  "Farmácia","Conveniência de posto","Alimentos","Concessionária automotiva","Auto peças",
+  "E-commerce","Revenda corporativa (servidores)","Automação","Som profissional (iluminação e sonorização)",
+  "Cine e foto","Cabos (especializado)","Licitação"];
+var RAMOS_SOLAR = ["Integrador solar","Revendedor solar"];
+
+var campoAtividade = $("#atividade"), campoRamo = $("#ramo");
+var comboRamo = criarSelect("selRamo", "ramo");
+var selRamoRaiz = $("#selRamo"), btnRamo = $(".sel__btn", selRamoRaiz);
+var comboAtividade = criarSelect("selAtividade", "atividade", function(v){
+  comboRamo.preencher(v === "Solar" ? RAMOS_SOLAR : RAMOS_GERAIS);
+  // responder a atividade destrava o ramo
+  selRamoRaiz.classList.toggle("sel--travado", !v);
+  btnRamo.disabled = !v;
+  $(".sel__val", selRamoRaiz).textContent = v ? "Selecione" : "Escolha a atividade primeiro";
+});
+comboAtividade.preencher(["Atacado","Varejo","Indústria","Solar"]);
+comboRamo.preencher(RAMOS_GERAIS);
+
+/* Todos os perfis podem se cadastrar. A separação acontece depois, na base:
+   o valor de data-seg vai junto com o lead para o time definir o tratamento. */
+function escolhaUnica(grupo, aoEscolher){
+  grupo.addEventListener("click", function(e){
+    var b = e.target.closest(".chip"); if(!b) return;
+    $$(".chip", grupo).forEach(function(c){ c.setAttribute("aria-pressed","false"); });
+    b.setAttribute("aria-pressed","true");
+    grupo.style.outline = "";
+    aoEscolher(b);
+  });
+}
+var contato = $("#contato"), via = null;
+escolhaUnica(chips, function(b){ seg = b; });
+escolhaUnica(contato, function(b){ via = b; });
+
+
+/* ---- CNAE preenche atividade e ramo ----
+   O texto do CNAE já diz se é atacado, varejo ou indústria. O ramo sai por
+   palavra-chave. Tudo fica editável: é sugestão, não trava.               */
+var RAMO_POR_PALAVRA = [
+  [/inform[áa]tica|computador|perif[ée]ric|processamento de dados/i, "Informática"],
+  [/instrumento musical|musical/i,                                   "Musical"],
+  [/provedor|acesso [àa] internet/i,                                  "Provedor"],
+  [/telecomunica|telefonia/i,                                        "Telecom"],
+  [/material el[ée]tric|el[ée]tric/i,                                "Materiais elétricos"],
+  [/ferramenta/i,                                                    "Ferramentas"],
+  [/m[óo]vel|m[óo]veis|eletrodom[ée]stic/i,                          "Móveis e eletro"],
+  [/papelaria|papel/i,                                               "Papelaria"],
+  [/eletr[óo]nic/i,                                                  "Eletrônica"],
+  [/manuten[çc][ãa]o|reparaç|assist[êe]ncia/i,                       "Assistência técnica"],
+  [/livr/i,                                                          "Livraria"],
+  [/brinquedo/i,                                                     "Brinquedos"],
+  [/jogo|game/i,                                                     "Games"],
+  [/supermercado|hipermercado/i,                                     "Supermercado"],
+  [/mercearia|minimercado/i,                                         "Mercearia"],
+  [/material de constru|constru[çc][ãa]o/i,                          "Material para construção"],
+  [/armarinho|arma[çc][õo]es/i,                                      "Armarinhos"],
+  [/farm[áa]cia|drogaria|farmac[êe]utic|medicamento/i,               "Farmácia"],
+  [/combust[íi]vel|posto/i,                                          "Conveniência de posto"],
+  [/produtos aliment[íi]cios|g[êe]neros aliment|bebidas/i,           "Alimentos"],
+  [/ve[íi]culo|automot|autom[óo]vel/i,                               "Concessionária automotiva"],
+  [/pe[çc]as/i,                                                      "Auto peças"],
+  [/internet|com[ée]rcio eletr[ôo]nico|e-?commerce/i,                "E-commerce"],
+  [/servidor/i,                                                      "Revenda corporativa (servidores)"],
+  [/automa[çc][ãa]o/i,                                               "Automação"],
+  [/som|sonoriza|ilumina/i,                                          "Som profissional (iluminação e sonorização)"],
+  [/fotogr[áa]fic|cinemat/i,                                         "Cine e foto"],
+  [/cabo|fio/i,                                                      "Cabos (especializado)"],
+  [/seguran[çc]a|vigil[âa]ncia|alarme/i,                             "Segurança"],
+  [/antena/i,                                                        "Antenas"],
+  [/utilidade dom[ée]stica/i,                                        "Utilidades domésticas"]
+];
+
+function atividadePorCnae(cnae){
+  var secao = String(cnae || "").slice(0,2);
+  if(secao === "46") return "Atacado";
+  if(secao === "47") return "Varejo";
+  if(+secao >= 10 && +secao <= 33) return "Indústria";
+  return "";
+}
+
+function ramoPorCnae(cnae){
+  var prefixo = String(cnae || "").slice(0,4);
+  var porCodigo = {
+    "4651":"Informática", "4652":"Telecom", "4649":"Papelaria",
+    "4661":"Materiais elétricos", "4662":"Ferramentas", "4663":"Material para construção",
+    "4742":"Materiais elétricos", "4751":"Informática", "4752":"Eletrônica",
+    "4753":"Móveis e eletro", "4754":"Móveis e eletro", "4755":"Utilidades domésticas",
+    "4763":"Musical", "4771":"Farmácia", "4781":"Alimentos"
+  };
+  return porCodigo[prefixo] || "";
+}
+
+function preencherAtividade(desc, cnae){
+  if(!desc) return;
+  var solar = /solar|fotovoltaic|pain[ée]is? solares?|sistema de energia solar/i.test(desc);
+  var atividade = solar ? "Solar" : atividadePorCnae(cnae);
+  if(!atividade){
+    atividade = /atacad|distribui/i.test(desc) ? "Atacado"
+              : /varejist|varejo|loja de departament|lojas de departament|magazine/i.test(desc) ? "Varejo"
+              : /fabrica|ind[úu]stria|industrial/i.test(desc) ? "Indústria"
+              : "";
+  }
+  if(!atividade) return;
+
+  comboAtividade.definir(atividade);          // dispara o preenchimento do ramo
+  var ramo = "";
+  if(solar){
+    ramo = /instala|servi[çc]o/i.test(desc) ? "Integrador solar" : "Revendedor solar";
+  } else {
+    ramo = ramoPorCnae(cnae);
+    for(var i=0;i<RAMO_POR_PALAVRA.length;i++){
+      if(!ramo && RAMO_POR_PALAVRA[i][0].test(desc)){ ramo = RAMO_POR_PALAVRA[i][1]; break; }
+    }
+  }
+  if(ramo) comboRamo.definir(ramo);
+  marcarSugerido(!!ramo);
+}
+function marcarSugerido(temRamo){
+  $("#selAtividade").classList.add("sel--sugerido");
+  if(temRamo) $("#selRamo").classList.add("sel--sugerido");
+  var aviso = $("#sugestao");
+  if(aviso) aviso.classList.add("on");
+}
+function limparSugestaoCnpj(){
+  comboAtividade.definir("", true);
+  comboRamo.definir("", true);
+  campoAtividade.value = "";
+  campoRamo.value = "";
+  selRamoRaiz.classList.add("sel--travado");
+  btnRamo.disabled = true;
+  $(".sel__val", selRamoRaiz).textContent = "Escolha a atividade primeiro";
+  $("#selAtividade").classList.remove("sel--sugerido");
+  $("#selRamo").classList.remove("sel--sugerido");
+  $("#sugestao").classList.remove("on");
+}
+
+/* ---- etapas ---- */
+var etapa = 1;
+var etapa1 = $('.etapa[data-etapa="1"]'), etapa2 = $('.etapa[data-etapa="2"]');
+var passo = $(".card__n"), btVoltar = $("#voltar");
+
+function irEtapa(n, voltando){
+  etapa = n;
+  etapa1.hidden = n !== 1;
+  etapa2.hidden = n !== 2;
+  var atual = n === 1 ? etapa1 : etapa2;
+  atual.classList.toggle("volta", !!voltando);
+  // reinicia a animação
+  atual.style.animation = "none"; atual.offsetHeight; atual.style.animation = "";
+  passo.textContent = "0" + n + " / 02";
+  submit.textContent = n === 1 ? "Continuar" : "Criar minha conta";
+  btVoltar.hidden = n === 1;
+  card.scrollIntoView({ behavior: LESS ? "auto" : "smooth", block: "nearest" });
+}
+btVoltar.addEventListener("click", function(){ irEtapa(1, true); });
+
+function apontarGrupo(grupo){
+  grupo.scrollIntoView({block:"center", behavior: LESS ? "auto" : "smooth"});
+  grupo.querySelector(".chip").focus({preventScroll:true});
+  grupo.style.outline = "2px solid #D92D20";
+  grupo.style.outlineOffset = "6px";
+  grupo.style.borderRadius = "10px";
+}
+
+function marcarFalta(lista){
+  lista[0].focus({preventScroll:true});
+  lista[0].scrollIntoView({block:"center", behavior: LESS ? "auto" : "smooth"});
+  lista.forEach(function(el){
+    el.style.borderColor = "#D92D20";
+    var limpa = function(){ el.style.borderColor = ""; el.removeEventListener("input", limpa); el.removeEventListener("click", limpa); };
+    el.addEventListener("input", limpa); el.addEventListener("click", limpa);
+  });
+}
+
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+
+  if(etapa === 1){
+    var faltam = [];
+    if(cnpj.value.replace(/\D/g,"").length !== 14) faltam.push(cnpj);
+    if(!$("#nome").value.trim()) faltam.push($("#nome"));
+    if(!/^\S+@\S+\.\S+$/.test($("#email").value)) faltam.push($("#email"));
+    if(fone.value.replace(/\D/g,"").length < 10) faltam.push(fone);
+    if(faltam.length) return marcarFalta(faltam);
+    if(!via) return apontarGrupo(contato);
+    return irEtapa(2);
+  }
+
+  var f2 = [];
+  if(!campoAtividade.value) f2.push(comboAtividade.botao);
+  if(campoAtividade.value && !campoRamo.value) f2.push(comboRamo.botao);
+  if(f2.length) return marcarFalta(f2);
+  if(!seg) return apontarGrupo(chips);
+
+  $("#doneCnpj").textContent  = cnpj.value;
+  // só o nome: o CNPJ virou um filho do mesmo elemento e já aparece acima
+  var noNome = $("#revealV").firstChild;
+  $("#doneRazao").textContent = (reveal.classList.contains("on") && !reveal.classList.contains("err") && noNome)
+                              ? noNome.textContent.trim() : "";
+  $("#doneAtiv").textContent  = campoAtividade.value + (campoRamo.value ? " · " + campoRamo.value : "");
+  $("#doneSeg").textContent   = seg.textContent.trim();
+  // segmento cru para o RD: é por aqui que o time separa cada perfil
+  $("#doneVia").textContent = via.textContent.trim();
+  // o que segue para o RD junto do lead
+  form.dataset.segmento = seg.getAttribute("data-seg");
+  form.dataset.contato  = via.getAttribute("data-via");
+
+  form.style.display = "none";
+  btVoltar.hidden = true;
+  done.classList.add("on");
+});
+
+$$("[data-goto]").forEach(function(b){
+  b.addEventListener("click", function(){
+    card.scrollIntoView({ behavior: LESS ? "auto" : "smooth", block:"center" });
+    setTimeout(function(){ if(form.style.display !== "none") cnpj.focus({preventScroll:true}); }, 560);
+  });
+});
+
+var bar = $("#bar");
+if("IntersectionObserver" in window && bar){
+  new IntersectionObserver(function(en){ bar.classList.toggle("on", !en[0].isIntersecting); },{threshold:.12}).observe(card);
+}
+})();
+</script>
+</body>
+</html>
