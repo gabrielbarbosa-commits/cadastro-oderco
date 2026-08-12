@@ -685,13 +685,6 @@ p{margin:0}
             </div>
           </div>
 
-          <div class="f">
-            <span class="f__lbl">Como prefere ser atendido <i class="req">*</i></span>
-            <div class="chips" id="contato" role="group" aria-label="Como prefere ser atendido">
-              <button type="button" class="chip" data-via="mensagem" aria-pressed="false">Mensagem no WhatsApp</button>
-              <button type="button" class="chip" data-via="ligacao" aria-pressed="false">Ligação</button>
-            </div>
-          </div>
         </div>
 
         <!-- etapa 2: o que a empresa faz -->
@@ -731,6 +724,14 @@ p{margin:0}
               <button type="button" class="chip" data-seg="licitacao" aria-pressed="false">Licitação</button>
               <button type="button" class="chip" data-seg="servico" aria-pressed="false">Prestação de serviço</button>
               <button type="button" class="chip" data-seg="provedor" aria-pressed="false">Provedor</button>
+            </div>
+          </div>
+
+          <div class="f">
+            <span class="f__lbl">Como prefere ser atendido <i class="req">*</i></span>
+            <div class="chips" id="contato" role="group" aria-label="Como prefere ser atendido">
+              <button type="button" class="chip" data-via="mensagem" aria-pressed="false">Mensagem no WhatsApp</button>
+              <button type="button" class="chip" data-via="ligacao" aria-pressed="false">Ligação</button>
             </div>
           </div>
         </div>
@@ -1752,7 +1753,6 @@ form.addEventListener("submit", function(e){
     if(!/^\S+@\S+\.\S+$/.test($("#email").value)) faltam.push($("#email"));
     if(fone.value.replace(/\D/g,"").length < 10) faltam.push(fone);
     if(faltam.length) return marcarFalta(faltam);
-    if(!via) return apontarGrupo(contato);
     return irEtapa(2);
   }
 
@@ -1761,6 +1761,7 @@ form.addEventListener("submit", function(e){
   if(campoAtividade.value && !campoRamo.value) f2.push(comboRamo.botao);
   if(f2.length) return marcarFalta(f2);
   if(!seg) return apontarGrupo(chips);
+  if(!via) return apontarGrupo(contato);
 
   $("#doneCnpj").textContent  = cnpj.value;
   // só o nome: o CNPJ virou um filho do mesmo elemento e já aparece acima
