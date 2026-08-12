@@ -175,9 +175,11 @@ p{margin:0}
 }
 .sel__list li:hover,.sel__list li.foco{background:var(--paper)}
 .sel__list li[aria-selected="true"]{background:var(--blue-lt);color:var(--blue);font-weight:700}
-/* ramo só aparece depois da atividade: encurta o formulário na primeira olhada */
-.f--oculto{display:none}
-.f--oculto.on{display:block;animation:pop .34s cubic-bezier(.16,1,.3,1)}
+/* o ramo fica visível desde o começo, só bloqueado: some é pior, a pessoa
+   não vê que existe e leva susto quando o campo aparece do nada */
+.sel--travado .sel__btn{background:#F1F3F7;border-color:var(--line);cursor:not-allowed;color:#A9AEBB}
+.sel--travado .sel__btn::after{opacity:.4}
+.sel--travado .sel__val{color:#A9AEBB}
 /* etapas: troca com deslize curto, sem pular a altura do card */
 .etapa[hidden]{display:none}
 .etapa{animation:entra .32s cubic-bezier(.16,1,.3,1)}
@@ -621,8 +623,8 @@ p{margin:0}
             </div>
           </div>
           <div class="f">
-            <label class="f__lbl" for="nome">Seu nome <i class="req">*</i></label>
-            <input class="f__in" id="nome" autocomplete="name" placeholder="Nome e sobrenome">
+            <label class="f__lbl" for="nome">Responsável pelo setor de compras <i class="req">*</i></label>
+            <input class="f__in" id="nome" autocomplete="name" placeholder="Nome de quem faz as compras">
           </div>
           <div class="f f__row">
             <div>
@@ -632,6 +634,14 @@ p{margin:0}
             <div>
               <label class="f__lbl" for="fone">WhatsApp <i class="req">*</i></label>
               <input class="f__in" id="fone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" maxlength="15">
+            </div>
+          </div>
+
+          <div class="f">
+            <span class="f__lbl">Como prefere ser atendido <i class="req">*</i></span>
+            <div class="chips" id="contato" role="group" aria-label="Como prefere ser atendido">
+              <button type="button" class="chip" data-via="mensagem" aria-pressed="false">Mensagem no WhatsApp</button>
+              <button type="button" class="chip" data-via="ligacao" aria-pressed="false">Ligação</button>
             </div>
           </div>
         </div>
@@ -650,12 +660,12 @@ p{margin:0}
             <input type="hidden" id="atividade">
           </div>
 
-          <div class="f f--oculto" id="grupoRamo">
+          <div class="f" id="grupoRamo">
             <label class="f__lbl" for="ramo">Ramo de atividade <i class="req">*</i></label>
-            <div class="sel" id="selRamo">
-              <button type="button" class="f__in sel__btn" role="combobox"
+            <div class="sel sel--travado" id="selRamo">
+              <button type="button" class="f__in sel__btn" role="combobox" disabled
                       aria-expanded="false" aria-haspopup="listbox" aria-controls="lstRamo">
-                <span class="sel__val">Selecione</span>
+                <span class="sel__val">Escolha a atividade primeiro</span>
               </button>
               <ul class="sel__list" id="lstRamo" role="listbox" hidden></ul>
             </div>
@@ -663,13 +673,12 @@ p{margin:0}
           </div>
 
           <div class="f">
-            <span class="f__lbl">Perfil da sua empresa <i class="req">*</i></span>
-            <div class="chips" id="chips" role="group" aria-label="Perfil da sua empresa">
-              <button type="button" class="chip" data-seg="loja-fisica" aria-pressed="false">Loja física</button>
-              <button type="button" class="chip" data-seg="loja-online" aria-pressed="false">Loja online</button>
-              <button type="button" class="chip" data-seg="marketplace" aria-pressed="false">Marketplace</button>
-              <button type="button" class="chip" data-seg="corporativo" aria-pressed="false">Compro para consumo próprio</button>
-              <button type="button" class="chip" data-seg="mei" aria-pressed="false">MEI</button>
+            <span class="f__lbl">Área de interesse <i class="req">*</i></span>
+            <div class="chips" id="chips" role="group" aria-label="Área de interesse">
+              <button type="button" class="chip" data-seg="revenda" aria-pressed="false">Revenda</button>
+              <button type="button" class="chip" data-seg="corporativo" aria-pressed="false">Uso e consumo (corporativo)</button>
+              <button type="button" class="chip" data-seg="licitacao" aria-pressed="false">Licitação</button>
+              <button type="button" class="chip" data-seg="servico" aria-pressed="false">Prestação de serviço</button>
               <button type="button" class="chip" data-seg="drop" aria-pressed="false">Dropshipping</button>
             </div>
           </div>
@@ -696,8 +705,10 @@ p{margin:0}
           <div class="done__qm" id="doneRazao"></div>
           <div class="done__ql" style="margin-top:12px">Atividade</div>
           <div class="done__qv" id="doneAtiv"></div>
-          <div class="done__ql" style="margin-top:12px">Perfil informado</div>
+          <div class="done__ql" style="margin-top:12px">Área de interesse</div>
           <div class="done__qv" id="doneSeg"></div>
+          <div class="done__ql" style="margin-top:12px">Contato preferido</div>
+          <div class="done__qv" id="doneVia"></div>
         </div>
       </div>
     </div>
@@ -1386,7 +1397,7 @@ function criarSelect(raizId, campoId, aoMudar){
   }
   function definir(valor, silencioso){
     campo.value = valor;
-    rotulo.textContent = valor || "Selecione";
+    if(valor || !btn.disabled) rotulo.textContent = valor || "Selecione";
     rotulo.classList.toggle("vazio", !valor);
     $$("li", lista).forEach(function(li){
       li.setAttribute("aria-selected", String(li.textContent === valor));
@@ -1447,23 +1458,33 @@ var RAMOS_GERAIS = ["Informática","Musical","Automotivo","Segurança","Antenas"
   "Cine e foto","Cabos (especializado)","Licitação"];
 var RAMOS_SOLAR = ["Integrador solar","Revendedor solar"];
 
-var campoAtividade = $("#atividade"), campoRamo = $("#ramo"), grupoRamo = $("#grupoRamo");
+var campoAtividade = $("#atividade"), campoRamo = $("#ramo");
 var comboRamo = criarSelect("selRamo", "ramo");
+var selRamoRaiz = $("#selRamo"), btnRamo = $(".sel__btn", selRamoRaiz);
 var comboAtividade = criarSelect("selAtividade", "atividade", function(v){
   comboRamo.preencher(v === "Solar" ? RAMOS_SOLAR : RAMOS_GERAIS);
-  grupoRamo.classList.toggle("on", !!v);
+  // responder a atividade destrava o ramo
+  selRamoRaiz.classList.toggle("sel--travado", !v);
+  btnRamo.disabled = !v;
+  $(".sel__val", selRamoRaiz).textContent = v ? "Selecione" : "Escolha a atividade primeiro";
 });
 comboAtividade.preencher(["Atacado","Varejo","Indústria","Solar"]);
 comboRamo.preencher(RAMOS_GERAIS);
 
 /* Todos os perfis podem se cadastrar. A separação acontece depois, na base:
    o valor de data-seg vai junto com o lead para o time definir o tratamento. */
-chips.addEventListener("click", function(e){
-  var b = e.target.closest(".chip"); if(!b) return;
-  $$(".chip", chips).forEach(function(c){ c.setAttribute("aria-pressed","false"); });
-  b.setAttribute("aria-pressed","true");
-  seg = b;
-});
+function escolhaUnica(grupo, aoEscolher){
+  grupo.addEventListener("click", function(e){
+    var b = e.target.closest(".chip"); if(!b) return;
+    $$(".chip", grupo).forEach(function(c){ c.setAttribute("aria-pressed","false"); });
+    b.setAttribute("aria-pressed","true");
+    grupo.style.outline = "";
+    aoEscolher(b);
+  });
+}
+var contato = $("#contato"), via = null;
+escolhaUnica(chips, function(b){ seg = b; });
+escolhaUnica(contato, function(b){ via = b; });
 
 /* ---- etapas ---- */
 var etapa = 1;
@@ -1485,6 +1506,14 @@ function irEtapa(n, voltando){
 }
 btVoltar.addEventListener("click", function(){ irEtapa(1, true); });
 
+function apontarGrupo(grupo){
+  grupo.scrollIntoView({block:"center", behavior: LESS ? "auto" : "smooth"});
+  grupo.querySelector(".chip").focus({preventScroll:true});
+  grupo.style.outline = "2px solid #D92D20";
+  grupo.style.outlineOffset = "6px";
+  grupo.style.borderRadius = "10px";
+}
+
 function marcarFalta(lista){
   lista[0].focus({preventScroll:true});
   lista[0].scrollIntoView({block:"center", behavior: LESS ? "auto" : "smooth"});
@@ -1505,6 +1534,7 @@ form.addEventListener("submit", function(e){
     if(!/^\S+@\S+\.\S+$/.test($("#email").value)) faltam.push($("#email"));
     if(fone.value.replace(/\D/g,"").length < 10) faltam.push(fone);
     if(faltam.length) return marcarFalta(faltam);
+    if(!via) return apontarGrupo(contato);
     return irEtapa(2);
   }
 
@@ -1512,12 +1542,7 @@ form.addEventListener("submit", function(e){
   if(!campoAtividade.value) f2.push(comboAtividade.botao);
   if(campoAtividade.value && !campoRamo.value) f2.push(comboRamo.botao);
   if(f2.length) return marcarFalta(f2);
-  if(!seg){
-    var primeiro = chips.querySelector(".chip");
-    primeiro.focus({preventScroll:true});
-    primeiro.scrollIntoView({block:"center", behavior: LESS ? "auto" : "smooth"});
-    return;
-  }
+  if(!seg) return apontarGrupo(chips);
 
   $("#doneCnpj").textContent  = cnpj.value;
   $("#doneRazao").textContent = (reveal.classList.contains("on") && !reveal.classList.contains("err"))
@@ -1525,7 +1550,10 @@ form.addEventListener("submit", function(e){
   $("#doneAtiv").textContent  = campoAtividade.value + (campoRamo.value ? " · " + campoRamo.value : "");
   $("#doneSeg").textContent   = seg.textContent.trim();
   // segmento cru para o RD: é por aqui que o time separa cada perfil
+  $("#doneVia").textContent = via.textContent.trim();
+  // o que segue para o RD junto do lead
   form.dataset.segmento = seg.getAttribute("data-seg");
+  form.dataset.contato  = via.getAttribute("data-via");
 
   form.style.display = "none";
   btVoltar.hidden = true;
