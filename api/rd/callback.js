@@ -5,7 +5,7 @@ const RD_FIELDS_URL = "https://api.rd.services/platform/contacts/fields";
 
 function captureRefreshToken(refreshToken) {
   const encodedPublicKey = process.env.RD_TOKEN_CAPTURE_PUBLIC_KEY;
-  if (!encodedPublicKey || !refreshToken) return;
+  if (!encodedPublicKey || !refreshToken) return null;
 
   const publicKey = crypto.createPublicKey({
     key: Buffer.from(encodedPublicKey, "base64"),
@@ -17,8 +17,7 @@ function captureRefreshToken(refreshToken) {
     Buffer.from(refreshToken, "utf8")
   );
 
-  // Apenas o token cifrado e inutilizável sem a chave privada local vai para o log.
-  console.error(`[RD_REFRESH_TOKEN_ENCRYPTED] ${encryptedToken.toString("base64")}`);
+  return encryptedToken.toString("base64");
 }
 
 function getCookie(header, name) {
@@ -79,7 +78,7 @@ module.exports = async function callback(req, res) {
       return res.status(502).json({ error: "O RD não retornou um token de acesso válido." });
     }
 
-    captureRefreshToken(token.refresh_token);
+    const encryptedRefreshToken = captureRefreshToken(token.refresh_token);
 
     const fieldsResponse = await fetch(RD_FIELDS_URL, {
       headers: { Authorization: `Bearer ${token.access_token}`, Accept: "application/json" },
@@ -94,6 +93,9 @@ module.exports = async function callback(req, res) {
     return res.status(200).json({
       audited_at: new Date().toISOString(),
       note: "Inventário temporário. Nenhum token foi salvo ou exibido.",
+      setup: encryptedRefreshToken
+        ? { status: "ready", encrypted_refresh_token: encryptedRefreshToken }
+        : { status: "refresh_token_not_returned" },
       fields,
     });
   } catch {
