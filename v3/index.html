@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Oderço — Abra sua conta de revenda</title>
+<title>Oderço · Abra sua conta de revenda</title>
 <meta name="description" content="Distribuidora com fábrica própria, dois centros de distribuição e pronta entrega para todo o Brasil. Cadastre seu CNPJ e compre no preço de atacado.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,7 +38,7 @@
   --r:16px;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scrollbar-gutter:stable}
 body{
   margin:0;background:var(--bg);color:var(--ink);
   font-family:var(--text);font-size:16px;line-height:1.55;
@@ -118,20 +118,22 @@ p{margin:0}
 .hero h1 .b{color:var(--blue);display:block}
 .hero__sub{margin-top:24px;max-width:42ch;font-size:clamp(15px,1.3vw,18px);line-height:1.6;color:rgba(255,255,255,.78)}
 .hero__sub b{color:#fff;font-weight:700}
-/* linha de manifesto: os fatos como um documento de expedição, não como selos */
-.manif{margin:30px 0 0;padding:14px 0 0;list-style:none;border-top:1px solid rgba(255,255,255,.22);
-  display:flex;flex-wrap:wrap;gap:9px 26px;max-width:560px}
-.manif li{position:relative;padding-left:15px;font-family:var(--mono);font-size:11px;
-  letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.66);line-height:1.5}
-.manif li::before{content:"";position:absolute;left:0;top:.52em;width:5px;height:5px;
-  background:var(--amber);transform:rotate(45deg)}
+/* prova social: as marcas do grupo em círculos + a leitura ao lado */
+.prova{margin-top:30px;padding-top:18px;border-top:1px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;gap:16px;max-width:560px;flex-wrap:wrap}
+.prova__logos{display:flex;align-items:center;gap:7px;flex:none}
+.prova__logos img{
+  width:48px;height:48px;border-radius:50%;object-fit:cover;flex:none;
+  box-shadow:0 6px 18px -8px rgba(0,0,0,.6);
+}
+
+.prova__txt{font-size:14px;line-height:1.45;color:rgba(255,255,255,.72);min-width:0}
+.prova__txt b{display:block;color:#fff;font-weight:700;font-size:15px}
 
 /* ============ CARD ============ */
 .card{background:#fff;color:var(--ink);border-radius:var(--r);padding:clamp(22px,2vw,30px);position:relative;
-  overflow:hidden;box-shadow:0 30px 80px -24px rgba(0,0,0,.6)}
-/* o clipe do card cuida do arredondamento; a barra é um retângulo simples */
-.card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--blue);transition:background .3s}
-.card.blocked::before{background:var(--red)}
+  border-top:4px solid var(--blue);transition:border-color .3s;box-shadow:0 30px 80px -24px rgba(0,0,0,.6)}
+.card.blocked{border-top-color:var(--red)}
 .card__hd{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
 .card__t{font-family:var(--display);font-weight:900;font-size:23px;letter-spacing:-.035em;line-height:1.05}
 .card__n{font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:var(--grey);flex:none;padding-top:4px}
@@ -142,6 +144,37 @@ p{margin:0}
 .f__in::placeholder{color:#AFB4C0}
 .f__in:focus{outline:none;background:#fff;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,90,255,.16)}
 .f__row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.req{color:var(--red);font-style:normal;font-weight:700;margin-left:1px}
+/* combobox próprio: o nativo abre um popup do sistema que não dá para estilizar
+   e, ao abrir, o Chrome esconde a barra de rolagem e o layout salta */
+.sel{position:relative}
+.sel__btn{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  text-align:left;cursor:pointer;padding-right:14px;
+}
+.sel__btn::after{
+  content:"";width:9px;height:9px;flex:none;border-right:1.8px solid var(--slate);
+  border-bottom:1.8px solid var(--slate);transform:rotate(45deg) translate(-2px,-2px);
+  transition:transform .22s;
+}
+.sel.on .sel__btn::after{transform:rotate(-135deg) translate(-3px,-3px)}
+.sel.on .sel__btn{background:#fff;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,90,255,.16)}
+.sel__val{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sel__val.vazio{color:#AFB4C0}
+.sel__list{
+  position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:30;margin:0;padding:5px;
+  list-style:none;background:#fff;border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 18px 40px -16px rgba(10,18,48,.42);max-height:238px;overflow-y:auto;
+  animation:pop .18s cubic-bezier(.16,1,.3,1);overscroll-behavior:contain;
+}
+.sel__list li{
+  padding:11px 12px;border-radius:8px;font-size:14.5px;line-height:1.3;cursor:pointer;
+}
+.sel__list li:hover,.sel__list li.foco{background:var(--paper)}
+.sel__list li[aria-selected="true"]{background:var(--blue-lt);color:var(--blue);font-weight:700}
+/* ramo só aparece depois da atividade: encurta o formulário na primeira olhada */
+.f--oculto{display:none}
+.f--oculto.on{display:block;animation:pop .34s cubic-bezier(.16,1,.3,1)}
 .reveal{margin-top:9px;border-left:3px solid var(--blue);background:var(--blue-lt);border-radius:0 10px 10px 0;padding:10px 12px;display:none}
 .reveal.on{display:block;animation:pop .34s cubic-bezier(.16,1,.3,1)}
 @keyframes pop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
@@ -323,7 +356,7 @@ p{margin:0}
   .hero__in{grid-template-columns:minmax(0,1fr) minmax(380px,.94fr);gap:28px;padding-top:92px}
   .hero h1{font-size:clamp(40px,5.2vw,62px)}
   .hero__sub{margin-top:18px;font-size:15px}
-  .manif{margin-top:22px}
+  .prova{margin-top:22px;gap:14px}
   .card{padding:22px}
   .card__t{font-size:20px}
   .f{margin-top:13px}
@@ -333,7 +366,6 @@ p{margin:0}
   .nm__g{grid-template-columns:repeat(2,1fr);row-gap:34px}
 }
 @media (max-width:1180px) and (max-height:860px) and (orientation:landscape){
-  .manif{display:none}
 }
 @media (max-width:900px){
   .hdr__nav{display:none}
@@ -341,7 +373,6 @@ p{margin:0}
   .hero__in{grid-template-columns:1fr;padding-top:86px;padding-bottom:44px;gap:26px}
   .hero h1{font-size:clamp(38px,8.4vw,58px)}
   .hero__sub{max-width:none}
-  .manif{display:none}
   .app__g{grid-template-columns:1fr;gap:40px}
   .gal__scroll{height:200vh}
   .gal__cols{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -363,10 +394,13 @@ p{margin:0}
   .hero .lbl{font-size:10.5px;letter-spacing:.2em}
   .hero__sub{margin-top:24px;font-size:16.5px;line-height:1.62;max-width:31ch;color:rgba(255,255,255,.84)}
 
-  /* uma prova só, em mono — dá textura sem roubar espaço */
-  .manif{display:flex;margin-top:24px;padding-top:16px;gap:0}
-  .manif li{font-size:10.5px;letter-spacing:.16em;color:rgba(255,255,255,.72)}
-  .manif li:not(:last-child){display:none}
+  /* prova social no celular: círculos menores, texto em duas linhas */
+  .prova{display:flex;flex-direction:column;align-items:flex-start;
+    margin-top:26px;padding-top:16px;gap:14px;flex-wrap:nowrap}
+  .prova__logos img{width:42px;height:42px}
+  .prova__logos{gap:5px}
+  .prova__txt{font-size:14px;line-height:1.45;max-width:34ch}
+  .prova__txt b{font-size:15px;margin-bottom:2px}
 
   /* o topo pode mostrar mais o galpão: o texto tem sombra própria */
   .hero__veil{background:
@@ -508,11 +542,20 @@ p{margin:0}
         em dois centros de distribuição</span>. Cadastre seu CNPJ e compre no preço de atacado<span class="so-lg">,
         direto de quem produz</span>.
       </p>
-      <ul class="manif rv rv-d3">
-        <li>Dois CDs: Paraná e Espírito Santo</li>
-        <li>Seis marcas saem da nossa fábrica</li>
-        <li>Estoque próprio, sem dropshipping</li>
-      </ul>
+      <div class="prova rv rv-d3">
+        <div class="prova__logos" aria-hidden="true">
+          <img src="../assets/logos/pcyes.jpg" alt="">
+          <img src="../assets/logos/vinik.jpg" alt="">
+          <img src="../assets/logos/skul.jpg" alt="">
+          <img src="../assets/logos/tonante.jpg" alt="">
+          <img src="../assets/logos/quati.jpg" alt="">
+          <img src="../assets/logos/odex.jpg" alt="">
+        </div>
+        <p class="prova__txt">
+          <b>Marcas próprias, direto da fábrica.</b>
+          <span>E parceiras como Samsung, LG e Cooler Master no mesmo pedido.</span>
+        </p>
+      </div>
     </div>
 
     <div class="card rv rv-d2" id="card">
@@ -525,7 +568,7 @@ p{margin:0}
           <span class="card__n">01 / 02</span>
         </div>
         <div class="f">
-          <label class="f__lbl" for="cnpj">CNPJ</label>
+          <label class="f__lbl" for="cnpj">CNPJ <i class="req">*</i></label>
           <input class="f__in" id="cnpj" inputmode="numeric" autocomplete="off" placeholder="00.000.000/0000-00" maxlength="18">
           <div class="reveal" id="reveal">
             <div class="reveal__k" id="revealK"></div>
@@ -534,26 +577,52 @@ p{margin:0}
           </div>
         </div>
         <div class="f">
-          <label class="f__lbl" for="nome">Seu nome</label>
+          <label class="f__lbl" for="nome">Seu nome <i class="req">*</i></label>
           <input class="f__in" id="nome" autocomplete="name" placeholder="Nome e sobrenome">
         </div>
+
         <div class="f f__row">
           <div>
-            <label class="f__lbl" for="email">E-mail</label>
+            <label class="f__lbl" for="email">E-mail <i class="req">*</i></label>
             <input class="f__in" id="email" type="email" autocomplete="email" placeholder="voce@empresa.com.br">
           </div>
           <div>
-            <label class="f__lbl" for="fone">WhatsApp</label>
+            <label class="f__lbl" for="fone">WhatsApp <i class="req">*</i></label>
             <input class="f__in" id="fone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" maxlength="15">
           </div>
         </div>
+
         <div class="f">
-          <span class="f__lbl">Como você vende</span>
-          <div class="chips" id="chips" role="group" aria-label="Como você vende">
+          <label class="f__lbl" for="atividade">Principal atividade <i class="req">*</i></label>
+          <div class="sel" id="selAtividade">
+            <button type="button" class="f__in sel__btn" role="combobox"
+                    aria-expanded="false" aria-haspopup="listbox" aria-controls="lstAtividade">
+              <span class="sel__val">Selecione</span>
+            </button>
+            <ul class="sel__list" id="lstAtividade" role="listbox" hidden></ul>
+          </div>
+          <input type="hidden" id="atividade">
+        </div>
+
+        <div class="f f--oculto" id="grupoRamo">
+          <label class="f__lbl" for="ramo">Ramo de atividade <i class="req">*</i></label>
+          <div class="sel" id="selRamo">
+            <button type="button" class="f__in sel__btn" role="combobox"
+                    aria-expanded="false" aria-haspopup="listbox" aria-controls="lstRamo">
+              <span class="sel__val">Selecione</span>
+            </button>
+            <ul class="sel__list" id="lstRamo" role="listbox" hidden></ul>
+          </div>
+          <input type="hidden" id="ramo">
+        </div>
+
+        <div class="f">
+          <span class="f__lbl">Perfil da sua empresa <i class="req">*</i></span>
+          <div class="chips" id="chips" role="group" aria-label="Perfil da sua empresa">
             <button type="button" class="chip" data-seg="loja-fisica" aria-pressed="false">Loja física</button>
             <button type="button" class="chip" data-seg="loja-online" aria-pressed="false">Loja online</button>
             <button type="button" class="chip" data-seg="marketplace" aria-pressed="false">Marketplace</button>
-            <button type="button" class="chip" data-seg="corporativo" aria-pressed="false">Consumo da empresa</button>
+            <button type="button" class="chip" data-seg="corporativo" aria-pressed="false">Compro para consumo próprio</button>
             <button type="button" class="chip" data-seg="mei" aria-pressed="false">MEI</button>
             <button type="button" class="chip bk" data-seg="drop" aria-pressed="false">Dropshipping</button>
           </div>
@@ -563,9 +632,10 @@ p{margin:0}
             ou estoque próprio, <a href="#" data-pick="loja-fisica">troque a opção acima</a> e siga com o cadastro.
           </div>
         </div>
+
         <button class="sub" id="submit" type="submit">Criar minha conta</button>
         <p class="fine">
-          Conferimos seus dados e liberamos o acesso com os preços de atacado — normalmente em até
+          Conferimos seus dados e liberamos o acesso com os preços de atacado. Normalmente sai em até
           1 dia útil. Seus dados seguem a
           <a href="https://www.oderco.com.br/politica-de-privacidade" target="_blank" rel="noopener">política de privacidade</a>.
         </p>
@@ -581,6 +651,8 @@ p{margin:0}
           <div class="done__ql">Enviado para conferência</div>
           <div class="done__qv" id="doneCnpj"></div>
           <div class="done__qm" id="doneRazao"></div>
+          <div class="done__ql" style="margin-top:12px">Atividade</div>
+          <div class="done__qv" id="doneAtiv"></div>
           <div class="done__ql" style="margin-top:12px">Perfil informado</div>
           <div class="done__qv" id="doneSeg"></div>
         </div>
@@ -730,7 +802,7 @@ p{margin:0}
       <div>
         <div class="ft__h">Oderço Distribuidora</div>
         <p class="ft__l">
-          Av. Paranavaí, 1906 — Parque Industrial Bandeirantes<br>
+          Av. Paranavaí, 1906, Parque Industrial Bandeirantes<br>
           Maringá, Paraná<br>
           <a href="tel:+554421011400">(44) 2101-1400</a><br>
           <a href="mailto:contato@oderco.com.br">contato@oderco.com.br</a>
@@ -752,7 +824,7 @@ p{margin:0}
       </div>
     </div>
     <div class="ft__b">
-      <span>Oderço Distribuidora © 1988–2026</span>
+      <span>Oderço Distribuidora © 1988-2026</span>
       <span>Protótipo · não publicado</span>
     </div>
   </div>
@@ -836,12 +908,12 @@ var PRINTS = [
 ];
 
 var APP = [
+  {f:"inicio",        r:"Início"},
   {f:"catalogo",      r:"Catálogo"},
   {f:"busca",         r:"Busca"},
   {f:"produto",       r:"Produto"},
   {f:"carrinho",      r:"Carrinho"},
-  {f:"departamentos", r:"Departamentos"},
-  {f:"ofertas",       r:"Ofertas"}
+  {f:"departamentos", r:"Departamentos"}
 ];
 function pad(n){ return String(n).padStart(2,"0"); }
 
@@ -1034,17 +1106,33 @@ function cfLegenda(imediato){
 
 /* ==================== 05 · APP · telas do celular ====================
    Prints reais do site da Oderço em viewport de iPhone.             */
-var phI = 0, phTimer = null, phRodando = true;
+var phI = 0, phTimer = null, phRodando = false, phPausadoPeloUsuario = false;
 (function(){
   var host = $("#phScrn"); if(!host) return;
   host.innerHTML = APP.map(function(a,i){
     return '<div class="scr'+(i?"":" on")+'"><img src="'+A+'app/'+a.f+'.jpg" alt="Tela de '+esc(a.r)+' no aplicativo" loading="lazy"></div>';
   }).join("");
   phMostrar(0);
-  phPlay();
+  // segura o carrossel até a seção aparecer, e dá um tempo para a pessoa
+  // olhar a primeira tela antes de começar a girar
+  if("IntersectionObserver" in window){
+    var espera = null;
+    new IntersectionObserver(function(en){
+      if(en[0].isIntersecting){
+        if(!phRodando && !phPausadoPeloUsuario && !espera){
+          espera = setTimeout(function(){ espera = null; phPlay(); }, 2200);
+        }
+      } else {
+        clearTimeout(espera); espera = null;
+        if(!phPausadoPeloUsuario) phParar();
+      }
+    },{ threshold:.45 }).observe($(".ph"));
+  } else { phPlay(); }
   $("#phPrev").addEventListener("click", function(){ phPausar(); phMostrar(phI-1); });
   $("#phNext").addEventListener("click", function(){ phPausar(); phMostrar(phI+1); });
-  $("#phPause").addEventListener("click", function(){ phRodando ? phPausar() : phPlay(); });
+  $("#phPause").addEventListener("click", function(){
+    if(phRodando){ phPausar(); } else { phPausadoPeloUsuario = false; phPlay(); }
+  });
 })();
 
 function phMostrar(i){
@@ -1062,6 +1150,10 @@ function phPlay(){
   if(!LESS) phTimer = setInterval(function(){ phMostrar(phI+1); }, 3400);
 }
 function phPausar(){
+  phPausadoPeloUsuario = true;
+  phParar();
+}
+function phParar(){
   phRodando = false;
   clearInterval(phTimer);
   $("#phIcon").innerHTML = '<path d="M8 5l11 7-11 7z"/>';
@@ -1165,6 +1257,113 @@ function mostrarReveal(k,v,err,meta){
   reveal.classList.add("on");
 }
 
+/* Ramo de atividade: a lista real do cadastro do site, filtrada pela
+   atividade principal. Some da primeira olhada até a atividade ser escolhida. */
+var RAMOS_GERAIS = ["Informática","Musical","Automotivo","Segurança","Antenas","Telecom",
+  "Utilidades domésticas","Materiais elétricos","Ferramentas","Móveis e eletro","Papelaria",
+  "Eletrônica","Assistência técnica","Livraria","Brinquedos","Games","Home center (som e imagem)",
+  "Supermercado","Mercearia","Provedor","Material para construção","Armarinhos","Lan house",
+  "Farmácia","Conveniência de posto","Alimentos","Concessionária automotiva","Auto peças",
+  "E-commerce","Revenda corporativa (servidores)","Automação","Som profissional (iluminação e sonorização)",
+  "Cine e foto","Cabos (especializado)","Licitação"];
+var RAMOS_SOLAR = ["Integrador solar","Revendedor solar"];
+
+/* ---- combobox próprio: teclado, clique fora, busca por letra ---- */
+function criarSelect(raizId, campoId, aoMudar){
+  var raiz = $("#"+raizId), campo = $("#"+campoId);
+  var btn = $(".sel__btn", raiz), rotulo = $(".sel__val", raiz), lista = $(".sel__list", raiz);
+  var itens = [], foco = -1, digitado = "", tDigito;
+
+  function preencher(opcoes){
+    itens = opcoes;
+    lista.innerHTML = opcoes.map(function(o,i){
+      return '<li role="option" data-i="'+i+'" aria-selected="false">'+o+'</li>';
+    }).join("");
+    definir("", true);
+  }
+  function definir(valor, silencioso){
+    campo.value = valor;
+    rotulo.textContent = valor || "Selecione";
+    rotulo.classList.toggle("vazio", !valor);
+    $$("li", lista).forEach(function(li){
+      li.setAttribute("aria-selected", String(li.textContent === valor));
+    });
+    btn.style.borderColor = "";
+    if(!silencioso && aoMudar) aoMudar(valor);
+  }
+  function abrir(){
+    raiz.classList.add("on"); lista.hidden = false;
+    btn.setAttribute("aria-expanded","true");
+    foco = itens.indexOf(campo.value);
+    marcar();
+    var sel = $("li.foco", lista);
+    if(sel) sel.scrollIntoView({block:"nearest"});
+  }
+  function fechar(){
+    raiz.classList.remove("on"); lista.hidden = true;
+    btn.setAttribute("aria-expanded","false");
+    foco = -1; marcar();
+  }
+  function alternar(){ lista.hidden ? abrir() : fechar(); }
+  function marcar(){
+    $$("li", lista).forEach(function(li,i){ li.classList.toggle("foco", i === foco); });
+  }
+  function mover(passo){
+    if(lista.hidden) return abrir();
+    foco = Math.max(0, Math.min(itens.length-1, foco + passo));
+    marcar();
+    var li = $("li.foco", lista);
+    if(li) li.scrollIntoView({block:"nearest"});
+  }
+
+  btn.addEventListener("click", function(e){ e.stopPropagation(); alternar(); });
+  lista.addEventListener("click", function(e){
+    var li = e.target.closest("li"); if(!li) return;
+    definir(li.textContent); fechar(); btn.focus();
+  });
+  btn.addEventListener("keydown", function(e){
+    if(e.key === "ArrowDown"){ e.preventDefault(); mover(1); }
+    else if(e.key === "ArrowUp"){ e.preventDefault(); mover(-1); }
+    else if(e.key === "Enter" || e.key === " "){
+      e.preventDefault();
+      if(lista.hidden) abrir();
+      else if(foco >= 0){ definir(itens[foco]); fechar(); }
+    }
+    else if(e.key === "Escape"){ fechar(); }
+    else if(e.key === "Tab"){ fechar(); }
+    else if(e.key.length === 1){
+      // busca por letra, como no select nativo
+      clearTimeout(tDigito); digitado += e.key.toLowerCase();
+      tDigito = setTimeout(function(){ digitado = ""; }, 700);
+      var i = itens.findIndex(function(o){ return o.toLowerCase().startsWith(digitado); });
+      if(i >= 0){ if(lista.hidden) abrir(); foco = i; marcar();
+        var li = $("li.foco", lista); if(li) li.scrollIntoView({block:"nearest"}); }
+    }
+  });
+  document.addEventListener("click", function(e){ if(!raiz.contains(e.target)) fechar(); });
+
+  return { preencher:preencher, definir:definir, botao:btn, valor:function(){ return campo.value; } };
+}
+
+/* Ramo de atividade: a lista real do cadastro do site, filtrada pela atividade. */
+var RAMOS_GERAIS = ["Informática","Musical","Automotivo","Segurança","Antenas","Telecom",
+  "Utilidades domésticas","Materiais elétricos","Ferramentas","Móveis e eletro","Papelaria",
+  "Eletrônica","Assistência técnica","Livraria","Brinquedos","Games","Home center (som e imagem)",
+  "Supermercado","Mercearia","Provedor","Material para construção","Armarinhos","Lan house",
+  "Farmácia","Conveniência de posto","Alimentos","Concessionária automotiva","Auto peças",
+  "E-commerce","Revenda corporativa (servidores)","Automação","Som profissional (iluminação e sonorização)",
+  "Cine e foto","Cabos (especializado)","Licitação"];
+var RAMOS_SOLAR = ["Integrador solar","Revendedor solar"];
+
+var campoAtividade = $("#atividade"), campoRamo = $("#ramo"), grupoRamo = $("#grupoRamo");
+var comboRamo = criarSelect("selRamo", "ramo");
+var comboAtividade = criarSelect("selAtividade", "atividade", function(v){
+  comboRamo.preencher(v === "Solar" ? RAMOS_SOLAR : RAMOS_GERAIS);
+  grupoRamo.classList.toggle("on", !!v);
+});
+comboAtividade.preencher(["Atacado","Varejo","Indústria","Solar"]);
+comboRamo.preencher(RAMOS_GERAIS);
+
 // Só dropshipping é barrado. Para barrar outro perfil, some a classe "bk" ao chip.
 chips.addEventListener("click", function(e){
   var b = e.target.closest(".chip"); if(!b) return;
@@ -1191,6 +1390,8 @@ form.addEventListener("submit", function(e){
   if(!$("#nome").value.trim()) miss.push($("#nome"));
   if(!/^\S+@\S+\.\S+$/.test($("#email").value)) miss.push($("#email"));
   if(fone.value.replace(/\D/g,"").length < 10) miss.push(fone);
+  if(!campoAtividade.value) miss.push(comboAtividade.botao);
+  if(campoAtividade.value && !campoRamo.value) miss.push(comboRamo.botao);
   if(miss.length){
     miss[0].focus();
     miss.forEach(function(el){
@@ -1203,6 +1404,7 @@ form.addEventListener("submit", function(e){
   $("#doneCnpj").textContent  = cnpj.value;
   $("#doneRazao").textContent = (reveal.classList.contains("on") && !reveal.classList.contains("err")) ? $("#revealV").textContent : "";
   $("#doneSeg").textContent   = seg.textContent.trim();
+  $("#doneAtiv").textContent  = campoAtividade.value + (campoRamo.value ? " · " + campoRamo.value : "");
   form.style.display = "none";
   done.classList.add("on");
   card.classList.remove("blocked");
@@ -1221,6 +1423,5 @@ if("IntersectionObserver" in window && bar){
 }
 })();
 </script>
-<script src="../versions.js"></script>
 </body>
 </html>
