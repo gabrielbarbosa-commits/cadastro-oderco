@@ -79,13 +79,6 @@ p{margin:0}
 .hdr__log:first-of-type{margin-left:auto}
 .hdr__nav a{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.62;text-decoration:none;transition:opacity .2s}
 .hdr__nav a:hover{opacity:1}
-.versions{display:flex;align-items:center;gap:5px;margin-left:2px}
-.versions__label{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.42;margin-right:3px}
-.version{display:grid;place-items:center;min-width:30px;height:26px;padding:0 8px;border:1px solid rgba(255,255,255,.28);border-radius:99px;color:inherit;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-decoration:none;opacity:.72;transition:background .2s,border-color .2s,color .2s,opacity .2s}
-.version:hover{opacity:1;border-color:currentColor}
-.version.is-on{background:var(--blue);border-color:var(--blue);color:#fff;opacity:1}
-.hdr.solid .version{border-color:var(--line)}
-.hdr.solid .version.is-on{border-color:var(--blue)}
 .hdr__log{
   font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
   text-decoration:none;opacity:.72;transition:opacity .2s;flex:none;
@@ -457,9 +450,6 @@ p{margin:0}
 @media (max-width:680px){
   .hdr__cta{display:none}
   .hdr__log{margin-left:auto;padding:14px 4px}          /* alvo de toque de 44px */
-  .versions__label{display:none}
-  .versions{margin-left:auto}
-  .hdr__log{margin-left:4px}
   .brand{padding:8px 0}
   .cl__f a{display:inline-block;padding:8px 0}
   .hero__bg::before{background-image:url(../assets/bg/galpao-sm.jpg);background-position:center 38%}
@@ -594,11 +584,6 @@ p{margin:0}
       <a href="#catalogo">Catálogo</a>
       <a href="#marcas">Marcas próprias</a>
       <a href="#app">Aplicativo</a>
-    </nav>
-    <nav class="versions" aria-label="Versões da landing page">
-      <span class="versions__label">Versões</span>
-      <a class="version is-on" href="../v1/" aria-current="page">V1</a>
-      <a class="version" href="../v2/">V2</a>
     </nav>
     <a class="hdr__log" href="https://www.oderco.com.br/customer/account/login/">Entrar</a>
     <button class="hdr__cta" data-goto>Cadastre-se</button>
