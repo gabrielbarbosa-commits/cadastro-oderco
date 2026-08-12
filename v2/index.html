@@ -482,6 +482,7 @@ p{margin:0}
   .brand{padding:8px 0}
   .cl__f a{display:inline-block;padding:8px 0}
   .hero__bg::before{background-image:url(../assets/bg/galpao-sm.jpg);background-position:center 38%}
+  .hero--video .hero__video{width:100%;min-width:100%;height:100%;min-height:100%;transform:translate(-50%,-50%) scale(1.03)}
 
   /* ---- hero: a manchete manda, o card só espia no fim da dobra ---- */
   .so-lg{display:none}                       /* corta o meio da frase no celular */
@@ -632,9 +633,7 @@ p{margin:0}
 <!-- ══════════ 01 · HERO ══════════ -->
 <section class="hero hero--video">
   <div class="hero__bg" aria-hidden="true">
-    <video class="hero__video" id="heroVideo" autoplay muted playsinline preload="auto" aria-hidden="true">
-      <source src="../assets/video/Comercial%20resumo.mp4#t=11" type="video/mp4">
-    </video>
+    <video class="hero__video" id="heroVideo" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
   </div>
   <div class="hero__grain" aria-hidden="true"></div>
   <div class="hero__veil" aria-hidden="true"></div>
@@ -1808,16 +1807,14 @@ if("IntersectionObserver" in window && bar){
   new IntersectionObserver(function(en){ bar.classList.toggle("on", !en[0].isIntersecting); },{threshold:.12}).observe(card);
 }
 
-/* O comercial começa no trecho mais forte e, ao terminar, volta para ele. */
+/* Cada tela carrega seu corte próprio, já iniciado no segundo 11 do original. */
 (function(){
-  var video = $("#heroVideo"), inicio = 11;
-  if(!video || LESS) return;
-  function tocarDoInicio(){
-    video.currentTime = inicio;
-    video.play().catch(function(){});
-  }
-  video.addEventListener("loadedmetadata", tocarDoInicio, {once:true});
-  video.addEventListener("ended", tocarDoInicio);
+  var video = $("#heroVideo");
+  if(!video) return;
+  var pequeno = window.matchMedia("(max-width:680px)").matches;
+  video.src = pequeno ? "../assets/video/hero-mobile.mp4" : "../assets/video/hero-desktop.mp4";
+  video.load();
+  if(!LESS) video.play().catch(function(){});
 })();
 })();
 </script>

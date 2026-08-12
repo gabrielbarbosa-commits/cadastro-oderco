@@ -1,11 +1,10 @@
-# Vídeo da hero
+# Vídeos da hero
 
-Coloque aqui o vídeo de fundo da V2 com este nome:
+Arquivos publicados na V2:
 
-`hero-oderco.mp4`
+- `hero-desktop.mp4` — corte horizontal, usado a partir de 681px.
+- `hero-mobile.mp4` — corte vertical, usado até 680px.
 
-Opcionalmente, adicione uma imagem de fallback:
+Ambos são H.264, sem áudio, têm 12 segundos e já começam no segundo 11 dos originais.
 
-`hero-oderco-poster.jpg`
-
-Formato recomendado: MP4 H.264, sem áudio, 6 a 12 segundos em loop e até 3 MB.
+Os arquivos-fonte ficam neste diretório, porém estão ignorados pelo Git e não são enviados à Vercel.
