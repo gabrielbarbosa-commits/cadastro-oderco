@@ -14,14 +14,15 @@ module.exports = function connect(req, res) {
   }
 
   const state = crypto.randomBytes(32).toString("hex");
+  const action = req.query.action === "create_fields" ? "create_fields" : "audit";
   const authorizationUrl = new URL(RD_AUTHORIZATION_URL);
   authorizationUrl.searchParams.set("client_id", process.env.RD_CLIENT_ID);
   authorizationUrl.searchParams.set("redirect_uri", REDIRECT_URI);
   authorizationUrl.searchParams.set("state", state);
 
-  res.setHeader(
-    "Set-Cookie",
-    `rd_oauth_state=${state}; Path=/api/rd/callback; HttpOnly; Secure; SameSite=Lax; Max-Age=600`
-  );
+  res.setHeader("Set-Cookie", [
+    `rd_oauth_state=${state}; Path=/api/rd/callback; HttpOnly; Secure; SameSite=Lax; Max-Age=600`,
+    `rd_oauth_action=${action}; Path=/api/rd/callback; HttpOnly; Secure; SameSite=Lax; Max-Age=600`,
+  ]);
   return res.redirect(302, authorizationUrl.toString());
 };

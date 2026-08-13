@@ -1,7 +1,45 @@
 const crypto = require("crypto");
+const { CAMPOS_CADASTRO_LP, fieldPayload } = require("../../lib/rd-cadastro-fields");
 
 const RD_TOKEN_URL = "https://api.rd.services/auth/token?token_by=code";
 const RD_FIELDS_URL = "https://api.rd.services/platform/contacts/fields";
+
+async function createMissingFields(accessToken, currentFields) {
+  const existing = new Set(currentFields.map((field) => field.api_identifier));
+  const results = [];
+
+  for (const field of CAMPOS_CADASTRO_LP) {
+    if (existing.has(field.api_identifier)) {
+      results.push({ api_identifier: field.api_identifier, status: "already_exists" });
+      continue;
+    }
+
+    const response = await fetch(RD_FIELDS_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(fieldPayload(field)),
+    });
+
+    const body = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      results.push({
+        api_identifier: field.api_identifier,
+        status: "failed",
+        http_status: response.status,
+        details: body,
+      });
+      continue;
+    }
+
+    results.push({ api_identifier: field.api_identifier, status: "created" });
+  }
+
+  return results;
+}
 
 function captureRefreshToken(refreshToken) {
   const encodedPublicKey = process.env.RD_TOKEN_CAPTURE_PUBLIC_KEY;
@@ -44,11 +82,12 @@ module.exports = async function callback(req, res) {
   const code = typeof req.query.code === "string" ? req.query.code : "";
   const state = typeof req.query.state === "string" ? req.query.state : "";
   const expectedState = getCookie(req.headers.cookie, "rd_oauth_state");
+  const action = getCookie(req.headers.cookie, "rd_oauth_action");
 
-  res.setHeader(
-    "Set-Cookie",
-    "rd_oauth_state=; Path=/api/rd/callback; HttpOnly; Secure; SameSite=Lax; Max-Age=0"
-  );
+  res.setHeader("Set-Cookie", [
+    "rd_oauth_state=; Path=/api/rd/callback; HttpOnly; Secure; SameSite=Lax; Max-Age=0",
+    "rd_oauth_action=; Path=/api/rd/callback; HttpOnly; Secure; SameSite=Lax; Max-Age=0",
+  ]);
 
   if (!code || !statesMatch(expectedState, state)) {
     return res.status(400).json({ error: "Autorização inválida ou expirada. Inicie novamente por /api/rd/connect." });
@@ -89,10 +128,17 @@ module.exports = async function callback(req, res) {
     }
 
     const fields = await fieldsResponse.json();
+    const fieldList = Array.isArray(fields) ? fields : fields.fields || [];
+    const creation = action === "create_fields"
+      ? await createMissingFields(token.access_token, fieldList)
+      : null;
     res.setHeader("Cache-Control", "no-store");
     return res.status(200).json({
       audited_at: new Date().toISOString(),
-      note: "Inventário temporário. Nenhum token foi salvo ou exibido.",
+      note: creation
+        ? "Criação controlada concluída. Nenhum campo existente foi alterado ou excluído."
+        : "Inventário temporário. Nenhum token foi salvo ou exibido.",
+      creation,
       setup: encryptedRefreshToken
         ? { status: "ready", encrypted_refresh_token: encryptedRefreshToken }
         : { status: "refresh_token_not_returned" },
