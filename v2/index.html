@@ -274,6 +274,9 @@ p{margin:0}
 .sub:hover:not(:disabled){background:var(--blue-dk)}
 .sub:disabled{background:var(--line);color:var(--grey);cursor:not-allowed}
 .sub:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.form-erro{display:none;margin:10px 0 0;color:#B42318;font-size:12px;line-height:1.45;text-align:center}
+.form-erro.on{display:block}
+.hp{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
 .fine{margin-top:11px;font-size:12px;line-height:1.5;color:var(--slate)}
 .fine a{color:var(--blue)}
 .done{display:none;text-align:center;padding:4px 0 6px}
@@ -649,6 +652,10 @@ p{margin:0}
 
     <div class="card rv rv-d2" id="card">
       <form id="form" novalidate>
+        <div class="hp" aria-hidden="true">
+          <label for="website">Não preencha este campo</label>
+          <input id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <div class="card__hd">
           <div>
             <div class="card__t">Abra sua conta de revenda</div>
@@ -737,6 +744,7 @@ p{margin:0}
         </div>
 
         <button class="sub" id="submit" type="submit">Continuar</button>
+        <p class="form-erro" id="formErro" role="alert" aria-live="polite"></p>
         <button class="voltar" id="voltar" type="button" hidden>Voltar</button>
         <p class="fine">
           Conferimos seus dados e liberamos o acesso com os preços de atacado. Normalmente sai em até
@@ -1353,7 +1361,7 @@ quadro();
 /* ==================== FORMULÁRIO ==================== */
 var cnpj = $("#cnpj"), fone = $("#fone"), chips = $("#chips"), form = $("#form"),
     card = $("#card"), submit = $("#submit"), done = $("#done"), reveal = $("#reveal"),
-    seg = null;
+    seg = null, empresaConsultada = null;
 
 function maskCnpj(v){
   v = v.replace(/\D/g,"").slice(0,14);
@@ -1379,6 +1387,7 @@ cnpj.addEventListener("input", function(){
   var d = cnpj.value.replace(/\D/g,"");
   if(d.length < 14){
     reveal.classList.remove("on","err","carregando"); last = "";
+    empresaConsultada = null;
     limparSugestaoCnpj();
     return;
   }
@@ -1415,6 +1424,9 @@ function daCnpjWs(j, d){
     cnpj: cnpj.value,
     nome: titulo(j.razao_social || ""),
     endereco: endereco([e.tipo_logradouro, e.logradouro].filter(Boolean).join(" "), e.numero, e.complemento),
+    bairroNome: titulo(e.bairro || ""),
+    cidade: titulo((e.cidade || {}).nome || ""),
+    estado: uf,
     bairro: [titulo(e.bairro || ""), cep(e.cep), [titulo((e.cidade||{}).nome || ""), uf].filter(Boolean).join(" - ")].filter(Boolean).join(" · "),
     ie: ie ? ie.inscricao_estadual + (ies.filter(function(i){return i.ativo;}).length > 1 ? " · " + uf : "") : "",
     cnae: [at.subclasse, at.descricao].filter(Boolean).join(" · "),
@@ -1428,6 +1440,9 @@ function daBrasilApi(j, d){
     cnpj: cnpj.value,
     nome: titulo(j.razao_social || j.nome_fantasia || ""),
     endereco: endereco(j.logradouro, j.numero, j.complemento),
+    bairroNome: titulo(j.bairro || ""),
+    cidade: titulo(j.municipio || ""),
+    estado: String(j.uf || "").toUpperCase(),
     bairro: [titulo(j.bairro || ""), cep(j.cep), [titulo(j.municipio || ""), j.uf].filter(Boolean).join(" - ")].filter(Boolean).join(" · "),
     ie: "",
     cnae: [subclasse(j.cnae_fiscal), j.cnae_fiscal_descricao].filter(Boolean).join(" · "),
@@ -1467,6 +1482,7 @@ function titulo(t){
 }
 
 function buscando(){
+  empresaConsultada = null;
   reveal.className = "reveal on carregando";
   $("#revealV").textContent = "Consultando a Receita…";
   $("#revealM").innerHTML = "";
@@ -1474,6 +1490,7 @@ function buscando(){
   limparSugestaoCnpj();
 }
 function achou(d){
+  empresaConsultada = d;
   reveal.className = "reveal on";
   $("#revealV").innerHTML = esc(d.nome) + '<span class="reveal__cnpj">' + esc(d.cnpj) + '</span>';
   var linhas = "";
@@ -1492,6 +1509,7 @@ function achou(d){
   preencherAtividade(d.cnaeDesc, d.cnaeCode);
 }
 function falhou(){
+  empresaConsultada = null;
   reveal.className = "reveal on err";
   $("#revealV").textContent = "Não localizamos esse CNPJ";
   $("#revealM").innerHTML = '<dt>Tudo bem</dt><dd>Seguimos com a conferência manual no cadastro.</dd>';
@@ -1743,6 +1761,58 @@ function marcarFalta(lista){
   });
 }
 
+function concluirCadastro(){
+  $("#doneCnpj").textContent = cnpj.value;
+  $("#doneRazao").textContent = empresaConsultada ? empresaConsultada.nome : "";
+  $("#doneAtiv").textContent = campoAtividade.value + (campoRamo.value ? " · " + campoRamo.value : "");
+  $("#doneSeg").textContent = seg.textContent.trim();
+  $("#doneVia").textContent = via.textContent.trim();
+  form.dataset.segmento = seg.getAttribute("data-seg");
+  form.dataset.contato = via.getAttribute("data-via");
+  form.style.display = "none";
+  btVoltar.hidden = true;
+  done.classList.add("on");
+}
+
+function enviarCadastro(){
+  var erro = $("#formErro"), empresa = empresaConsultada || {};
+  erro.classList.remove("on");
+  erro.textContent = "";
+  submit.disabled = true;
+  submit.textContent = "Enviando…";
+
+  return fetch("/api/rd/conversion", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      website: $("#website").value,
+      cnpj: cnpj.value,
+      name: $("#nome").value.trim(),
+      email: $("#email").value.trim(),
+      mobile_phone: fone.value,
+      company_name: empresa.nome || "",
+      company_address: empresa.endereco || "",
+      city: empresa.cidade || "",
+      state: empresa.estado || "",
+      district: empresa.bairroNome || "",
+      cnae: empresa.cnae || "",
+      principal_activity: campoAtividade.value,
+      business_line: campoRamo.value,
+      interest_area: seg.textContent.trim(),
+      service_preference: via.textContent.trim()
+    })
+  }).then(function(resposta){
+    if(!resposta.ok) throw new Error();
+    concluirCadastro();
+  }).catch(function(){
+    submit.disabled = false;
+    submit.textContent = "Criar minha conta";
+    erro.textContent = "Não conseguimos enviar agora. Confira sua conexão e tente novamente.";
+    erro.classList.add("on");
+    erro.scrollIntoView({block:"nearest", behavior:LESS ? "auto" : "smooth"});
+  });
+}
+
 form.addEventListener("submit", function(e){
   e.preventDefault();
 
@@ -1763,22 +1833,7 @@ form.addEventListener("submit", function(e){
   if(!seg) return apontarGrupo(chips);
   if(!via) return apontarGrupo(contato);
 
-  $("#doneCnpj").textContent  = cnpj.value;
-  // só o nome: o CNPJ virou um filho do mesmo elemento e já aparece acima
-  var noNome = $("#revealV").firstChild;
-  $("#doneRazao").textContent = (reveal.classList.contains("on") && !reveal.classList.contains("err") && noNome)
-                              ? noNome.textContent.trim() : "";
-  $("#doneAtiv").textContent  = campoAtividade.value + (campoRamo.value ? " · " + campoRamo.value : "");
-  $("#doneSeg").textContent   = seg.textContent.trim();
-  // segmento cru para o RD: é por aqui que o time separa cada perfil
-  $("#doneVia").textContent = via.textContent.trim();
-  // o que segue para o RD junto do lead
-  form.dataset.segmento = seg.getAttribute("data-seg");
-  form.dataset.contato  = via.getAttribute("data-via");
-
-  form.style.display = "none";
-  btVoltar.hidden = true;
-  done.classList.add("on");
+  return enviarCadastro();
 });
 
 $$("[data-goto]").forEach(function(b){
