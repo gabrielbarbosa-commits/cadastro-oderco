@@ -1024,12 +1024,12 @@ var PRINTS = [
 ];
 
 var APP = [
-  {f:"inicio",        r:"Início"},
-  {f:"catalogo",      r:"Catálogo"},
-  {f:"busca",         r:"Busca"},
-  {f:"produto",       r:"Produto"},
-  {f:"carrinho",      r:"Carrinho"},
-  {f:"departamentos", r:"Departamentos"}
+  {f:"inicio.jpg",              r:"Início"},
+  {f:"catalogo-blurred.webp",   r:"Catálogo"},
+  {f:"busca-blurred.webp",      r:"Busca"},
+  {f:"produto-blurred.webp",    r:"Produto"},
+  {f:"carrinho-blurred.webp",   r:"Carrinho"},
+  {f:"departamentos.jpg",       r:"Departamentos"}
 ];
 function pad(n){ return String(n).padStart(2,"0"); }
 
@@ -1266,7 +1266,7 @@ var phI = 0, phTimer = null, phRodando = false, phPausadoPeloUsuario = false;
 (function(){
   var host = $("#phScrn"); if(!host) return;
   host.innerHTML = APP.map(function(a,i){
-    return '<div class="scr'+(i?"":" on")+'"><img src="'+A+'app/'+a.f+'.jpg" alt="Tela de '+esc(a.r)+' no aplicativo" loading="lazy"></div>';
+    return '<div class="scr'+(i?"":" on")+'"><img src="'+A+'app/'+a.f+'" alt="Tela de '+esc(a.r)+' no aplicativo" loading="lazy"></div>';
   }).join("");
   phMostrar(0);
   // segura o carrossel até a seção aparecer, e dá um tempo para a pessoa
