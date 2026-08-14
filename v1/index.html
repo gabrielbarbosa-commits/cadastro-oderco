@@ -7,7 +7,7 @@
 <meta name="description" content="Distribuidora com marcas próprias, dois centros de distribuição e pronta entrega para todo o Brasil. Cadastre seu CNPJ e compre no preço de atacado.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800;900&family=Red+Hat+Mono:wght@400;500;700&family=Red+Hat+Text:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700;800;900&family=Red+Hat+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ==========================================================
    ODERÇO · LP de captação · V3
@@ -31,7 +31,8 @@
 
   --display:"Red Hat Display",system-ui,sans-serif;
   --text:"Red Hat Text",system-ui,sans-serif;
-  --mono:"Red Hat Mono",ui-monospace,monospace;
+  /* Mantém os utilitários na mesma família visual do site institucional. */
+  --mono:"Red Hat Display",system-ui,sans-serif;
 
   --gut:clamp(20px,4.4vw,72px);
   --maxw:1400px;
@@ -52,7 +53,7 @@ h1,h2,h3{font-family:var(--display);font-weight:900;letter-spacing:-.04em;line-h
 p{margin:0}
 
 .lbl{
-  font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.18em;
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.11em;
   text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;color:var(--blue);
 }
 .lbl::before{content:"";width:6px;height:6px;background:currentColor;transform:rotate(45deg);flex:none}
@@ -77,15 +78,15 @@ p{margin:0}
 .hdr__nav{display:flex;gap:24px;margin-left:auto}
 .hdr__nav+.hdr__log{margin-left:0}
 .hdr__log:first-of-type{margin-left:auto}
-.hdr__nav a{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.62;text-decoration:none;transition:opacity .2s}
+.hdr__nav a{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.62;text-decoration:none;transition:opacity .2s}
 .hdr__nav a:hover{opacity:1}
 .hdr__log{
-  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   text-decoration:none;opacity:.72;transition:opacity .2s;flex:none;
 }
 .hdr__log:hover{opacity:1}
 .hdr__cta{
-  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   background:var(--blue);color:#fff;border:0;border-radius:99px;padding:11px 20px;cursor:pointer;
   transition:background .2s;flex:none;
 }
@@ -94,7 +95,7 @@ p{margin:0}
 /* ============ 01 · HERO (escuro) ============ */
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;background:var(--deep);color:#fff}
 /* foto do CD tratada no tom da marca, com zoom lento — o fundo é o negócio */
-.hero__bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.hero__bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .hero__bg::before{
   content:"";position:absolute;inset:-6%;
   background:url(../assets/bg/galpao.jpg) center 42%/cover no-repeat;
@@ -107,16 +108,16 @@ p{margin:0}
 }
 /* granulado discreto: tira o aspecto de banco de imagem */
 .hero__grain{
-  position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+  position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E");
 }
 .hero__veil{
-  pointer-events:none;position:absolute;inset:0;
+  pointer-events:none;position:absolute;inset:0;z-index:1;
   background:
     linear-gradient(96deg,var(--deep) 12%,rgba(7,14,39,.9) 27%,rgba(7,14,39,.5) 44%,rgba(7,14,39,.34) 62%,rgba(7,14,39,.6) 100%),
     linear-gradient(180deg,rgba(7,14,39,.82) 0%,rgba(7,14,39,.1) 26%,rgba(7,14,39,.16) 66%,var(--deep) 100%);
 }
-.hero__in{position:relative;width:100%;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(400px,.9fr);gap:clamp(30px,4vw,68px);align-items:center;padding-top:104px;padding-bottom:60px}
+.hero__in{position:relative;z-index:2;width:100%;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(400px,.9fr);gap:clamp(30px,4vw,68px);align-items:center;padding-top:104px;padding-bottom:60px}
 .hero h1{font-size:clamp(44px,6.6vw,100px)}
 .hero h1 .b{color:var(--blue);display:block}
 .hero__sub{margin-top:24px;max-width:42ch;font-size:clamp(15px,1.3vw,18px);line-height:1.6;color:rgba(255,255,255,.78)}
@@ -139,10 +140,10 @@ p{margin:0}
 .card.blocked{border-top-color:var(--red)}
 .card__hd{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
 .card__t{font-family:var(--display);font-weight:900;font-size:23px;letter-spacing:-.035em;line-height:1.05}
-.card__n{font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:var(--grey);flex:none;padding-top:4px}
+.card__n{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--grey);flex:none;padding-top:4px}
 .card__d{margin-top:8px;font-size:13.5px;color:var(--slate);line-height:1.5}
 .f{margin-top:16px}
-.f__lbl{display:block;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.f__lbl{display:block;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
 .f__in{width:100%;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 13px;font-size:15px;font-family:var(--text);transition:border-color .16s,box-shadow .16s,background .16s}
 .f__in::placeholder{color:#AFB4C0}
 .f__in:focus{outline:none;background:#fff;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,90,255,.16)}
@@ -255,6 +256,9 @@ p{margin:0}
 .sub:hover:not(:disabled){background:var(--blue-dk)}
 .sub:disabled{background:var(--line);color:var(--grey);cursor:not-allowed}
 .sub:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.form-erro{display:none;margin:10px 0 0;color:#B42318;font-size:12px;line-height:1.45;text-align:center}
+.form-erro.on{display:block}
+.hp{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
 .fine{margin-top:11px;font-size:12px;line-height:1.5;color:var(--slate)}
 .fine a{color:var(--blue)}
 .done{display:none;text-align:center;padding:4px 0 6px}
@@ -266,7 +270,7 @@ p{margin:0}
 .done__hora{
   margin-top:12px;display:inline-flex;align-items:center;gap:8px;
   background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:8px 14px;
-  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);
+  font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);
 }
 .done__hora::before{
   content:"";width:13px;height:13px;flex:none;border-radius:50%;
@@ -624,6 +628,10 @@ p{margin:0}
 
     <div class="card rv rv-d2" id="card">
       <form id="form" novalidate>
+        <div class="hp" aria-hidden="true">
+          <label for="website">Não preencha este campo</label>
+          <input id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <div class="card__hd">
           <div>
             <div class="card__t">Abra sua conta de revenda</div>
@@ -660,13 +668,6 @@ p{margin:0}
             </div>
           </div>
 
-          <div class="f">
-            <span class="f__lbl">Como prefere ser atendido <i class="req">*</i></span>
-            <div class="chips" id="contato" role="group" aria-label="Como prefere ser atendido">
-              <button type="button" class="chip" data-via="mensagem" aria-pressed="false">Mensagem no WhatsApp</button>
-              <button type="button" class="chip" data-via="ligacao" aria-pressed="false">Ligação</button>
-            </div>
-          </div>
         </div>
 
         <!-- etapa 2: o que a empresa faz -->
@@ -708,9 +709,18 @@ p{margin:0}
               <button type="button" class="chip" data-seg="provedor" aria-pressed="false">Provedor</button>
             </div>
           </div>
+
+          <div class="f">
+            <span class="f__lbl">Como prefere ser atendido <i class="req">*</i></span>
+            <div class="chips" id="contato" role="group" aria-label="Como prefere ser atendido">
+              <button type="button" class="chip" data-via="mensagem" aria-pressed="false">Mensagem no WhatsApp</button>
+              <button type="button" class="chip" data-via="ligacao" aria-pressed="false">Ligação</button>
+            </div>
+          </div>
         </div>
 
         <button class="sub" id="submit" type="submit">Continuar</button>
+        <p class="form-erro" id="formErro" role="alert" aria-live="polite"></p>
         <button class="voltar" id="voltar" type="button" hidden>Voltar</button>
         <p class="fine">
           Conferimos seus dados e liberamos o acesso com os preços de atacado. Normalmente sai em até
@@ -989,12 +999,12 @@ var PRINTS = [
 ];
 
 var APP = [
-  {f:"inicio",        r:"Início"},
-  {f:"catalogo",      r:"Catálogo"},
-  {f:"busca",         r:"Busca"},
-  {f:"produto",       r:"Produto"},
-  {f:"carrinho",      r:"Carrinho"},
-  {f:"departamentos", r:"Departamentos"}
+  {f:"inicio.jpg",              r:"Início"},
+  {f:"catalogo-blurred.webp",   r:"Catálogo"},
+  {f:"busca-blurred.webp",      r:"Busca"},
+  {f:"produto-blurred.webp",    r:"Produto"},
+  {f:"carrinho-blurred.webp",   r:"Carrinho"},
+  {f:"departamentos.jpg",       r:"Departamentos"}
 ];
 function pad(n){ return String(n).padStart(2,"0"); }
 
@@ -1231,7 +1241,7 @@ var phI = 0, phTimer = null, phRodando = false, phPausadoPeloUsuario = false;
 (function(){
   var host = $("#phScrn"); if(!host) return;
   host.innerHTML = APP.map(function(a,i){
-    return '<div class="scr'+(i?"":" on")+'"><img src="'+A+'app/'+a.f+'.jpg" alt="Tela de '+esc(a.r)+' no aplicativo" loading="lazy"></div>';
+    return '<div class="scr'+(i?"":" on")+'"><img src="'+A+'app/'+a.f+'" alt="Tela de '+esc(a.r)+' no aplicativo" loading="lazy"></div>';
   }).join("");
   phMostrar(0);
   // segura o carrossel até a seção aparecer, e dá um tempo para a pessoa
@@ -1327,7 +1337,7 @@ quadro();
 /* ==================== FORMULÁRIO ==================== */
 var cnpj = $("#cnpj"), fone = $("#fone"), chips = $("#chips"), form = $("#form"),
     card = $("#card"), submit = $("#submit"), done = $("#done"), reveal = $("#reveal"),
-    seg = null;
+    seg = null, empresaConsultada = null;
 
 function maskCnpj(v){
   v = v.replace(/\D/g,"").slice(0,14);
@@ -1353,6 +1363,7 @@ cnpj.addEventListener("input", function(){
   var d = cnpj.value.replace(/\D/g,"");
   if(d.length < 14){
     reveal.classList.remove("on","err","carregando"); last = "";
+    empresaConsultada = null;
     limparSugestaoCnpj();
     return;
   }
@@ -1389,6 +1400,9 @@ function daCnpjWs(j, d){
     cnpj: cnpj.value,
     nome: titulo(j.razao_social || ""),
     endereco: endereco([e.tipo_logradouro, e.logradouro].filter(Boolean).join(" "), e.numero, e.complemento),
+    bairroNome: titulo(e.bairro || ""),
+    cidade: titulo((e.cidade || {}).nome || ""),
+    estado: uf,
     bairro: [titulo(e.bairro || ""), cep(e.cep), [titulo((e.cidade||{}).nome || ""), uf].filter(Boolean).join(" - ")].filter(Boolean).join(" · "),
     ie: ie ? ie.inscricao_estadual + (ies.filter(function(i){return i.ativo;}).length > 1 ? " · " + uf : "") : "",
     cnae: [at.subclasse, at.descricao].filter(Boolean).join(" · "),
@@ -1402,6 +1416,9 @@ function daBrasilApi(j, d){
     cnpj: cnpj.value,
     nome: titulo(j.razao_social || j.nome_fantasia || ""),
     endereco: endereco(j.logradouro, j.numero, j.complemento),
+    bairroNome: titulo(j.bairro || ""),
+    cidade: titulo(j.municipio || ""),
+    estado: String(j.uf || "").toUpperCase(),
     bairro: [titulo(j.bairro || ""), cep(j.cep), [titulo(j.municipio || ""), j.uf].filter(Boolean).join(" - ")].filter(Boolean).join(" · "),
     ie: "",
     cnae: [subclasse(j.cnae_fiscal), j.cnae_fiscal_descricao].filter(Boolean).join(" · "),
@@ -1441,6 +1458,7 @@ function titulo(t){
 }
 
 function buscando(){
+  empresaConsultada = null;
   reveal.className = "reveal on carregando";
   $("#revealV").textContent = "Consultando a Receita…";
   $("#revealM").innerHTML = "";
@@ -1448,6 +1466,7 @@ function buscando(){
   limparSugestaoCnpj();
 }
 function achou(d){
+  empresaConsultada = d;
   reveal.className = "reveal on";
   $("#revealV").innerHTML = esc(d.nome) + '<span class="reveal__cnpj">' + esc(d.cnpj) + '</span>';
   var linhas = "";
@@ -1466,6 +1485,7 @@ function achou(d){
   preencherAtividade(d.cnaeDesc, d.cnaeCode);
 }
 function falhou(){
+  empresaConsultada = null;
   reveal.className = "reveal on err";
   $("#revealV").textContent = "Não localizamos esse CNPJ";
   $("#revealM").innerHTML = '<dt>Tudo bem</dt><dd>Seguimos com a conferência manual no cadastro.</dd>';
@@ -1717,6 +1737,58 @@ function marcarFalta(lista){
   });
 }
 
+function concluirCadastro(){
+  $("#doneCnpj").textContent = cnpj.value;
+  $("#doneRazao").textContent = empresaConsultada ? empresaConsultada.nome : "";
+  $("#doneAtiv").textContent = campoAtividade.value + (campoRamo.value ? " · " + campoRamo.value : "");
+  $("#doneSeg").textContent = seg.textContent.trim();
+  $("#doneVia").textContent = via.textContent.trim();
+  form.dataset.segmento = seg.getAttribute("data-seg");
+  form.dataset.contato = via.getAttribute("data-via");
+  form.style.display = "none";
+  btVoltar.hidden = true;
+  done.classList.add("on");
+}
+
+function enviarCadastro(){
+  var erro = $("#formErro"), empresa = empresaConsultada || {};
+  erro.classList.remove("on");
+  erro.textContent = "";
+  submit.disabled = true;
+  submit.textContent = "Enviando…";
+
+  return fetch("/api/rd/conversion", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      website: $("#website").value,
+      cnpj: cnpj.value,
+      name: $("#nome").value.trim(),
+      email: $("#email").value.trim(),
+      mobile_phone: fone.value,
+      company_name: empresa.nome || "",
+      company_address: empresa.endereco || "",
+      city: empresa.cidade || "",
+      state: empresa.estado || "",
+      district: empresa.bairroNome || "",
+      cnae: empresa.cnae || "",
+      principal_activity: campoAtividade.value,
+      business_line: campoRamo.value,
+      interest_area: seg.textContent.trim(),
+      service_preference: via.textContent.trim()
+    })
+  }).then(function(resposta){
+    if(!resposta.ok) throw new Error();
+    concluirCadastro();
+  }).catch(function(){
+    submit.disabled = false;
+    submit.textContent = "Criar minha conta";
+    erro.textContent = "Não conseguimos enviar agora. Confira sua conexão e tente novamente.";
+    erro.classList.add("on");
+    erro.scrollIntoView({block:"nearest", behavior:LESS ? "auto" : "smooth"});
+  });
+}
+
 form.addEventListener("submit", function(e){
   e.preventDefault();
 
@@ -1727,7 +1799,6 @@ form.addEventListener("submit", function(e){
     if(!/^\S+@\S+\.\S+$/.test($("#email").value)) faltam.push($("#email"));
     if(fone.value.replace(/\D/g,"").length < 10) faltam.push(fone);
     if(faltam.length) return marcarFalta(faltam);
-    if(!via) return apontarGrupo(contato);
     return irEtapa(2);
   }
 
@@ -1736,23 +1807,9 @@ form.addEventListener("submit", function(e){
   if(campoAtividade.value && !campoRamo.value) f2.push(comboRamo.botao);
   if(f2.length) return marcarFalta(f2);
   if(!seg) return apontarGrupo(chips);
+  if(!via) return apontarGrupo(contato);
 
-  $("#doneCnpj").textContent  = cnpj.value;
-  // só o nome: o CNPJ virou um filho do mesmo elemento e já aparece acima
-  var noNome = $("#revealV").firstChild;
-  $("#doneRazao").textContent = (reveal.classList.contains("on") && !reveal.classList.contains("err") && noNome)
-                              ? noNome.textContent.trim() : "";
-  $("#doneAtiv").textContent  = campoAtividade.value + (campoRamo.value ? " · " + campoRamo.value : "");
-  $("#doneSeg").textContent   = seg.textContent.trim();
-  // segmento cru para o RD: é por aqui que o time separa cada perfil
-  $("#doneVia").textContent = via.textContent.trim();
-  // o que segue para o RD junto do lead
-  form.dataset.segmento = seg.getAttribute("data-seg");
-  form.dataset.contato  = via.getAttribute("data-via");
-
-  form.style.display = "none";
-  btVoltar.hidden = true;
-  done.classList.add("on");
+  return enviarCadastro();
 });
 
 $$("[data-goto]").forEach(function(b){
