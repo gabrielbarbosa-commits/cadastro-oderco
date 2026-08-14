@@ -7,7 +7,7 @@
 <meta name="description" content="Distribuidora com marcas próprias, dois centros de distribuição e pronta entrega para todo o Brasil. Cadastre seu CNPJ e compre no preço de atacado.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800;900&family=Red+Hat+Mono:wght@400;500;700&family=Red+Hat+Text:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700;800;900&family=Red+Hat+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ==========================================================
    ODERÇO · LP de captação · V3
@@ -31,7 +31,8 @@
 
   --display:"Red Hat Display",system-ui,sans-serif;
   --text:"Red Hat Text",system-ui,sans-serif;
-  --mono:"Red Hat Mono",ui-monospace,monospace;
+  /* Mantém os utilitários na mesma família visual do site institucional. */
+  --mono:"Red Hat Display",system-ui,sans-serif;
 
   --gut:clamp(20px,4.4vw,72px);
   --maxw:1400px;
@@ -52,7 +53,7 @@ h1,h2,h3{font-family:var(--display);font-weight:900;letter-spacing:-.04em;line-h
 p{margin:0}
 
 .lbl{
-  font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.18em;
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.11em;
   text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;color:var(--blue);
 }
 .lbl::before{content:"";width:6px;height:6px;background:currentColor;transform:rotate(45deg);flex:none}
@@ -77,15 +78,15 @@ p{margin:0}
 .hdr__nav{display:flex;gap:24px;margin-left:auto}
 .hdr__nav+.hdr__log{margin-left:0}
 .hdr__log:first-of-type{margin-left:auto}
-.hdr__nav a{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.62;text-decoration:none;transition:opacity .2s}
+.hdr__nav a{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.62;text-decoration:none;transition:opacity .2s}
 .hdr__nav a:hover{opacity:1}
 .hdr__log{
-  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   text-decoration:none;opacity:.72;transition:opacity .2s;flex:none;
 }
 .hdr__log:hover{opacity:1}
 .hdr__cta{
-  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   background:var(--blue);color:#fff;border:0;border-radius:99px;padding:11px 20px;cursor:pointer;
   transition:background .2s;flex:none;
 }
@@ -158,10 +159,10 @@ p{margin:0}
 .card.blocked{border-top-color:var(--red)}
 .card__hd{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
 .card__t{font-family:var(--display);font-weight:900;font-size:23px;letter-spacing:-.035em;line-height:1.05}
-.card__n{font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:var(--grey);flex:none;padding-top:4px}
+.card__n{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--grey);flex:none;padding-top:4px}
 .card__d{margin-top:8px;font-size:13.5px;color:var(--slate);line-height:1.5}
 .f{margin-top:16px}
-.f__lbl{display:block;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.f__lbl{display:block;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
 .f__in{width:100%;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 13px;font-size:15px;font-family:var(--text);transition:border-color .16s,box-shadow .16s,background .16s}
 .f__in::placeholder{color:#AFB4C0}
 .f__in:focus{outline:none;background:#fff;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,90,255,.16)}
@@ -288,7 +289,7 @@ p{margin:0}
 .done__hora{
   margin-top:12px;display:inline-flex;align-items:center;gap:8px;
   background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:8px 14px;
-  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);
+  font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);
 }
 .done__hora::before{
   content:"";width:13px;height:13px;flex:none;border-radius:50%;
