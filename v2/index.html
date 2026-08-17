@@ -253,6 +253,7 @@ p{margin:0}
   color:#7C93BE;white-space:nowrap;
 }
 .reveal__meta dd{margin:0;font-size:12.5px;line-height:1.4;color:var(--slate);min-width:0}
+.reveal__meta:empty{display:none}
 .reveal__aviso{
   margin-top:10px;font-size:12px;line-height:1.4;color:#8A5A00;
   background:#FFF6E5;border-radius:8px;padding:8px 10px;display:none;
@@ -265,6 +266,35 @@ p{margin:0}
 .reveal.err .reveal__ic{background:#B9BDC7 no-repeat center/9px 9px;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 9 9'%3E%3Cpath d='M1 1l7 7M8 1l-7 7' stroke='%23fff' stroke-width='1.9' stroke-linecap='round'/%3E%3C/svg%3E");}
 .reveal.err .reveal__meta{border-top-color:var(--line)}
+/* consulta que respondeu, mas sem tudo que o cadastro precisa */
+.reveal.parcial{background:linear-gradient(180deg,#FFFCF5,#FFF7E8);border-color:#F0DDB4}
+.reveal.parcial .reveal__ic{background:#E0A32E no-repeat center/3px 10px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='3' height='10' viewBox='0 0 3 10'%3E%3Cpath d='M1.5 0v6M1.5 8.5v1' stroke='%23fff' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");}
+.reveal.parcial .reveal__meta{border-top-color:#F0DDB4}
+/* o que a Receita ainda não publicou, a pessoa completa dentro do próprio cartão */
+.manual{margin-top:12px;padding-top:12px;border-top:1px solid #D9E4FA}
+.manual[hidden]{display:none}
+.manual__d{margin:0;font-size:12.5px;line-height:1.45;color:var(--slate)}
+.manual .f{margin-top:11px}
+.manual .f[hidden]{display:none}
+.manual .f__row{grid-template-columns:96px minmax(0,1fr)}
+/* os campos precisam de fundo branco: o do cartão já é claro */
+.manual .f__in{background:#fff}
+.manual .f__in:focus{background:#fff}
+.manual .sel--travado .sel__btn{background:#F1F3F7}
+.reveal.err .manual{border-top-color:var(--line)}
+.reveal.parcial .manual{border-top-color:#F0DDB4}
+/* campo de busca do combobox: listas longas não se resolvem com salto por letra */
+.sel__busca{
+  position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:31;width:100%;
+  background:#fff;border:1px solid var(--blue);border-radius:12px;padding:11px 12px;
+  font-size:14.5px;font-family:var(--text);box-shadow:0 0 0 3px rgba(0,90,255,.16);
+}
+.sel__busca[hidden]{display:none}
+.sel__busca:focus{outline:none}
+.sel--busca.on .sel__list{top:calc(100% + 56px)}
+.sel__list li.sel__vazio{color:var(--grey);cursor:default;font-size:13.5px}
+.sel__list li.sel__vazio:hover{background:none}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 14px;font-size:13.5px;font-family:var(--text);cursor:pointer;transition:all .16s;line-height:1.2}
 .chip:hover{border-color:var(--navy)}
@@ -671,6 +701,7 @@ p{margin:0}
           <div class="f">
             <label class="f__lbl" for="cnpj">CNPJ <i class="req">*</i></label>
             <input class="f__in" id="cnpj" inputmode="numeric" autocomplete="off" placeholder="00.000.000/0000-00" maxlength="18">
+            <!-- um cartão só: o resultado da consulta e, quando falta dado, os campos para completar -->
             <div class="reveal" id="reveal">
               <div class="reveal__top">
                 <span class="reveal__ic" id="revealIc" aria-hidden="true"></span>
@@ -678,6 +709,39 @@ p{margin:0}
               </div>
               <dl class="reveal__meta" id="revealM"></dl>
               <div class="reveal__aviso" id="revealAviso"></div>
+              <div class="manual" id="manual" hidden>
+                <p class="manual__d" id="manualD"></p>
+                <div class="f" id="mfRazao">
+                  <label class="f__lbl" for="mRazao">Razão social <i class="req">*</i></label>
+                  <input class="f__in" id="mRazao" autocomplete="organization" placeholder="Nome no cartão CNPJ">
+                </div>
+                <div class="f f__row" id="mfLocal">
+                  <div>
+                    <label class="f__lbl" for="uf">UF <i class="req">*</i></label>
+                    <div class="sel" id="selUf">
+                      <button type="button" class="f__in sel__btn" role="combobox"
+                              aria-expanded="false" aria-haspopup="listbox" aria-controls="lstUf">
+                        <span class="sel__val">Selecione</span>
+                      </button>
+                      <ul class="sel__list" id="lstUf" role="listbox" hidden></ul>
+                    </div>
+                    <input type="hidden" id="uf">
+                  </div>
+                  <div>
+                    <label class="f__lbl" for="cidade">Cidade <i class="req">*</i></label>
+                    <div class="sel sel--travado" id="selCidade">
+                      <button type="button" class="f__in sel__btn" role="combobox" disabled
+                              aria-expanded="false" aria-haspopup="listbox" aria-controls="lstCidade">
+                        <span class="sel__val">Escolha a UF primeiro</span>
+                      </button>
+                      <ul class="sel__list" id="lstCidade" role="listbox" hidden></ul>
+                    </div>
+                    <input type="hidden" id="cidade">
+                    <!-- rede do IBGE fora do ar: digitar é melhor que travar o cadastro -->
+                    <input class="f__in" id="mCidade" autocomplete="address-level2" placeholder="Digite a cidade" hidden>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="f">
@@ -1392,9 +1456,10 @@ cnpj.addEventListener("input", function(){
   cnpj.value = maskCnpj(cnpj.value);
   var d = cnpj.value.replace(/\D/g,"");
   if(d.length < 14){
-    reveal.classList.remove("on","err","carregando"); last = "";
+    reveal.classList.remove("on","err","carregando","parcial"); last = "";
     empresaConsultada = null;
     limparSugestaoCnpj();
+    fecharManual();
     return;
   }
   if(d === last) return;
@@ -1497,8 +1562,10 @@ function buscando(){
 }
 function achou(d){
   empresaConsultada = d;
-  reveal.className = "reveal on";
-  $("#revealV").innerHTML = esc(d.nome) + '<span class="reveal__cnpj">' + esc(d.cnpj) + '</span>';
+  var faltando = faltaNaConsulta(d);
+  reveal.className = "reveal on" + (faltando.length ? " parcial" : "");
+  $("#revealV").innerHTML = esc(d.nome || "CNPJ encontrado, sem a razão social") +
+    '<span class="reveal__cnpj">' + esc(d.cnpj) + '</span>';
   var linhas = "";
   if(d.endereco) linhas += '<dt>Endereço</dt><dd>' + esc(d.endereco) +
     (d.bairro ? '<span class="reveal__sub">' + esc(d.bairro) + '</span>' : '') + '</dd>';
@@ -1512,28 +1579,61 @@ function achou(d){
     av.classList.add("on");
   } else av.classList.remove("on");
 
+  if(faltando.length) abrirManual(faltando, "parcial"); else fecharManual();
   preencherAtividade(d.cnaeDesc, d.cnaeCode);
 }
 function falhou(){
   empresaConsultada = null;
   reveal.className = "reveal on err";
   $("#revealV").textContent = "Não localizamos esse CNPJ";
-  $("#revealM").innerHTML = '<dt>Tudo bem</dt><dd>Seguimos com a conferência manual no cadastro.</dd>';
+  $("#revealM").innerHTML = "";
   $("#revealAviso").classList.remove("on");
   limparSugestaoCnpj();
+  abrirManual(["razao","local"], "nao-encontrado");
 }
 
-/* ---- combobox próprio: teclado, clique fora, busca por letra ---- */
-function criarSelect(raizId, campoId, aoMudar){
+/* ---- combobox próprio: teclado, clique fora, busca por letra ----
+   Com {busca:"..."} ganha um campo de filtro no topo da lista. Municípios de SP
+   passam de 600: saltar por letra não resolve, a pessoa precisa digitar. */
+function semAcento(t){
+  return String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+}
+function criarSelect(raizId, campoId, aoMudar, config){
+  config = config || {};
   var raiz = $("#"+raizId), campo = $("#"+campoId);
   var btn = $(".sel__btn", raiz), rotulo = $(".sel__val", raiz), lista = $(".sel__list", raiz);
-  var itens = [], foco = -1, digitado = "", tDigito;
+  var itens = [], visiveis = [], foco = -1, digitado = "", tDigito, busca = null;
 
+  if(config.busca){
+    raiz.classList.add("sel--busca");
+    busca = document.createElement("input");
+    busca.type = "text"; busca.className = "sel__busca"; busca.hidden = true;
+    busca.setAttribute("autocomplete","off");
+    busca.placeholder = config.busca;
+    busca.setAttribute("aria-label", config.busca);
+    raiz.insertBefore(busca, lista);
+    busca.addEventListener("click", function(e){ e.stopPropagation(); });
+    busca.addEventListener("input", filtrar);
+    busca.addEventListener("keydown", teclado);
+  }
+
+  function desenhar(){
+    lista.innerHTML = visiveis.length
+      ? visiveis.map(function(o,i){
+          return '<li role="option" data-i="'+i+'" aria-selected="'+(o === campo.value)+'">'+esc(o)+'</li>';
+        }).join("")
+      : '<li class="sel__vazio">Nada encontrado</li>';
+  }
+  function filtrar(){
+    var q = busca ? semAcento(busca.value.trim()) : "";
+    visiveis = q ? itens.filter(function(o){ return semAcento(o).indexOf(q) >= 0; }) : itens.slice();
+    foco = visiveis.length ? 0 : -1;
+    desenhar(); marcar(); rolar();
+  }
   function preencher(opcoes){
-    itens = opcoes;
-    lista.innerHTML = opcoes.map(function(o,i){
-      return '<li role="option" data-i="'+i+'" aria-selected="false">'+esc(o)+'</li>';
-    }).join("");
+    itens = opcoes; visiveis = opcoes.slice();
+    if(busca) busca.value = "";
+    desenhar();
     definir("", true);
   }
   function definir(valor, silencioso){
@@ -1546,44 +1646,56 @@ function criarSelect(raizId, campoId, aoMudar){
     btn.style.borderColor = "";
     if(!silencioso && aoMudar) aoMudar(valor);
   }
+  function rolar(){ var li = $("li.foco", lista); if(li) li.scrollIntoView({block:"nearest"}); }
   function abrir(){
     raiz.classList.add("on"); lista.hidden = false;
     btn.setAttribute("aria-expanded","true");
-    foco = itens.indexOf(campo.value); marcar();
-    var sel = $("li.foco", lista); if(sel) sel.scrollIntoView({block:"nearest"});
+    if(busca){
+      busca.hidden = false; busca.value = ""; filtrar();
+      busca.focus({preventScroll:true});
+    } else {
+      foco = visiveis.indexOf(campo.value); marcar(); rolar();
+    }
   }
   function fechar(){
     raiz.classList.remove("on"); lista.hidden = true;
+    if(busca) busca.hidden = true;
     btn.setAttribute("aria-expanded","false"); foco = -1; marcar();
   }
   function marcar(){ $$("li", lista).forEach(function(li,i){ li.classList.toggle("foco", i === foco); }); }
   function mover(passo){
     if(lista.hidden) return abrir();
-    foco = Math.max(0, Math.min(itens.length-1, foco + passo)); marcar();
-    var li = $("li.foco", lista); if(li) li.scrollIntoView({block:"nearest"});
+    foco = Math.max(0, Math.min(visiveis.length-1, foco + passo)); marcar(); rolar();
+  }
+  function escolher(){
+    if(foco >= 0 && visiveis[foco] !== undefined){ definir(visiveis[foco]); fechar(); btn.focus(); }
+  }
+  function teclado(e){
+    var noBusca = !!busca && e.currentTarget === busca;
+    if(e.key === "ArrowDown"){ e.preventDefault(); mover(1); }
+    else if(e.key === "ArrowUp"){ e.preventDefault(); mover(-1); }
+    else if(e.key === "Enter" || (e.key === " " && !noBusca)){
+      e.preventDefault();
+      if(lista.hidden) abrir(); else escolher();
+    }
+    else if(e.key === "Escape"){ fechar(); btn.focus(); }
+    else if(e.key === "Tab"){ fechar(); }
+    else if(!noBusca && e.key.length === 1){
+      // no combobox com busca, digitar na tecla abre e já joga a letra no filtro
+      if(busca){ abrir(); busca.value = e.key; filtrar(); return; }
+      clearTimeout(tDigito); digitado += e.key.toLowerCase();
+      tDigito = setTimeout(function(){ digitado = ""; }, 700);
+      var i = visiveis.findIndex(function(o){ return semAcento(o).indexOf(semAcento(digitado)) === 0; });
+      if(i >= 0){ if(lista.hidden) abrir(); foco = i; marcar(); rolar(); }
+    }
   }
 
   btn.addEventListener("click", function(e){ e.stopPropagation(); lista.hidden ? abrir() : fechar(); });
   lista.addEventListener("click", function(e){
-    var li = e.target.closest("li"); if(!li) return;
+    var li = e.target.closest("li"); if(!li || li.classList.contains("sel__vazio")) return;
     definir(li.textContent); fechar(); btn.focus();
   });
-  btn.addEventListener("keydown", function(e){
-    if(e.key === "ArrowDown"){ e.preventDefault(); mover(1); }
-    else if(e.key === "ArrowUp"){ e.preventDefault(); mover(-1); }
-    else if(e.key === "Enter" || e.key === " "){
-      e.preventDefault();
-      if(lista.hidden) abrir(); else if(foco >= 0){ definir(itens[foco]); fechar(); }
-    }
-    else if(e.key === "Escape" || e.key === "Tab"){ fechar(); }
-    else if(e.key.length === 1){
-      clearTimeout(tDigito); digitado += e.key.toLowerCase();
-      tDigito = setTimeout(function(){ digitado = ""; }, 700);
-      var i = itens.findIndex(function(o){ return o.toLowerCase().startsWith(digitado); });
-      if(i >= 0){ if(lista.hidden) abrir(); foco = i; marcar();
-        var li = $("li.foco", lista); if(li) li.scrollIntoView({block:"nearest"}); }
-    }
-  });
+  btn.addEventListener("keydown", teclado);
   document.addEventListener("click", function(e){ if(!raiz.contains(e.target)) fechar(); });
 
   return { preencher:preencher, definir:definir, botao:btn };
@@ -1610,6 +1722,57 @@ var comboAtividade = criarSelect("selAtividade", "atividade", function(v){
 });
 comboAtividade.preencher(["Atacado","Varejo","Indústria","Solar"]);
 comboRamo.preencher(RAMOS_GERAIS);
+
+var UFS = ["AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MG","MS","MT","PA","PB","PE",
+  "PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"];
+var comboCidade = criarSelect("selCidade", "cidade", null, {busca:"Buscar cidade"});
+var selCidadeRaiz = $("#selCidade"), btnCidade = $(".sel__btn", selCidadeRaiz);
+var cidadeLivre = $("#mCidade");
+var comboUf = criarSelect("selUf", "uf", function(uf){ carregarCidades(uf); });
+comboUf.preencher(UFS);
+
+/* Municípios: IBGE é a fonte oficial, sem chave e sem limite prático; BrasilAPI
+   cobre a queda dela. Se as duas falharem o campo vira texto livre, porque uma
+   API fora do ar não pode impedir alguém de se cadastrar. */
+var cidadesDe = {};
+function carregarCidades(uf){
+  cidadeLivre.hidden = true; cidadeLivre.value = "";
+  selCidadeRaiz.hidden = false;
+  comboCidade.preencher([]);
+  if(!uf) return travarCidade("Escolha a UF primeiro");
+  if(cidadesDe[uf]) return aplicarCidades(cidadesDe[uf]);
+  travarCidade("Carregando municípios…");
+
+  fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados/" + uf + "/municipios")
+    .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(j){ return j.map(function(m){ return m.nome; }); })
+    .catch(function(){
+      return fetch("https://brasilapi.com.br/api/ibge/municipios/v1/" + uf)
+        .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+        .then(function(j){ return j.map(function(m){ return titulo(m.nome); }); });
+    })
+    .then(function(nomes){
+      if(campoUf.value !== uf) return;              // trocou de UF no meio do caminho
+      cidadesDe[uf] = nomes.sort(function(a,b){ return a.localeCompare(b, "pt-BR"); });
+      aplicarCidades(cidadesDe[uf]);
+    })
+    .catch(function(){
+      if(campoUf.value !== uf) return;
+      selCidadeRaiz.hidden = true;
+      cidadeLivre.hidden = false;
+    });
+}
+function aplicarCidades(nomes){
+  comboCidade.preencher(nomes);
+  selCidadeRaiz.classList.remove("sel--travado");
+  btnCidade.disabled = false;
+  $(".sel__val", selCidadeRaiz).textContent = "Selecione";
+}
+function travarCidade(texto){
+  selCidadeRaiz.classList.add("sel--travado");
+  btnCidade.disabled = true;
+  $(".sel__val", selCidadeRaiz).textContent = texto;
+}
 
 /* Todos os perfis podem se cadastrar. A separação acontece depois, na base:
    o valor de data-seg vai junto com o lead para o time definir o tratamento. */
@@ -1728,6 +1891,58 @@ function limparSugestaoCnpj(){
   $("#sugestao").classList.remove("on");
 }
 
+/* ---- complemento manual ----
+   As bases públicas levam semanas para publicar um CNPJ recém-aberto e, quando
+   publicam, às vezes vêm sem razão social ou sem município. Antes esse lead chegava
+   ao RD sem nenhum dado de empresa. Agora a pessoa completa o que faltou: razão
+   social identifica quem é, e cidade/UF definem qual centro de distribuição atende. */
+var blocoManual = $("#manual"), campoRazao = $("#mRazao"), campoUf = $("#uf");
+var mfRazao = $("#mfRazao"), mfLocal = $("#mfLocal");
+
+function abrirManual(faltando, motivo){
+  blocoManual.hidden = false;
+  mfRazao.hidden = faltando.indexOf("razao") < 0;
+  mfLocal.hidden = faltando.indexOf("local") < 0;
+  // o cartão já diz o que aconteceu no título; aqui entra só a instrução
+  $("#manualD").textContent = motivo === "nao-encontrado"
+    ? "Comum em empresa aberta há pouco tempo. Complete abaixo e seguimos normalmente."
+    : "Faltou um dado. Complete abaixo e seguimos normalmente.";
+}
+function fecharManual(){
+  if(!blocoManual) return;
+  blocoManual.hidden = true;
+  campoRazao.value = ""; cidadeLivre.value = "";
+  cidadeLivre.hidden = true; selCidadeRaiz.hidden = false;
+  comboUf.definir("", true);
+  comboCidade.preencher([]);
+  travarCidade("Escolha a UF primeiro");
+  campoRazao.style.borderColor = ""; cidadeLivre.style.borderColor = "";
+  comboUf.botao.style.borderColor = ""; comboCidade.botao.style.borderColor = "";
+}
+/* a cidade vem da lista do IBGE ou, se ela falhou, do campo de texto */
+function cidadeEscolhida(){
+  return cidadeLivre.hidden ? $("#cidade").value : cidadeLivre.value.trim();
+}
+/* razão social e praça são o mínimo: sem elas o comercial não sabe quem é nem quem atende */
+function faltaNaConsulta(d){
+  var f = [];
+  if(!d.nome) f.push("razao");
+  if(!d.cidade || !d.estado) f.push("local");
+  return f;
+}
+/* o que vai para o RD: o que a consulta trouxe, completado pelo que a pessoa digitou */
+function dadosEmpresa(){
+  var e = empresaConsultada || {}, aberto = !blocoManual.hidden;
+  return {
+    nome: e.nome || (aberto ? campoRazao.value.trim() : ""),
+    endereco: e.endereco || "",
+    cidade: e.cidade || (aberto ? cidadeEscolhida() : ""),
+    estado: e.estado || (aberto ? campoUf.value : ""),
+    bairroNome: e.bairroNome || "",
+    cnae: e.cnae || ""
+  };
+}
+
 /* ---- etapas ---- */
 var etapa = 1;
 var etapa1 = $('.etapa[data-etapa="1"]'), etapa2 = $('.etapa[data-etapa="2"]');
@@ -1768,7 +1983,7 @@ function marcarFalta(lista){
 
 function concluirCadastro(){
   $("#doneCnpj").textContent = cnpj.value;
-  $("#doneRazao").textContent = empresaConsultada ? empresaConsultada.nome : "";
+  $("#doneRazao").textContent = dadosEmpresa().nome;
   $("#doneAtiv").textContent = campoAtividade.value + (campoRamo.value ? " · " + campoRamo.value : "");
   $("#doneSeg").textContent = seg.textContent.trim();
   $("#doneVia").textContent = via.textContent.trim();
@@ -1780,7 +1995,7 @@ function concluirCadastro(){
 }
 
 function enviarCadastro(){
-  var erro = $("#formErro"), empresa = empresaConsultada || {};
+  var erro = $("#formErro"), empresa = dadosEmpresa();
   erro.classList.remove("on");
   erro.textContent = "";
   submit.disabled = true;
@@ -1824,6 +2039,19 @@ form.addEventListener("submit", function(e){
   if(etapa === 1){
     var faltam = [];
     if(cnpj.value.replace(/\D/g,"").length !== 14) faltam.push(cnpj);
+    // a consulta ainda está no ar: esperar evita mandar o lead sem dado de empresa
+    if(reveal.classList.contains("carregando")){
+      var aviso = $("#formErro");
+      aviso.textContent = "Só um instante, estamos consultando o CNPJ.";
+      aviso.classList.add("on");
+      return;
+    }
+    $("#formErro").classList.remove("on");
+    if(!blocoManual.hidden){
+      if(!mfRazao.hidden && !campoRazao.value.trim()) faltam.push(campoRazao);
+      if(!mfLocal.hidden && !campoUf.value) faltam.push(comboUf.botao);
+      else if(!mfLocal.hidden && !cidadeEscolhida()) faltam.push(cidadeLivre.hidden ? comboCidade.botao : cidadeLivre);
+    }
     if(!$("#nome").value.trim()) faltam.push($("#nome"));
     if(!/^\S+@\S+\.\S+$/.test($("#email").value)) faltam.push($("#email"));
     if(fone.value.replace(/\D/g,"").length < 10) faltam.push(fone);
