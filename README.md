@@ -11,6 +11,9 @@ Landing page oficial de captação de novos revendedores da Oderço. Ela valida 
 | `/` | Versão oficial (V2), com vídeo no hero. |
 | `/v1/` | Variante com imagem estática no hero. |
 | `/v2/` | Redireciona permanentemente para `/`. |
+| `/v3/` | Removida. Redireciona permanentemente para `/`. |
+
+Apenas duas versões são mantidas: a oficial (`/`, hero em vídeo) e a `/v1/` (hero em imagem estática). Toda alteração de conteúdo deve ser aplicada nas duas.
 
 O arquivo [`vercel.json`](vercel.json) mantém esse apontamento: a raiz reescreve para `v2/index.html`, sem alterar a URL visível do visitante.
 

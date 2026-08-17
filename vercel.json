@@ -10,6 +10,16 @@
       "source": "/v2/",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/v3",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/v3/",
+      "destination": "/",
+      "permanent": true
     }
   ],
   "rewrites": [
