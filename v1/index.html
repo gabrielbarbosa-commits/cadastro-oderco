@@ -383,11 +383,13 @@ p{margin:0}
 .scr__row img{width:40px;height:40px;object-fit:contain;background:var(--paper);border-radius:7px;flex:none;mix-blend-mode:multiply}
 .scr__bul.ok{background:var(--blue);border-color:var(--blue)}
 
-.ph__ctrl{display:flex;justify-content:center;align-items:center;gap:9px;margin-top:20px}
+.ph__pause{position:absolute;z-index:8;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-color:rgba(255,255,255,.36);background:rgba(7,14,39,.82);color:#fff;box-shadow:0 10px 24px rgba(7,14,39,.3);backdrop-filter:blur(8px)}
+.ph__pause:hover{border-color:#fff;color:#fff;background:var(--blue)}
+.ph__ctrl{display:flex;justify-content:center;align-items:center;gap:9px;margin-top:10px}
 .ph__b{width:34px;height:34px;border-radius:99px;border:1px solid var(--line);background:#fff;cursor:pointer;display:grid;place-items:center;color:var(--ink);transition:all .18s}
 .ph__b:hover{border-color:var(--blue);color:var(--blue)}
 .ph__b:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-.ph__lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);min-width:96px;text-align:center}
+.ph__lbl{display:block;margin-top:18px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);text-align:center}
 
 /* ============ 06 · NÚMEROS ============ */
 .nm{background:var(--blue);color:#fff;padding:clamp(58px,7vw,94px) 0}
@@ -818,7 +820,7 @@ p{margin:0}
       <span class="lbl rv">Oderço no bolso</span>
       <h2 class="rv rv-d1">Reposição de estoque <span class="b">sem sair da loja.</span></h2>
       <p class="app__d rv rv-d2">
-        O balcão não para para você abrir o computador. No aplicativo você confere preço,
+        O balcão segue atendendo enquanto você abre o aplicativo. Confira preço,
         escolhe a filial e fecha o pedido entre um cliente e outro.
       </p>
       <div class="app__list">
@@ -844,18 +846,18 @@ p{margin:0}
         <div class="ph__scr">
           <div class="ph__scrn" id="phScrn"></div>
         </div>
+        <button class="ph__b ph__pause" id="phPause" aria-label="Pausar troca de telas">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" id="phIcon"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        </button>
       </div>
+      <span class="ph__lbl" id="phLbl">Catálogo</span>
       <div class="ph__ctrl">
         <button class="ph__b" id="phPrev" aria-label="Tela anterior">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <button class="ph__b" id="phPause" aria-label="Pausar troca de telas">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" id="phIcon"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
-        </button>
         <button class="ph__b" id="phNext" aria-label="Próxima tela">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <span class="ph__lbl" id="phLbl">Catálogo</span>
       </div>
     </div>
   </div>
@@ -1000,10 +1002,10 @@ var PRINTS = [
 
 var APP = [
   {f:"inicio.jpg",              r:"Início"},
-  {f:"catalogo-blurred.webp",   r:"Catálogo"},
-  {f:"busca-blurred.webp",      r:"Busca"},
-  {f:"produto-blurred.webp",    r:"Produto"},
-  {f:"carrinho-blurred.webp",   r:"Carrinho"},
+  {f:"catalogo-blurred.jpg",    r:"Catálogo"},
+  {f:"busca-blurred.jpg",       r:"Busca"},
+  {f:"produto-blurred.jpg",     r:"Produto"},
+  {f:"carrinho-blurred.jpg",    r:"Carrinho"},
   {f:"departamentos.jpg",       r:"Departamentos"}
 ];
 function pad(n){ return String(n).padStart(2,"0"); }
