@@ -264,6 +264,11 @@ p{margin:0}
 .manual .f__in:focus{background:#fff}
 .manual .sel--travado .sel__btn{background:#F1F3F7}
 .reveal.err .manual{border-top-color:var(--line)}
+/* CNPJ digitado errado: vermelho, porque é algo que a pessoa precisa corrigir */
+.reveal.ruim{background:#FFF7F6;border-color:#F2C9C4}
+.reveal.ruim .reveal__ic{background:#D92D20 no-repeat center/9px 9px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 9 9'%3E%3Cpath d='M1 1l7 7M8 1l-7 7' stroke='%23fff' stroke-width='1.9' stroke-linecap='round'/%3E%3C/svg%3E");}
+.reveal.ruim .reveal__cnpj{color:#B42318}
 .reveal.parcial .manual{border-top-color:#F0DDB4}
 /* campo de busca do combobox: listas longas não se resolvem com salto por letra */
 .sel__busca{
@@ -1414,6 +1419,22 @@ var cnpj = $("#cnpj"), fone = $("#fone"), chips = $("#chips"), form = $("#form")
 function soCnpj(v){
   return String(v).toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,14);
 }
+/* Mesmo cálculo do servidor: valor do caractere é o código ASCII menos 48, com
+   os pesos e o módulo 11 de sempre. Conferir aqui evita gastar a cota da
+   consulta pública com um CNPJ que nem existe e avisa a pessoa na hora. */
+function cnpjValido(v){
+  if(!/^[A-Z0-9]{12}\d{2}$/.test(v) || /^(.)\1{13}$/.test(v)) return false;
+  function digito(tamanho){
+    var soma = 0, peso = tamanho - 7;
+    for(var i = 0; i < tamanho; i++){
+      soma += (v.charCodeAt(i) - 48) * peso;
+      peso--; if(peso === 1) peso = 9;
+    }
+    var resto = soma % 11;
+    return resto < 2 ? 0 : 11 - resto;
+  }
+  return digito(12) === Number(v[12]) && digito(13) === Number(v[13]);
+}
 function maskCnpj(v){
   var s = soCnpj(v);
   s = s.slice(0,12) + s.slice(12).replace(/[^0-9]/g,"");   // letra digitada no DV é descartada
@@ -1446,6 +1467,7 @@ cnpj.addEventListener("input", function(){
   }
   if(d === last) return;
   last = d;
+  if(!cnpjValido(d)) return invalido();
   buscando();
   consultar(d);
 });
@@ -1563,6 +1585,16 @@ function achou(d){
 
   if(faltando.length) abrirManual(faltando, "parcial"); else fecharManual();
   preencherAtividade(d.cnaeDesc, d.cnaeCode);
+}
+/* erro de digitação: diferente de "não encontrado", aqui a pessoa precisa corrigir */
+function invalido(){
+  empresaConsultada = null;
+  reveal.className = "reveal on ruim";
+  $("#revealV").innerHTML = 'CNPJ inv\u00e1lido<span class="reveal__cnpj">Confira os caracteres digitados</span>';
+  $("#revealM").innerHTML = "";
+  $("#revealAviso").classList.remove("on");
+  limparSugestaoCnpj();
+  fecharManual();
 }
 function falhou(){
   empresaConsultada = null;
@@ -2004,12 +2036,21 @@ function enviarCadastro(){
       service_preference: via.textContent.trim()
     })
   }).then(function(resposta){
-    if(!resposta.ok) throw new Error();
+    // 400 e 429 são respostas do servidor, não falha de rede: mandar conferir a
+    // conexão nesses casos faz a pessoa procurar problema no lugar errado
+    if(resposta.status === 400) throw new Error("dados");
+    if(resposta.status === 429) throw new Error("espera");
+    if(!resposta.ok) throw new Error("rede");
     concluirCadastro();
-  }).catch(function(){
+  }).catch(function(falha){
+    var motivo = falha && falha.message;
     submit.disabled = false;
     submit.textContent = "Criar minha conta";
-    erro.textContent = "Não conseguimos enviar agora. Confira sua conexão e tente novamente.";
+    erro.textContent = motivo === "dados"
+      ? "Confira os dados informados e tente novamente."
+      : motivo === "espera"
+      ? "Muitas tentativas em pouco tempo. Aguarde alguns minutos e tente de novo."
+      : "Não conseguimos enviar agora. Confira sua conexão e tente novamente.";
     erro.classList.add("on");
     erro.scrollIntoView({block:"nearest", behavior:LESS ? "auto" : "smooth"});
   });
@@ -2020,7 +2061,7 @@ form.addEventListener("submit", function(e){
 
   if(etapa === 1){
     var faltam = [];
-    if(soCnpj(cnpj.value).length !== 14) faltam.push(cnpj);
+    if(!cnpjValido(soCnpj(cnpj.value))) faltam.push(cnpj);
     // a consulta ainda está no ar: esperar evita mandar o lead sem dado de empresa
     if(reveal.classList.contains("carregando")){
       var aviso = $("#formErro");
