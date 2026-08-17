@@ -18,13 +18,18 @@ function text(value, maxLength) {
   return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
 }
 
+/* CNPJ alfanumérico (IN RFB 2.229/2024, em vigor desde 2026): as 12 primeiras
+   posições aceitam letra ou número e os 2 dígitos verificadores continuam
+   numéricos. No cálculo, o valor de cada caractere é o código ASCII menos 48,
+   de modo que "0".."9" valem 0..9 e "A".."Z" valem 17..42. Pesos e módulo 11
+   são os mesmos de sempre, então CNPJ só de números segue validando igual. */
 function validCnpj(value) {
-  if (!/^\d{14}$/.test(value) || /^(\d)\1{13}$/.test(value)) return false;
+  if (!/^[A-Z0-9]{12}\d{2}$/.test(value) || /^(.)\1{13}$/.test(value)) return false;
   const calculate = (length) => {
     let sum = 0;
     let weight = length - 7;
     for (let index = 0; index < length; index += 1) {
-      sum += Number(value[index]) * weight;
+      sum += (value.charCodeAt(index) - 48) * weight;
       weight -= 1;
       if (weight === 1) weight = 9;
     }
@@ -74,7 +79,7 @@ module.exports = async function conversion(req, res) {
   const body = req.body && typeof req.body === "object" && !Array.isArray(req.body) ? req.body : {};
   if (text(body.website, 200)) return res.status(200).json({ ok: true });
 
-  const cnpj = text(body.cnpj, 20).replace(/\D/g, "");
+  const cnpj = text(body.cnpj, 20).toUpperCase().replace(/[^A-Z0-9]/g, "");
   const name = text(body.name, 150);
   const email = text(body.email, 254).toLowerCase();
   const mobilePhone = text(body.mobile_phone, 20).replace(/\D/g, "");

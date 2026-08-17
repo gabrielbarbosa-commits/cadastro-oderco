@@ -700,7 +700,8 @@ p{margin:0}
         <div class="etapa" data-etapa="1">
           <div class="f">
             <label class="f__lbl" for="cnpj">CNPJ <i class="req">*</i></label>
-            <input class="f__in" id="cnpj" inputmode="numeric" autocomplete="off" placeholder="00.000.000/0000-00" maxlength="18">
+            <input class="f__in" id="cnpj" inputmode="text" autocomplete="off" autocapitalize="characters"
+                   spellcheck="false" placeholder="00.000.000/0000-00" maxlength="18">
             <!-- um cartão só: o resultado da consulta e, quando falta dado, os campos para completar -->
             <div class="reveal" id="reveal">
               <div class="reveal__top">
@@ -1433,13 +1434,19 @@ var cnpj = $("#cnpj"), fone = $("#fone"), chips = $("#chips"), form = $("#form")
     card = $("#card"), submit = $("#submit"), done = $("#done"), reveal = $("#reveal"),
     seg = null, empresaConsultada = null;
 
+/* CNPJ alfanumérico (IN RFB 2.229/2024): letra ou número nas 12 primeiras
+   posições, dígito verificador sempre numérico. */
+function soCnpj(v){
+  return String(v).toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,14);
+}
 function maskCnpj(v){
-  v = v.replace(/\D/g,"").slice(0,14);
-  if(v.length > 12) return v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2}).*/,"$1.$2.$3/$4-$5");
-  if(v.length >  8) return v.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4})/,"$1.$2.$3/$4");
-  if(v.length >  5) return v.replace(/^(\d{2})(\d{3})(\d{0,3})/,"$1.$2.$3");
-  if(v.length >  2) return v.replace(/^(\d{2})(\d{0,3})/,"$1.$2");
-  return v;
+  var s = soCnpj(v);
+  s = s.slice(0,12) + s.slice(12).replace(/[^0-9]/g,"");   // letra digitada no DV é descartada
+  if(s.length > 12) return s.replace(/^(.{2})(.{3})(.{3})(.{4})(\d{0,2}).*/,"$1.$2.$3/$4-$5");
+  if(s.length >  8) return s.replace(/^(.{2})(.{3})(.{3})(.{0,4})/,"$1.$2.$3/$4");
+  if(s.length >  5) return s.replace(/^(.{2})(.{3})(.{0,3})/,"$1.$2.$3");
+  if(s.length >  2) return s.replace(/^(.{2})(.{0,3})/,"$1.$2");
+  return s;
 }
 function maskFone(v){
   v = v.replace(/\D/g,"").slice(0,11);
@@ -1454,7 +1461,7 @@ fone.addEventListener("input", function(){ fone.value = maskFone(fone.value); })
 var last = "";
 cnpj.addEventListener("input", function(){
   cnpj.value = maskCnpj(cnpj.value);
-  var d = cnpj.value.replace(/\D/g,"");
+  var d = soCnpj(cnpj.value);
   if(d.length < 14){
     reveal.classList.remove("on","err","carregando","parcial"); last = "";
     empresaConsultada = null;
@@ -1481,7 +1488,7 @@ function consultar(d){
         .catch(function(){ if(atual(d)) falhou(); });
     });
 }
-function atual(d){ return cnpj.value.replace(/\D/g,"") === d; }
+function atual(d){ return soCnpj(cnpj.value) === d; }
 
 function daCnpjWs(j, d){
   var e = j.estabelecimento || {};
@@ -2038,7 +2045,7 @@ form.addEventListener("submit", function(e){
 
   if(etapa === 1){
     var faltam = [];
-    if(cnpj.value.replace(/\D/g,"").length !== 14) faltam.push(cnpj);
+    if(soCnpj(cnpj.value).length !== 14) faltam.push(cnpj);
     // a consulta ainda está no ar: esperar evita mandar o lead sem dado de empresa
     if(reveal.classList.contains("carregando")){
       var aviso = $("#formErro");
