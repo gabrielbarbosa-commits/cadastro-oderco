@@ -122,6 +122,10 @@ module.exports = async function conversion(req, res) {
   addIfPresent(payload, "cf_razao_social", text(body.company_name, 200));
   addIfPresent(payload, "cf_cnae", text(body.cnae, 200));
   addIfPresent(payload, "cf_bairro", text(body.district, 120));
+  // company_address não existe como campo na conta, então o endereço só é
+  // gravado por aqui. Razão social já tem par em cf_razao_social, logo o
+  // company_name acima é redundante e fica só por segurança.
+  addIfPresent(payload, "cf_endereco", text(body.company_address, 300));
 
   const url = new URL(RD_CONVERSIONS_URL);
   url.searchParams.set("api_key", process.env.RD_API_KEY);
