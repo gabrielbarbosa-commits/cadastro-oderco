@@ -48,15 +48,32 @@ Visitante
 | WhatsApp | `mobile_phone` |
 | CNPJ | `cf_cnpj` |
 | Razão social | `company_name` e `cf_razao_social` |
-| Endereço, cidade, UF | `company_address`, `city`, `state` |
+| Nome fantasia | `cf_nome_fantasia` |
+| Logradouro | `cf_logradouro` |
+| Número | `cf_numero` |
+| Complemento | `cf_complemento` |
+| CEP | `cf_cep` |
 | Bairro | `cf_bairro` |
-| CNAE | `cf_cnae` |
+| Cidade, UF | `city`, `state` |
+| Inscrição estadual | `cf_inscricao_estadual` |
+| Situação cadastral | `cf_situacao_cadastral` |
+| CNAE | `cf_cnae_codigo` e `cf_cnae_descricao` |
 | Principal atividade | `cf_cadastro_lp_principal_atividade` |
 | Ramo de atividade | `cf_cadastro_lp_ramo_atividade` |
 | Área de interesse | `cf_cadastro_lp_area_interesse` |
 | Preferência de atendimento | `cf_cadastro_lp_preferencia_atendimento` |
 
-Os quatro últimos são campos personalizados exclusivos da LP, identificados no RD com o prefixo **`[CADASTRO-LP]`**. As opções válidas ficam centralizadas em [`lib/rd-cadastro-fields.js`](lib/rd-cadastro-fields.js), que também impede que valores fora da lista sejam enviados pela API.
+Cada dado vai em um campo próprio, nunca concatenado: quem consome no RD não precisa separar string para usar uma parte. Por isso o endereço vai em pedaços e o CNAE vai em código e descrição separados.
+
+**Campos que pararam de receber dado:** `cf_endereco` guardava o endereço concatenado e `cf_cnae` guardava `"código · descrição"`. Os dois seguem na conta com o histórico dos leads gravados até setembro de 2026, mas não recebem mais nada. `company_address` nunca existiu na conta — era destino morto.
+
+Os quatro campos `[CADASTRO-LP]` são de escolha única e exclusivos da LP. As opções válidas ficam centralizadas em [`lib/rd-cadastro-fields.js`](lib/rd-cadastro-fields.js), que também impede que valores fora da lista sejam enviados pela API. Os campos de texto (`cf_cep`, `cf_logradouro`, `cf_numero`, `cf_inscricao_estadual`, `cf_cnae_codigo`, `cf_cnae_descricao`, `cf_situacao_cadastral`, `cf_nome_fantasia`) ficam no mesmo arquivo e foram criados pelo fluxo controlado de `/api/rd/connect?action=create_fields`.
+
+A situação cadastral é texto livre de propósito: as duas fontes de consulta escrevem a situação com palavras próprias, e um valor fora de uma lista fechada faria o RD recusar a conversão inteira — perderíamos o lead por causa de um campo acessório.
+
+`cf_complemento` já existia na conta e é reaproveitado. Leads de outros formulários também gravam nele; para isolar os da LP, filtre pela tag `cadastro-lp-revenda`.
+
+A inscrição estadual só vem da consulta `publica.cnpj.ws`. Quando ela falha e a LP cai no plano B (`brasilapi`), a IE vem vazia e o campo é omitido do envio.
 
 ### Conversão no RD
 

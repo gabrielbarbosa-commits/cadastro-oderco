@@ -116,16 +116,29 @@ module.exports = async function conversion(req, res) {
   };
 
   addIfPresent(payload, "company_name", text(body.company_name, 200));
-  addIfPresent(payload, "company_address", text(body.company_address, 300));
   addIfPresent(payload, "city", text(body.city, 100));
   addIfPresent(payload, "state", text(body.state, 2).toUpperCase());
   addIfPresent(payload, "cf_razao_social", text(body.company_name, 200));
-  addIfPresent(payload, "cf_cnae", text(body.cnae, 200));
   addIfPresent(payload, "cf_bairro", text(body.district, 120));
-  // company_address não existe como campo na conta, então o endereço só é
-  // gravado por aqui. Razão social já tem par em cf_razao_social, logo o
-  // company_name acima é redundante e fica só por segurança.
-  addIfPresent(payload, "cf_endereco", text(body.company_address, 300));
+
+  /* Endereço e CNAE vão em pedaços, um por campo. Antes o endereço era uma
+     string só em cf_endereco e o CNAE vinha como "0000-0/00 · Descrição", o que
+     obrigava o time a tratar o texto toda vez que precisava de uma das partes.
+     Os dois campos antigos param de receber e ficam como histórico. */
+  // limpa a máscara antes de cortar: "01310-100" cortado em 8 viraria 7 dígitos
+  addIfPresent(payload, "cf_cep", text(body.cep, 20).replace(/\D/g, "").slice(0, 8));
+  addIfPresent(payload, "cf_logradouro", text(body.street, 200));
+  addIfPresent(payload, "cf_numero", text(body.street_number, 20));
+  addIfPresent(payload, "cf_complemento", text(body.complement, 120));
+  addIfPresent(payload, "cf_cnae_codigo", text(body.cnae_code, 20));
+  addIfPresent(payload, "cf_cnae_descricao", text(body.cnae_description, 200));
+
+  /* Inscrição estadual e situação cadastral apareciam na tela do lead e não
+     chegavam ao RD. A IE só vem da consulta que a traz; no plano B ela fica
+     vazia e o campo é omitido, como qualquer outro dado ausente. */
+  addIfPresent(payload, "cf_inscricao_estadual", text(body.state_registration, 30));
+  addIfPresent(payload, "cf_situacao_cadastral", text(body.registration_status, 40));
+  addIfPresent(payload, "cf_nome_fantasia", text(body.trade_name, 200));
 
   const url = new URL(RD_CONVERSIONS_URL);
   url.searchParams.set("api_key", process.env.RD_API_KEY);

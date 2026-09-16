@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const { CAMPOS_CADASTRO_LP, fieldPayload } = require("../../lib/rd-cadastro-fields");
+const { CAMPOS_A_CRIAR, fieldPayload } = require("../../lib/rd-cadastro-fields");
 
 const RD_TOKEN_URL = "https://api.rd.services/auth/token?token_by=code";
 const RD_FIELDS_URL = "https://api.rd.services/platform/contacts/fields";
@@ -8,7 +8,7 @@ async function createMissingFields(accessToken, currentFields) {
   const existing = new Set(currentFields.map((field) => field.api_identifier));
   const results = [];
 
-  for (const field of CAMPOS_CADASTRO_LP) {
+  for (const field of CAMPOS_A_CRIAR) {
     if (existing.has(field.api_identifier)) {
       results.push({ api_identifier: field.api_identifier, status: "already_exists" });
       continue;
