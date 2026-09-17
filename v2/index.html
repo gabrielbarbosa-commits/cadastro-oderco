@@ -2082,7 +2082,9 @@ function enviarCadastro(){
       city: empresa.cidade || "",
       state: empresa.estado || "",
       district: empresa.bairroNome || "",
-      cnae_code: empresa.cnaeCode || "",
+      // subclasse() devolve o CNAE com a máscara padrão (0000-0/00); cnaeCode
+      // guarda só os dígitos, que é o formato usado nas comparações internas
+      cnae_code: subclasse(empresa.cnaeCode) || "",
       cnae_description: empresa.cnaeDesc || "",
       state_registration: empresa.ieNumero || "",
       registration_status: empresa.situacao || "",
