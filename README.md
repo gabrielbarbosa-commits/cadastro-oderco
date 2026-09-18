@@ -57,6 +57,14 @@ Visitante
 | Cidade, UF | `city`, `state` |
 | Inscrição estadual | `cf_inscricao_estadual` |
 | Situação cadastral | `cf_situacao_cadastral` |
+| Data da situação cadastral | `cf_data_situacao_cadastral` |
+| Data de fundação | `cf_data_fundacao` |
+| Porte | `cf_porte` |
+| Natureza jurídica | `cf_natureza_juridica` |
+| Matriz ou filial | `cf_matriz_ou_filial` |
+| Optante pelo Simples | `cf_simples_nacional` |
+| MEI | `cf_mei` |
+| Capital social | `cf_capital_social` |
 | CNAE | `cf_cnae_codigo` e `cf_cnae_descricao` |
 | Principal atividade | `cf_cadastro_lp_principal_atividade` |
 | Ramo de atividade | `cf_cadastro_lp_ramo_atividade` |

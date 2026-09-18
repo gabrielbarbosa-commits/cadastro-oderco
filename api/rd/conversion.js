@@ -51,6 +51,23 @@ function addIfPresent(payload, key, value) {
   if (value) payload[key] = value;
 }
 
+function isoDate(value) {
+  const date = text(value, 10);
+  return /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : "";
+}
+
+/* A consulta responde "Sim"/"Não" numa fonte e true/false/null na outra. Aqui
+   as duas viram a mesma palavra, e o desconhecido fica vazio em vez de virar
+   "Não" — não saber não é a mesma coisa que não ser optante. */
+function yesNo(value) {
+  if (value === true) return "Sim";
+  if (value === false) return "Não";
+  const word = text(value, 10).toLowerCase();
+  if (word === "sim" || word === "true") return "Sim";
+  if (word === "não" || word === "nao" || word === "false") return "Não";
+  return "";
+}
+
 module.exports = async function conversion(req, res) {
   res.setHeader("Cache-Control", "no-store");
 
@@ -139,6 +156,17 @@ module.exports = async function conversion(req, res) {
   addIfPresent(payload, "cf_inscricao_estadual", text(body.state_registration, 30));
   addIfPresent(payload, "cf_situacao_cadastral", text(body.registration_status, 40));
   addIfPresent(payload, "cf_nome_fantasia", text(body.trade_name, 200));
+
+  /* Perfil da empresa na Receita. As datas só passam no formato ISO; qualquer
+     outra coisa é descartada aqui em vez de virar lixo no campo. */
+  addIfPresent(payload, "cf_data_fundacao", isoDate(body.founded_on));
+  addIfPresent(payload, "cf_data_situacao_cadastral", isoDate(body.status_changed_on));
+  addIfPresent(payload, "cf_porte", text(body.company_size, 60));
+  addIfPresent(payload, "cf_natureza_juridica", text(body.legal_nature, 120));
+  addIfPresent(payload, "cf_simples_nacional", yesNo(body.simples));
+  addIfPresent(payload, "cf_mei", yesNo(body.mei));
+  addIfPresent(payload, "cf_capital_social", text(body.share_capital, 30));
+  addIfPresent(payload, "cf_matriz_ou_filial", text(body.branch_type, 20));
 
   const url = new URL(RD_CONVERSIONS_URL);
   url.searchParams.set("api_key", process.env.RD_API_KEY);

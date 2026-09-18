@@ -1510,6 +1510,14 @@ function daCnpjWs(j, d){
     ie: ie ? ie.inscricao_estadual + (ies.filter(function(i){return i.ativo;}).length > 1 ? " · " + uf : "") : "",
     ieNumero: ie ? ie.inscricao_estadual : "",
     fantasia: titulo(e.nome_fantasia || ""),
+    fundacao: String(e.data_inicio_atividade || ""),
+    dataSituacao: String(e.data_situacao_cadastral || ""),
+    porte: titulo((j.porte || {}).descricao || ""),
+    natureza: (j.natureza_juridica || {}).descricao || "",
+    simples: (j.simples || {}).simples || "",
+    mei: (j.simples || {}).mei || "",
+    capital: dinheiro(j.capital_social),
+    matrizFilial: titulo(e.tipo || ""),
     cnae: [at.subclasse, at.descricao].filter(Boolean).join(" · "),
     cnaeCode: normalizarCnae(at.subclasse),
     cnaeDesc: at.descricao || "",
@@ -1532,6 +1540,14 @@ function daBrasilApi(j, d){
     ie: "",
     ieNumero: "",
     fantasia: titulo(j.nome_fantasia || ""),
+    fundacao: String(j.data_inicio_atividade || ""),
+    dataSituacao: String(j.data_situacao_cadastral || ""),
+    porte: titulo(j.porte || ""),
+    natureza: j.natureza_juridica || "",
+    simples: j.opcao_pelo_simples,
+    mei: j.opcao_pelo_mei,
+    capital: dinheiro(j.capital_social),
+    matrizFilial: titulo(j.descricao_identificador_matriz_filial || ""),
     cnae: [subclasse(j.cnae_fiscal), j.cnae_fiscal_descricao].filter(Boolean).join(" · "),
     cnaeCode: normalizarCnae(j.cnae_fiscal),
     cnaeDesc: j.cnae_fiscal_descricao || "",
@@ -1543,6 +1559,13 @@ function endereco(via, num, compl){
   if(num) t += ", " + num;
   if(compl) t += " · " + titulo(compl);
   return t;
+}
+/* Capital social: uma fonte manda "14202162483.70" e a outra manda o número
+   14202162000. Aqui os dois viram a mesma string com duas casas. */
+function dinheiro(v){
+  if(v === null || v === undefined || v === "") return "";
+  var n = Number(String(v).replace(/[^0-9.\-]/g, ""));
+  return isFinite(n) ? n.toFixed(2) : "";
 }
 function soCep(v){
   v = String(v || "").replace(/\D/g,"");
@@ -1978,7 +2001,15 @@ function dadosEmpresa(){
     cnaeDesc: e.cnaeDesc || "",
     ieNumero: e.ieNumero || "",
     situacao: e.situacao || "",
-    fantasia: e.fantasia || ""
+    fantasia: e.fantasia || "",
+    fundacao: e.fundacao || "",
+    dataSituacao: e.dataSituacao || "",
+    porte: e.porte || "",
+    natureza: e.natureza || "",
+    simples: e.simples,
+    mei: e.mei,
+    capital: e.capital || "",
+    matrizFilial: e.matrizFilial || ""
   };
 }
 
@@ -2064,6 +2095,14 @@ function enviarCadastro(){
       state_registration: empresa.ieNumero || "",
       registration_status: empresa.situacao || "",
       trade_name: empresa.fantasia || "",
+      founded_on: empresa.fundacao || "",
+      status_changed_on: empresa.dataSituacao || "",
+      company_size: empresa.porte || "",
+      legal_nature: empresa.natureza || "",
+      simples: empresa.simples === undefined ? "" : empresa.simples,
+      mei: empresa.mei === undefined ? "" : empresa.mei,
+      share_capital: empresa.capital || "",
+      branch_type: empresa.matrizFilial || "",
       principal_activity: campoAtividade.value,
       business_line: campoRamo.value,
       interest_area: seg.textContent.trim(),
