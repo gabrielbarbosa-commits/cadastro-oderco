@@ -1883,7 +1883,6 @@ var RAMO_POR_PALAVRA = [
   [/eletr[óo]nic/i,                                                  "Eletrônica"],
   [/manuten[çc][ãa]o|reparaç|assist[êe]ncia/i,                       "Assistência técnica"],
   [/livr/i,                                                          "Livraria"],
-  [/brinquedo/i,                                                     "Brinquedos"],
   [/jogo|game/i,                                                     "Games"],
   [/supermercado|hipermercado/i,                                     "Supermercado"],
   [/mercearia|minimercado/i,                                         "Mercearia"],
@@ -1947,6 +1946,8 @@ function preencherAtividade(desc, cnae){
       if(!ramo && RAMO_POR_PALAVRA[i][0].test(desc)){ ramo = RAMO_POR_PALAVRA[i][1]; break; }
     }
   }
+  // só sugere ramo que existe na lista: valor fora dela o RD recusa e o cadastro não sai
+  if(ramo && (solar ? RAMOS_SOLAR : RAMOS_GERAIS).indexOf(ramo) < 0) ramo = "";
   if(ramo) comboRamo.definir(ramo);
   marcarSugerido(!!ramo);
 }
