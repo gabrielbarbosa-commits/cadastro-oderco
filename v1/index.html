@@ -1844,40 +1844,41 @@ escolhaUnica(contato, function(b){ via = b; });
 
 
 /* ---- CNAE preenche atividade e ramo ----
-   O texto do CNAE já diz se é atacado, varejo ou indústria. O ramo sai por
-   palavra-chave. Tudo fica editável: é sugestão, não trava.               */
-var RAMO_POR_PALAVRA = [
-  [/inform[áa]tica|computador|perif[ée]ric|processamento de dados/i, "Informática"],
-  [/instrumento musical|musical/i,                                   "Musical"],
-  [/provedor|acesso [àa] internet/i,                                  "Provedor"],
-  [/telecomunica|telefonia/i,                                        "Telecom"],
-  [/material el[ée]tric|el[ée]tric/i,                                "Materiais elétricos"],
-  [/ferramenta/i,                                                    "Ferramentas"],
-  [/m[óo]vel|m[óo]veis|eletrodom[ée]stic/i,                          "Móveis e eletro"],
-  [/papelaria|papel/i,                                               "Papelaria"],
-  [/eletr[óo]nic/i,                                                  "Eletrônica"],
-  [/manuten[çc][ãa]o|reparaç|assist[êe]ncia/i,                       "Assistência técnica"],
-  [/livr/i,                                                          "Livraria"],
-  [/jogo|game/i,                                                     "Games"],
-  [/supermercado|hipermercado/i,                                     "Supermercado"],
-  [/mercearia|minimercado/i,                                         "Mercearia"],
-  [/material de constru|constru[çc][ãa]o/i,                          "Material para construção"],
-  [/armarinho|arma[çc][õo]es/i,                                      "Armarinhos"],
-  [/farm[áa]cia|drogaria|farmac[êe]utic|medicamento/i,               "Farmácia"],
-  [/combust[íi]vel|posto/i,                                          "Conveniência de posto"],
-  [/produtos aliment[íi]cios|g[êe]neros aliment|bebidas/i,           "Alimentos"],
-  [/ve[íi]culo|automot|autom[óo]vel/i,                               "Concessionária automotiva"],
-  [/pe[çc]as/i,                                                      "Auto peças"],
-  [/internet|com[ée]rcio eletr[ôo]nico|e-?commerce/i,                "E-commerce"],
-  [/servidor/i,                                                      "Revenda corporativa (servidores)"],
-  [/automa[çc][ãa]o/i,                                               "Automação"],
-  [/som|sonoriza|ilumina/i,                                          "Som profissional (iluminação e sonorização)"],
-  [/fotogr[áa]fic|cinemat/i,                                         "Cine e foto"],
-  [/cabo|fio/i,                                                      "Cabos (especializado)"],
-  [/seguran[çc]a|vigil[âa]ncia|alarme/i,                             "Segurança"],
-  [/antena/i,                                                        "Antenas"],
-  [/utilidade dom[ée]stica/i,                                        "Utilidades domésticas"]
-];
+   A seção do CNAE já diz se é atacado, varejo ou indústria. O ramo sai do
+   código, por uma tabela conferida na lista oficial do IBGE: primeiro a
+   subclasse (7 dígitos), depois a classe (4). Código fora da tabela deixa o
+   ramo vazio. Palavra-chave na descrição errava muito ("reparaç" achava
+   "Preparação do leite", "peças" achava "peças do vestuário"), e ramo errado
+   já preenchido é pior que vazio: a pessoa tende a aceitar a sugestão.
+   Tudo fica editável: é sugestão, não trava.                              */
+var RAMO_POR_CNAE = {
+  // atacado
+  "4631":"Alimentos", "4632":"Alimentos", "4633":"Alimentos", "4634":"Alimentos",
+  "4635":"Alimentos", "4637":"Alimentos", "4639":"Alimentos", "4691":"Alimentos",
+  "4641903":"Armarinhos", "4644":"Farmácia",
+  "4647801":"Papelaria", "4647802":"Livraria",
+  "4649401":"Móveis e eletro", "4649402":"Eletrônica", "4649404":"Móveis e eletro",
+  "4651":"Informática", "4652":"Telecom",
+  "4672":"Ferramentas", "4673":"Materiais elétricos",
+  "4674":"Material para construção", "4679":"Material para construção",
+  // veículos: a seção 45 não entra em atacado/varejo pelo código, sai pela descrição
+  "4511":"Concessionária automotiva", "4530":"Auto peças",
+  "4541202":"Auto peças", "4541206":"Auto peças", "4541207":"Auto peças",
+  // varejo
+  "4711":"Supermercado", "4712":"Mercearia",
+  "4721":"Alimentos", "4722":"Alimentos", "4723":"Alimentos", "4724":"Alimentos",
+  "4729602":"Alimentos", "4729699":"Alimentos",
+  "4731":"Conveniência de posto",
+  "4741":"Material para construção", "4742":"Materiais elétricos",
+  "4743":"Material para construção", "4744":"Material para construção", "4744001":"Ferramentas",
+  "4751":"Informática", "4752":"Telecom", "4753":"Móveis e eletro", "4754":"Móveis e eletro",
+  "4755502":"Armarinhos", "4756":"Musical", "4757":"Eletrônica", "4759899":"Utilidades domésticas",
+  "4761001":"Livraria", "4761003":"Papelaria", "4771":"Farmácia", "4789008":"Cine e foto",
+  // indústria
+  "2610":"Eletrônica", "2621":"Informática", "2622":"Informática",
+  "2631":"Telecom", "2632":"Telecom", "2640":"Eletrônica", "2670":"Cine e foto",
+  "2733":"Cabos (especializado)", "3220":"Musical", "3240001":"Games"
+};
 
 function atividadePorCnae(cnae){
   var secao = String(cnae || "").slice(0,2);
@@ -1888,15 +1889,8 @@ function atividadePorCnae(cnae){
 }
 
 function ramoPorCnae(cnae){
-  var prefixo = String(cnae || "").slice(0,4);
-  var porCodigo = {
-    "4651":"Informática", "4652":"Telecom", "4649":"Papelaria",
-    "4661":"Materiais elétricos", "4662":"Ferramentas", "4663":"Material para construção",
-    "4742":"Materiais elétricos", "4751":"Informática", "4752":"Eletrônica",
-    "4753":"Móveis e eletro", "4754":"Móveis e eletro", "4755":"Utilidades domésticas",
-    "4763":"Musical", "4771":"Farmácia", "4781":"Alimentos"
-  };
-  return porCodigo[prefixo] || "";
+  var c = String(cnae || "");
+  return RAMO_POR_CNAE[c.slice(0,7)] || RAMO_POR_CNAE[c.slice(0,4)] || "";
 }
 
 function preencherAtividade(desc, cnae){
@@ -1917,9 +1911,6 @@ function preencherAtividade(desc, cnae){
     ramo = /instala|servi[çc]o/i.test(desc) ? "Integrador solar" : "Revendedor solar";
   } else {
     ramo = ramoPorCnae(cnae);
-    for(var i=0;i<RAMO_POR_PALAVRA.length;i++){
-      if(!ramo && RAMO_POR_PALAVRA[i][0].test(desc)){ ramo = RAMO_POR_PALAVRA[i][1]; break; }
-    }
   }
   // só sugere ramo que existe na lista: valor fora dela o RD recusa e o cadastro não sai
   if(ramo && (solar ? RAMOS_SOLAR : RAMOS_GERAIS).indexOf(ramo) < 0) ramo = "";
