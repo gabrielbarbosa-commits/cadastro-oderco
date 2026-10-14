@@ -57,7 +57,7 @@ p{margin:0}
   text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;color:var(--blue);
 }
 .lbl::before{content:"";width:6px;height:6px;background:currentColor;transform:rotate(45deg);flex:none}
-.lbl--pale{color:rgba(255,255,255,.5)}
+.lbl--pale{color:rgba(255,255,255,.76)}
 .lbl--amber{color:var(--amber)}
 .lbl--white{color:rgba(255,255,255,.72)}
 
@@ -67,12 +67,12 @@ p{margin:0}
 
 /* ============ HEADER ============ */
 .hdr{position:fixed;top:0;left:0;right:0;z-index:80;transition:background .3s,box-shadow .3s,color .3s;color:#fff}
-.hdr.solid{background:rgba(255,255,255,.9);backdrop-filter:blur(18px);box-shadow:0 1px 0 var(--line);color:var(--ink)}
+.hdr.solid{background:rgba(255,255,255,.97);backdrop-filter:blur(18px);box-shadow:0 1px 0 var(--line);color:var(--ink)}
 .hdr__in{display:flex;align-items:center;gap:26px;height:68px}
 /* duas versões do logo: a branca no hero, a azul quando o header vira branco */
 .brand{position:relative;display:block;flex:none;line-height:0;text-decoration:none}
 .brand__img{height:23px;width:auto;transition:opacity .3s}
-.brand__img--escuro{position:absolute;left:0;top:0;opacity:0}
+.brand__img--escuro{position:absolute;left:0;top:0;bottom:0;margin:auto 0;opacity:0}  /* centrada mesmo com o padding de toque da .brand */
 .hdr.solid .brand__img--claro{opacity:0}
 .hdr.solid .brand__img--escuro{opacity:1}
 .hdr__nav{display:flex;gap:24px;margin-left:auto}
@@ -88,9 +88,13 @@ p{margin:0}
 .hdr__cta{
   font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   background:var(--blue);color:#fff;border:0;border-radius:99px;padding:11px 20px;cursor:pointer;
-  transition:background .2s;flex:none;
+  white-space:nowrap;overflow:hidden;max-width:220px;
+  transition:background .2s,opacity .25s,visibility .25s,max-width .4s cubic-bezier(.16,1,.3,1),padding .4s cubic-bezier(.16,1,.3,1),margin .4s cubic-bezier(.16,1,.3,1);flex:none;
 }
 .hdr__cta:hover{background:var(--blue-dk)}
+/* o formulário já está na tela: o botão apontaria para ele mesmo. Recolhe sem deixar
+   buraco, para o Entrar alinhar com a borda do formulário; a margem negativa anula o gap */
+.hdr.forma .hdr__cta{opacity:0;visibility:hidden;max-width:0;padding-left:0;padding-right:0;margin-left:-26px}
 
 /* ============ 01 · HERO (escuro) ============ */
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;background:var(--deep);color:#fff}
@@ -137,6 +141,7 @@ p{margin:0}
     linear-gradient(180deg,rgba(2,7,27,.62) 0%,transparent 24%,transparent 60%,rgba(2,7,27,.88) 100%);
 }
 .hero__in{position:relative;z-index:2;width:100%;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(400px,.9fr);gap:clamp(30px,4vw,68px);align-items:center;padding-top:104px;padding-bottom:60px}
+.hero .lbl{display:flex;width:max-content;max-width:100%;margin-bottom:12px}   /* respiro entre o rótulo e o título */
 .hero h1{font-size:clamp(44px,6.6vw,100px)}
 .hero h1 .b{color:var(--blue);display:block}
 .hero__sub{margin-top:24px;max-width:42ch;font-size:clamp(15px,1.3vw,18px);line-height:1.6;color:rgba(255,255,255,.78)}
@@ -334,6 +339,7 @@ p{margin:0}
 .done__q{margin-top:20px;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:left;background:var(--paper)}
 .done__ql{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey)}
 .done__qv{font-size:14px;font-weight:700;margin-top:3px}
+.done__loja{display:block;text-align:center;text-decoration:none;margin-top:20px}
 .done__qm{font-size:12.5px;color:var(--slate);margin-top:2px;line-height:1.4}
 
 /* ============ 02 · FAIXA DE PROVA ============ */
@@ -425,10 +431,11 @@ p{margin:0}
 .ph{position:relative;justify-self:center;width:clamp(260px,26vw,320px)}
 .ph__glow{pointer-events:none;position:absolute;inset:-14% -22%;background:radial-gradient(50% 50% at 50% 50%,rgba(0,90,255,.2),transparent 70%);filter:blur(28px)}
 .ph__body{
-  position:relative;aspect-ratio:390/844;border-radius:52px;background:#0A1230;
+  position:relative;border-radius:52px;background:#0A1230;
   padding:11px;box-shadow:0 40px 90px -30px rgba(10,18,48,.6),0 0 0 2px rgba(10,18,48,.9),inset 0 0 0 1px rgba(255,255,255,.14);
 }
-.ph__scr{position:relative;width:100%;height:100%;border-radius:42px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+/* a tela tem a proporção dos prints (585x1268): o cover não corta as laterais */
+.ph__scr{position:relative;width:100%;aspect-ratio:585/1268;border-radius:42px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
 .ph__island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:78px;height:22px;border-radius:99px;background:#0A1230;z-index:6}
 .ph__scrn{flex:1;position:relative;overflow:hidden}
 .scr{position:absolute;inset:0;opacity:0;transform:translateX(18px);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1);overflow:hidden}
@@ -497,6 +504,7 @@ p{margin:0}
 }
 @media (max-width:900px){
   .hdr__nav{display:none}
+  .hdr__nav+.hdr__log{margin-left:auto}                /* sem menu, o Entrar vai para a direita */
   .hero{min-height:auto}
   .hero__in{grid-template-columns:1fr;padding-top:86px;padding-bottom:44px;gap:26px}
   .hero h1{font-size:clamp(38px,8.4vw,58px)}
@@ -509,6 +517,7 @@ p{margin:0}
 }
 @media (max-width:680px){
   .hdr__cta{display:none}
+  .ph__pause{display:none}                              /* no toque o hover gruda e cobre a tela; as setas já pausam */
   .hdr__log{margin-left:auto;padding:14px 4px}          /* alvo de toque de 44px */
   .brand{padding:8px 0}
   .cl__f a{display:inline-block;padding:8px 0}
@@ -519,7 +528,7 @@ p{margin:0}
   .so-lg{display:none}                       /* corta o meio da frase no celular */
   h2{font-size:clamp(27px,7.4vw,32px)}
   .hero h1{font-size:clamp(46px,13.2vw,58px);line-height:.9;letter-spacing:-.045em}
-  .hero__in{padding-top:104px;padding-bottom:40px;gap:34px}
+  .hero__in{padding-top:78px;padding-bottom:40px;gap:34px}
   .hero .lbl{font-size:10.5px;letter-spacing:.2em}
   .hero__sub{margin-top:24px;font-size:16.5px;line-height:1.62;max-width:31ch;color:rgba(255,255,255,.84)}
 
@@ -638,9 +647,9 @@ p{margin:0}
 </head>
 <body>
 
-<header class="hdr" id="hdr">
+<header class="hdr forma" id="hdr">
   <div class="wrap hdr__in">
-    <a class="brand" href="#topo" aria-label="Oderço, início">
+    <a class="brand" href="https://www.oderco.com.br/" aria-label="Oderço, ir para o site">
       <img class="brand__img brand__img--claro" src="../assets/logos/oderco-branco.png" alt="Oderço">
       <img class="brand__img brand__img--escuro" src="../assets/logos/oderco-azul.png" alt="" aria-hidden="true">
     </a>
@@ -670,8 +679,7 @@ p{margin:0}
       <p class="hero__sub rv rv-d2">
         Tenha acesso a produtos de informática, eletrônicos e muito mais. A Oderço trabalha com <b>estoque
         próprio</b>, <b>marcas exclusivas</b> e <b>dois centros de distribuição</b> para atender sua revenda com
-        mais agilidade e segurança. Faça o cadastro da sua revenda para garantir acesso ao catálogo completo e
-        compre diretamente de uma das maiores distribuidoras do país.
+        mais agilidade e segurança. Cadastre sua revenda e compre direto de uma das maiores distribuidoras do país.
       </p>
       <div class="prova rv rv-d3">
         <div class="prova__logos" aria-hidden="true">
@@ -697,7 +705,7 @@ p{margin:0}
         <div class="card__hd">
           <div>
             <div class="card__t">Abra sua conta de revenda</div>
-            <p class="card__d">Leva um minuto. Só para empresa com CNPJ ativo.</p>
+            <p class="card__d">É rápido: tenha em mãos o CNPJ ativo da sua empresa.</p>
           </div>
           <span class="card__n">01 / 02</span>
         </div>
@@ -844,6 +852,7 @@ p{margin:0}
           <div class="done__ql" style="margin-top:12px">Contato preferido</div>
           <div class="done__qv" id="doneVia"></div>
         </div>
+        <a class="sub done__loja" href="https://www.oderco.com.br/">Ir para a loja</a>
       </div>
     </div>
   </div>
@@ -893,7 +902,7 @@ p{margin:0}
 <section class="br" id="marcas">
   <div class="wrap">
     <div class="br__hd">
-      <span class="lbl lbl--amber rv">Marcas do grupo</span>
+      <span class="lbl rv">Marcas próprias</span>
       <h2 class="rv rv-d1">As marcas próprias da <span class="b">Oderço.</span></h2>
       <p class="br__d rv rv-d2">Temos cinco marcas próprias que foram desenvolvidas para atender as diferentes necessidades do mercado. Compre conosco e tenha ainda mais margem para a sua loja.</p>
     </div>
@@ -965,7 +974,7 @@ p{margin:0}
 <!-- ══════════ 06 · NÚMEROS ══════════ -->
 <section class="nm">
   <div class="wrap nm__g">
-    <div class="nm__i rv"><div class="nm__v" data-to="38">0</div><div class="nm__l">Anos abastecendo<br>lojista brasileiro</div></div>
+    <div class="nm__i rv"><div class="nm__v" data-to="38" data-desde="1988">0</div><div class="nm__l">Anos abastecendo<br>lojista brasileiro</div></div>
     <div class="nm__i rv rv-d1"><div class="nm__v" data-to="2"><small>CDs</small></div><div class="nm__l">Paraná e<br>Espírito Santo</div></div>
     <div class="nm__i rv rv-d2"><div class="nm__v" data-to="5">0</div><div class="nm__l">Marcas próprias<br>do grupo</div></div>
     <div class="nm__i rv rv-d3"><div class="nm__v" data-to="10">0</div><div class="nm__l">Departamentos<br>no catálogo</div></div>
@@ -1016,8 +1025,7 @@ p{margin:0}
       </div>
     </div>
     <div class="ft__b">
-      <span>Oderço Distribuidora © 1988-2026</span>
-      <span>Protótipo · não publicado</span>
+      <span>Oderço Distribuidora © 1988–<span id="anoAtual">2026</span></span>
     </div>
   </div>
 </footer>
@@ -1266,7 +1274,9 @@ var cfCards = [], cfDots = [], cfAtual = 2, cfDrag = 0, cfArrasto = null;
   cf.addEventListener("pointermove", mover);
   cf.addEventListener("pointerup", soltar);
   cf.addEventListener("pointercancel", function(){ encerrar(); cfLayout(); });
-  cf.addEventListener("lostpointercapture", function(){ if(cfArrasto){ encerrar(); cfLayout(); } });
+  // no toque o card recebe captura implícita; quando o cf assume, o card dispara
+  // lostpointercapture, que borbulha até aqui. Só a perda do próprio cf encerra.
+  cf.addEventListener("lostpointercapture", function(e){ if(e.target === cf && cfArrasto){ encerrar(); cfLayout(); } });
   // rede de segurança: soltar fora do componente não pode deixar o estado presa
   window.addEventListener("pointerup", function(e){ if(cfArrasto) soltar(e); });
   window.addEventListener("blur", function(){ if(cfArrasto){ encerrar(); cfLayout(); } });
@@ -1405,7 +1415,7 @@ if("IntersectionObserver" in window){
   $$(".rv").forEach(function(el){ el.classList.add("in"); });
 }
 function contar(el){
-  var to = parseInt(el.getAttribute("data-to"),10), small = el.querySelector("small"), t0 = null, dur = 900;
+  var to = el.hasAttribute("data-desde") ? new Date().getFullYear() - parseInt(el.getAttribute("data-desde"),10) : parseInt(el.getAttribute("data-to"),10), small = el.querySelector("small"), t0 = null, dur = 900;
   if(!el.firstChild || el.firstChild.nodeType !== 3) el.insertBefore(document.createTextNode("0"), small || null);
   if(LESS){ el.firstChild.nodeValue = String(to); return; }
   requestAnimationFrame(function step(t){
@@ -2184,15 +2194,38 @@ form.addEventListener("submit", function(e){
 
 $$("[data-goto]").forEach(function(b){
   b.addEventListener("click", function(){
-    card.scrollIntoView({ behavior: LESS ? "auto" : "smooth", block:"center" });
+    // topo do card logo abaixo do header fixo, nunca o meio: no celular o card é mais alto que a tela
+    var y = card.getBoundingClientRect().top + window.pageYOffset - $("#hdr").offsetHeight - 16;
+    window.scrollTo({ top: Math.max(0, y), behavior: LESS ? "auto" : "smooth" });
     setTimeout(function(){ if(form.style.display !== "none") cnpj.focus({preventScroll:true}); }, 560);
   });
 });
 
-var bar = $("#bar");
-if("IntersectionObserver" in window && bar){
-  new IntersectionObserver(function(en){ bar.classList.toggle("on", !en[0].isIntersecting); },{threshold:.12}).observe(card);
+var bar = $("#bar"), cab = $("#hdr"), fecho = $(".cl__b");
+$("#anoAtual").textContent = new Date().getFullYear();
+if("IntersectionObserver" in window){
+  // a barra do celular só aparece quando nem o formulário nem o botão do fecho estão na tela
+  var vendo = { card:true, fecho:false };
+  var io = new IntersectionObserver(function(en){
+    en.forEach(function(e){ vendo[e.target === card ? "card" : "fecho"] = e.isIntersecting; });
+    if(bar) bar.classList.toggle("on", !vendo.card && !vendo.fecho);
+    cab.classList.toggle("forma", vendo.card);
+  },{threshold:.12});
+  io.observe(card);
+  if(fecho) io.observe(fecho);
+} else {
+  cab.classList.remove("forma");
 }
+
+// menu rola sem gravar #âncora: o voltar do navegador sai da LP de uma vez
+$$('.hdr__nav a[href^="#"]').forEach(function(a){
+  a.addEventListener("click", function(e){
+    var alvo = document.getElementById(a.getAttribute("href").slice(1));
+    if(!alvo) return;
+    e.preventDefault();
+    alvo.scrollIntoView({ behavior: LESS ? "auto" : "smooth", block:"start" });
+  });
+});
 
 /* Cada tela carrega seu corte próprio, já iniciado no segundo 11 do original. */
 (function(){

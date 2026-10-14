@@ -9,11 +9,11 @@ Landing page oficial de captação de novos revendedores da Oderço. Ela valida 
 | Rota | Uso |
 | --- | --- |
 | `/` | Versão oficial (V2), com vídeo no hero. |
-| `/v1/` | Variante com imagem estática no hero. |
 | `/v2/` | Redireciona permanentemente para `/`. |
+| `/v1/` | Removida. Redireciona permanentemente para `/`. |
 | `/v3/` | Removida. Redireciona permanentemente para `/`. |
 
-Apenas duas versões são mantidas: a oficial (`/`, hero em vídeo) e a `/v1/` (hero em imagem estática). Toda alteração de conteúdo deve ser aplicada nas duas.
+Só a V2 é mantida. O hero usa vídeo nas duas larguras: `hero-desktop.mp4` acima de 680px e `hero-mobile.mp4` até 680px.
 
 O arquivo [`vercel.json`](vercel.json) mantém esse apontamento: a raiz reescreve para `v2/index.html`, sem alterar a URL visível do visitante.
 
@@ -126,7 +126,6 @@ As rotas administrativas de OAuth e auditoria (`/api/rd/connect`, `/api/rd/callb
 ## Estrutura do repositório
 
 ```text
-v1/index.html                Variante com hero de imagem
 v2/index.html                LP oficial com hero de vídeo
 api/rd/conversion.js         Endpoint server-side que envia conversões ao RD
 api/rd/connect.js            Início do OAuth administrativo
@@ -156,7 +155,7 @@ npx vercel --prod
 Depois do deploy, valide ao menos:
 
 - `/` abre a V2;
-- `/v1/` abre a variante estática;
+- `/v1/` redireciona para `/`;
 - um cadastro de teste aparece no RD com o evento `cadastro-lp-revenda`;
 - os campos `[CADASTRO-LP]` chegam preenchidos;
 - a automação do RD encaminha o lead conforme a segmentação aplicável.

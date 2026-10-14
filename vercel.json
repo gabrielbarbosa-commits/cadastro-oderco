@@ -2,6 +2,16 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
+      "source": "/v1",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/v1/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/v2",
       "destination": "/",
       "permanent": true
