@@ -328,8 +328,22 @@ p{margin:0}
 .reveal__links .ic{flex:none;color:var(--blue)}
 .reveal__links .seta{flex:none;margin-left:auto;color:#9AA9C7;transition:transform .15s}
 .reveal__links a:hover .seta{transform:translateX(2px);color:var(--blue)}
+.reveal__links button{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:10px;padding:12px 13px;min-height:44px;
+  font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer;border-top:1px solid #E8EEF9;transition:background .15s}
+.reveal__links button:hover{background:#F5F8FF}
+.reveal__links button:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+/* CNPJ baixado ou nulo: empresa encerrada não emite nota, o cadastro não tem como seguir */
+.reveal.fechado{background:#FFF7F6;border-color:#F2C9C4}
+.reveal.fechado .reveal__ic{background:#D92D20 no-repeat center/9px 9px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 9 9'%3E%3Cpath d='M1 1l7 7M8 1l-7 7' stroke='%23fff' stroke-width='1.9' stroke-linecap='round'/%3E%3C/svg%3E")}
+.reveal.fechado .reveal__cnpj{color:#B42318}
+.reveal__fechado{display:none;margin-top:12px;padding-top:12px;border-top:1px solid #F2C9C4}
+.reveal.fechado .reveal__fechado{display:block}
+.reveal__fechado p{margin:0;font-size:12.5px;line-height:1.45;color:var(--slate)}
+.reveal.fechado .reveal__links{border-color:#F2C9C4}
 /* com a conta encontrada, o resto do cadastro sai de cena */
-.ja-cliente .etapa[data-etapa="1"] > .f ~ *,.ja-cliente #submit,.ja-cliente .card__cli,.ja-cliente .fine{display:none}
+.ja-cliente .etapa[data-etapa="1"] > .f ~ *,.ja-cliente #submit,.ja-cliente .card__cli,.ja-cliente .fine,
+.cnpj-fechado .etapa[data-etapa="1"] > .f ~ *,.cnpj-fechado #submit,.cnpj-fechado .fine{display:none}
 /* campo de busca do combobox: listas longas não se resolvem com salto por letra */
 .sel__busca{
   position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:31;width:100%;
@@ -762,6 +776,20 @@ p{margin:0}
               </div>
               <dl class="reveal__meta" id="revealM"></dl>
               <div class="reveal__aviso" id="revealAviso"></div>
+              <div class="reveal__fechado">
+                <p id="fechadoD"></p>
+                <div class="reveal__links">
+                  <a href="https://www.oderco.com.br/pages/forms/faleconosco">
+                    <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8.5 10.5h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    Já regularizei, falar com a Oderço
+                    <svg class="seta" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </a>
+                  <button type="button" id="outroCnpj">
+                    <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                    Digitar outro CNPJ
+                  </button>
+                </div>
+              </div>
               <div class="reveal__acoes">
                 <p>Entre com o e-mail e a senha da sua conta para ver os preços e comprar.</p>
                 <a class="reveal__entrar" href="https://www.oderco.com.br/customer/account/login/">Entrar na minha conta</a>
@@ -1568,7 +1596,7 @@ cnpj.addEventListener("input", function(){
 /* CNPJ que já tem conta na loja. O Magento responde só {existe:true|false}.
    Sem endereço configurado, com erro ou demora, o cadastro segue normalmente.
    ?simular=cliente na URL mostra o estado sem precisar do endpoint. */
-var CNPJ_EXISTE_URL = "";   // ex.: "https://www.oderco.com.br/precadastro/cnpj/existe"
+var CNPJ_EXISTE_URL = "/precadastro/cnpj/existe";   // relativo: só responde na loja (fora dela, 403/404 e o cadastro segue)
 var SIMULA_CLIENTE = /[?&]simular=cliente(&|$)/.test(location.search);
 var clienteDe = "";
 /* Enquanto a checagem não volta, o resultado da Receita espera (até 1,5s): mostrar
@@ -1595,7 +1623,9 @@ function verificarCliente(d){
   }
   var ctl = "AbortController" in window ? new AbortController() : null;
   var limite = ctl ? setTimeout(function(){ ctl.abort(); }, 4000) : null;
-  fetch(CNPJ_EXISTE_URL + "?cnpj=" + encodeURIComponent(d), ctl ? { signal: ctl.signal } : undefined)
+  fetch(CNPJ_EXISTE_URL + "?cnpj=" + encodeURIComponent(d), Object.assign({
+    credentials: "same-origin", headers: { "Accept": "application/json" }
+  }, ctl ? { signal: ctl.signal } : {}))
     .then(function(r){ if(!r.ok) throw 0; return r.json(); })
     .then(function(j){ if(j && j.existe === true && atual(d)){ c.fila = null; jaCliente(d); } })
     .catch(function(){})
@@ -1626,6 +1656,7 @@ function jaClienteJa(d){
   fecharManual();
 }
 function semCliente(){
+  if(form.classList.contains("cnpj-fechado")) suavizar(function(){ form.classList.remove("cnpj-fechado"); });
   if(!clienteDe) return;
   clienteDe = "";
   suavizar(function(){ form.classList.remove("ja-cliente"); });
@@ -1765,6 +1796,7 @@ function buscando(){
 }
 function achou(d){
   if(ehCliente() || aguardarChecagem(function(){ achou(d); })) return;
+  if(d.situacao === "BAIXADA" || d.situacao === "NULA") return cnpjFechado(d);
   empresaConsultada = d;
   var faltando = faltaNaConsulta(d);
   reveal.className = "reveal on" + (faltando.length ? " parcial" : "");
@@ -1786,6 +1818,30 @@ function achou(d){
   if(faltando.length) abrirManual(faltando, "parcial"); else fecharManual();
   preencherAtividade(d.cnaeDesc, d.cnaeCode);
 }
+/* Baixada ou nula: empresa encerrada não emite nota, então não há compra no atacado.
+   Inapta e suspensa seguem com aviso, porque costumam ser pendência regularizável. */
+function cnpjFechado(d){
+  empresaConsultada = null;
+  var sit = d.situacao === "NULA" ? "nulo" : "baixado";
+  suavizar(function(){
+    form.classList.add("cnpj-fechado");
+    reveal.className = "reveal on fechado";
+    $("#revealV").innerHTML = "CNPJ " + sit + " na Receita Federal" +
+      '<span class="reveal__cnpj">' + (d.nome ? esc(d.nome) + " · " : "") +
+      '<span style="white-space:nowrap">' + esc(d.cnpj) + '</span></span>';
+    $("#revealM").innerHTML = "";
+    $("#revealAviso").classList.remove("on");
+    $("#fechadoD").textContent = "Empresa com CNPJ " + sit + " não emite nota fiscal, então não conseguimos liberar compras no atacado. Se a situação já foi regularizada na Receita, fale com a gente.";
+    limparSugestaoCnpj();
+    fecharManual();
+  });
+}
+$("#outroCnpj").addEventListener("click", function(){
+  cnpj.value = "";
+  cnpj.dispatchEvent(new Event("input"));
+  cnpj.focus();
+});
+
 /* erro de digitação: diferente de "não encontrado", aqui a pessoa precisa corrigir */
 function invalido(){
   empresaConsultada = null;
@@ -2266,12 +2322,14 @@ function enviarCadastro(){
     // 400 e 429 são respostas do servidor, não falha de rede: mandar conferir a
     // conexão nesses casos faz a pessoa procurar problema no lugar errado
     if(resposta.status === 400) throw new Error("dados");
+    if(resposta.status === 409){ irEtapa(1, true); jaCliente(soCnpj(cnpj.value)); throw new Error("existente"); }
     if(resposta.status === 429) throw new Error("espera");
     if(!resposta.ok) throw new Error("rede");
     concluirCadastro();
   }).catch(function(falha){
     var motivo = falha && falha.message;
     submit.disabled = false;
+    if(motivo === "existente") return;
     submit.textContent = "Criar minha conta";
     erro.textContent = motivo === "dados"
       ? "Confira os dados informados e tente novamente."
@@ -2285,7 +2343,7 @@ function enviarCadastro(){
 
 form.addEventListener("submit", function(e){
   e.preventDefault();
-  if(ehCliente()) return;
+  if(ehCliente() || form.classList.contains("cnpj-fechado")) return;
 
   if(etapa === 1){
     var faltam = [];
