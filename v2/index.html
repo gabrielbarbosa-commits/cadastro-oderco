@@ -303,6 +303,33 @@ p{margin:0}
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 9 9'%3E%3Cpath d='M1 1l7 7M8 1l-7 7' stroke='%23fff' stroke-width='1.9' stroke-linecap='round'/%3E%3C/svg%3E");}
 .reveal.ruim .reveal__cnpj{color:#B42318}
 .reveal.parcial .manual{border-top-color:#F0DDB4}
+/* CNPJ que já tem conta: a saída é o login, não um segundo cadastro */
+.reveal.cliente{border-color:#B9CFF7}
+.reveal.cliente .reveal__ic{background:var(--navy) no-repeat center/10px 11px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='11' viewBox='0 0 10 11'%3E%3Ccircle cx='5' cy='3' r='2.3' fill='%23fff'/%3E%3Cpath d='M.8 10.4c.5-2.3 2.2-3.6 4.2-3.6s3.7 1.3 4.2 3.6' fill='%23fff'/%3E%3C/svg%3E")}
+.reveal__acoes{display:none;margin-top:12px;padding-top:12px;border-top:1px solid #D9E4FA}
+.reveal.cliente .reveal__acoes{display:block}
+.reveal__acoes p{margin:0;font-size:12.5px;line-height:1.45;color:var(--slate)}
+.reveal__entrar{
+  display:block;margin-top:12px;padding:13px;border-radius:10px;text-align:center;text-decoration:none;
+  background:var(--blue);color:#fff;font-family:var(--display);font-weight:800;font-size:15px;transition:background .2s;
+}
+.reveal__entrar:hover{background:var(--blue-dk)}
+.reveal__entrar:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+/* ações secundárias em lista: alvo de toque inteiro e abaixo do botão na hierarquia */
+.reveal__links{margin-top:10px;background:#fff;border:1px solid #D9E4FA;border-radius:10px;overflow:hidden}
+.reveal__links a{
+  display:flex;align-items:center;gap:10px;padding:12px 13px;min-height:44px;box-sizing:border-box;
+  font-size:13.5px;font-weight:600;color:var(--ink);text-decoration:none;transition:background .15s;
+}
+.reveal__links a+a{border-top:1px solid #E8EEF9}
+.reveal__links a:hover{background:#F5F8FF}
+.reveal__links a:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.reveal__links .ic{flex:none;color:var(--blue)}
+.reveal__links .seta{flex:none;margin-left:auto;color:#9AA9C7;transition:transform .15s}
+.reveal__links a:hover .seta{transform:translateX(2px);color:var(--blue)}
+/* com a conta encontrada, o resto do cadastro sai de cena */
+.ja-cliente .etapa[data-etapa="1"] > .f ~ *,.ja-cliente #submit,.ja-cliente .card__cli,.ja-cliente .fine{display:none}
 /* campo de busca do combobox: listas longas não se resolvem com salto por letra */
 .sel__busca{
   position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:31;width:100%;
@@ -735,6 +762,22 @@ p{margin:0}
               </div>
               <dl class="reveal__meta" id="revealM"></dl>
               <div class="reveal__aviso" id="revealAviso"></div>
+              <div class="reveal__acoes">
+                <p>Entre com o e-mail e a senha da sua conta para ver os preços e comprar.</p>
+                <a class="reveal__entrar" href="https://www.oderco.com.br/customer/account/login/">Entrar na minha conta</a>
+                <div class="reveal__links">
+                  <a href="https://www.oderco.com.br/customer/account/forgotpassword/">
+                    <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="8" cy="15" r="4.2" stroke="currentColor" stroke-width="2"/><path d="M11 12l8.5-8.5M16.5 6.5l2.5 2.5M14.5 8.5l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    Esqueci minha senha
+                    <svg class="seta" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </a>
+                  <a href="https://www.oderco.com.br/pages/forms/faleconosco">
+                    <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8.5 10.5h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    Não reconheço essa conta
+                    <svg class="seta" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </a>
+                </div>
+              </div>
               <div class="manual" id="manual" hidden>
                 <p class="manual__d" id="manualD"></p>
                 <div class="f" id="mfRazao">
@@ -1506,18 +1549,88 @@ cnpj.addEventListener("input", function(){
   cnpj.value = maskCnpj(cnpj.value);
   var d = soCnpj(cnpj.value);
   if(d.length < 14){
-    reveal.classList.remove("on","err","carregando","parcial"); last = "";
+    reveal.classList.remove("on","err","carregando","parcial","cliente"); last = "";
     empresaConsultada = null;
+    semCliente();
     limparSugestaoCnpj();
     fecharManual();
     return;
   }
   if(d === last) return;
   last = d;
+  semCliente();
   if(!cnpjValido(d)) return invalido();
   buscando();
   consultar(d);
+  verificarCliente(d);
 });
+
+/* CNPJ que já tem conta na loja. O Magento responde só {existe:true|false}.
+   Sem endereço configurado, com erro ou demora, o cadastro segue normalmente.
+   ?simular=cliente na URL mostra o estado sem precisar do endpoint. */
+var CNPJ_EXISTE_URL = "";   // ex.: "https://www.oderco.com.br/precadastro/cnpj/existe"
+var SIMULA_CLIENTE = /[?&]simular=cliente(&|$)/.test(location.search);
+var clienteDe = "";
+/* Enquanto a checagem não volta, o resultado da Receita espera (até 1,5s): mostrar
+   o cartão da empresa e trocar pelo "já tem conta" logo depois parece um tranco. */
+var checagem = { d:"", pronto:true, fila:null };
+function liberar(c){
+  if(c.pronto) return;
+  c.pronto = true;
+  var f = c.fila; c.fila = null;
+  if(f && atual(c.d)) f();
+}
+function aguardarChecagem(fn){
+  if(!checagem.pronto && atual(checagem.d)){ checagem.fila = fn; return true; }
+  return false;
+}
+function verificarCliente(d){
+  var c = checagem = { d:d, pronto:true, fila:null };
+  if(!SIMULA_CLIENTE && (!CNPJ_EXISTE_URL || !window.fetch)) return;
+  c.pronto = false;
+  setTimeout(function(){ liberar(c); }, 1500);
+  if(SIMULA_CLIENTE){
+    setTimeout(function(){ if(atual(d)){ c.fila = null; jaCliente(d); } liberar(c); }, 700);
+    return;
+  }
+  var ctl = "AbortController" in window ? new AbortController() : null;
+  var limite = ctl ? setTimeout(function(){ ctl.abort(); }, 4000) : null;
+  fetch(CNPJ_EXISTE_URL + "?cnpj=" + encodeURIComponent(d), ctl ? { signal: ctl.signal } : undefined)
+    .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(j){ if(j && j.existe === true && atual(d)){ c.fila = null; jaCliente(d); } })
+    .catch(function(){})
+    .then(function(){ clearTimeout(limite); liberar(c); });
+}
+/* troca de altura do card animada, em vez de pular */
+function suavizar(fn){
+  var h0 = card.offsetHeight;
+  fn();
+  var h1 = card.offsetHeight;
+  if(LESS || h0 === h1 || !card.animate) return;
+  card.style.overflow = "hidden";
+  card.animate([{ height:h0 + "px" }, { height:h1 + "px" }], { duration:380, easing:"cubic-bezier(.16,1,.3,1)" })
+    .onfinish = function(){ card.style.overflow = ""; };
+}
+function jaCliente(d){
+  clienteDe = d;
+  suavizar(function(){ jaClienteJa(d); });
+}
+function jaClienteJa(d){
+  form.classList.add("ja-cliente");
+  reveal.className = "reveal on cliente";
+  $("#revealV").innerHTML = "Esse CNPJ j\u00e1 tem conta na Oder\u00e7o" +
+    '<span class="reveal__cnpj">' + esc(maskCnpj(d)) + '</span>';
+  $("#revealM").innerHTML = "";
+  $("#revealAviso").classList.remove("on");
+  limparSugestaoCnpj();
+  fecharManual();
+}
+function semCliente(){
+  if(!clienteDe) return;
+  clienteDe = "";
+  suavizar(function(){ form.classList.remove("ja-cliente"); });
+}
+function ehCliente(){ return clienteDe !== "" && clienteDe === soCnpj(cnpj.value); }
 
 /* Duas fontes: a primeira traz Inscrição Estadual, que é o que o cadastro da
    Oderço mostra, mas limita a 3 consultas por minuto. A segunda é o plano B. */
@@ -1645,12 +1758,13 @@ function titulo(t){
 function buscando(){
   empresaConsultada = null;
   reveal.className = "reveal on carregando";
-  $("#revealV").textContent = "Consultando a Receita…";
+  $("#revealV").textContent = "Consultando o CNPJ…";
   $("#revealM").innerHTML = "";
   $("#revealAviso").classList.remove("on");
   limparSugestaoCnpj();
 }
 function achou(d){
+  if(ehCliente() || aguardarChecagem(function(){ achou(d); })) return;
   empresaConsultada = d;
   var faltando = faltaNaConsulta(d);
   reveal.className = "reveal on" + (faltando.length ? " parcial" : "");
@@ -1683,6 +1797,7 @@ function invalido(){
   fecharManual();
 }
 function falhou(){
+  if(ehCliente() || aguardarChecagem(falhou)) return;
   empresaConsultada = null;
   reveal.className = "reveal on err";
   $("#revealV").textContent = "Não localizamos esse CNPJ";
@@ -2170,6 +2285,7 @@ function enviarCadastro(){
 
 form.addEventListener("submit", function(e){
   e.preventDefault();
+  if(ehCliente()) return;
 
   if(etapa === 1){
     var faltam = [];
