@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Oderço · Abra sua conta de revenda</title>
-<meta name="description" content="Distribuidora com marcas próprias, dois centros de distribuição e pronta entrega para todo o Brasil. Cadastre seu CNPJ e compre no preço de atacado.">
+<title>Seja revenda Oderço | Atacado direto da distribuidora</title>
+<meta name="description" content="Ainda não compra com a Oderço? Cadastre o CNPJ da sua revenda e acesse os preços de atacado. Já é cliente? Entre pela loja em oderco.com.br.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700;800;900&family=Red+Hat+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -80,11 +80,15 @@ p{margin:0}
 .hdr__log:first-of-type{margin-left:auto}
 .hdr__nav a{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.62;text-decoration:none;transition:opacity .2s}
 .hdr__nav a:hover{opacity:1}
+/* quem já é cliente e caiu aqui pelo Google precisa achar a saída sem procurar */
 .hdr__log{
   font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  text-decoration:none;opacity:.72;transition:opacity .2s;flex:none;
+  text-decoration:none;flex:none;white-space:nowrap;padding:10px 16px;border-radius:99px;
+  border:1px solid rgba(255,255,255,.42);transition:border-color .2s,background .2s;
 }
-.hdr__log:hover{opacity:1}
+.hdr__log:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+.hdr.solid .hdr__log{border-color:var(--line)}
+.hdr.solid .hdr__log:hover{border-color:var(--ink);background:none}
 .hdr__cta{
   font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   background:var(--blue);color:#fff;border:0;border-radius:99px;padding:11px 20px;cursor:pointer;
@@ -166,6 +170,11 @@ p{margin:0}
 .card__t{font-family:var(--display);font-weight:900;font-size:23px;letter-spacing:-.035em;line-height:1.05}
 .card__n{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--grey);flex:none;padding-top:4px}
 .card__d{margin-top:8px;font-size:13.5px;color:var(--slate);line-height:1.5}
+.card__cli{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:14px;padding:11px 14px;border-radius:10px;
+  background:var(--blue-lt);color:var(--navy);font-size:13.5px;line-height:1.35;text-decoration:none;transition:background .2s}
+.card__cli b{color:var(--blue);display:inline-flex;align-items:center;gap:5px}
+.card__cli:hover{background:#D8E6FF}
+.card__cli:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .f{margin-top:16px}
 .f__lbl{display:block;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
 .f__in{width:100%;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 13px;font-size:15px;font-family:var(--text);transition:border-color .16s,box-shadow .16s,background .16s}
@@ -518,7 +527,7 @@ p{margin:0}
 @media (max-width:680px){
   .hdr__cta{display:none}
   .ph__pause{display:none}                              /* no toque o hover gruda e cobre a tela; as setas já pausam */
-  .hdr__log{margin-left:auto;padding:14px 4px}          /* alvo de toque de 44px */
+  .hdr__log{margin-left:auto;padding:13px 16px}         /* alvo de toque de 44px */
   .brand{padding:8px 0}
   .cl__f a{display:inline-block;padding:8px 0}
   .hero__bg::before{background-image:url(../assets/bg/galpao-sm.jpg);background-position:center 38%}
@@ -626,7 +635,7 @@ p{margin:0}
   .cf__dot.on{background:none}
   .cf__dot.on::after{background:var(--blue);width:22px}
   .ph__b{width:44px;height:44px}
-  .hdr__log{padding:14px 4px}
+  .hdr__log{padding:13px 16px}
   .hdr__cta{padding:14px 20px}
   .brand{padding:8px 0}
   .ft__l a{display:inline-block;padding:5px 0}
@@ -658,7 +667,7 @@ p{margin:0}
       <a href="#marcas">Marcas próprias</a>
       <a href="#app">Aplicativo</a>
     </nav>
-    <a class="hdr__log" href="https://www.oderco.com.br/customer/account/login/">Entrar</a>
+    <a class="hdr__log" href="https://www.oderco.com.br/customer/account/login/">Já sou cliente</a>
     <button class="hdr__cta" data-goto>Cadastre-se</button>
   </div>
 </header>
@@ -709,6 +718,9 @@ p{margin:0}
           </div>
           <span class="card__n">01 / 02</span>
         </div>
+        <a class="card__cli" href="https://www.oderco.com.br/customer/account/login/">Já é cliente Oderço?
+          <b>Entre na sua conta <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></b>
+        </a>
         <!-- etapa 1: quem é a empresa e como falar com ela -->
         <div class="etapa" data-etapa="1">
           <div class="f">
