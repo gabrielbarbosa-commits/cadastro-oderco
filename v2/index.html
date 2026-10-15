@@ -310,6 +310,7 @@ p{margin:0}
 .reveal__acoes{display:none;margin-top:12px;padding-top:12px;border-top:1px solid #D9E4FA}
 .reveal.cliente .reveal__acoes{display:block}
 .reveal__acoes p{margin:0;font-size:12.5px;line-height:1.45;color:var(--slate)}
+.reveal__contador{margin-top:10px!important;color:#173d85!important;font-weight:600}
 .reveal__entrar{
   display:block;margin-top:12px;padding:13px;border-radius:10px;text-align:center;text-decoration:none;
   background:var(--blue);color:#fff;font-family:var(--display);font-weight:800;font-size:15px;transition:background .2s;
@@ -792,6 +793,7 @@ p{margin:0}
               </div>
               <div class="reveal__acoes">
                 <p>Entre com o e-mail e a senha da sua conta para ver os preços e comprar.</p>
+                <p class="reveal__contador" id="contadorLogin" role="status" aria-live="polite">Redirecionando para o login em <strong id="segundosLogin">5</strong> segundos...</p>
                 <a class="reveal__entrar" href="https://www.oderco.com.br/customer/account/login/">Entrar na minha conta</a>
                 <div class="reveal__links">
                   <a href="https://www.oderco.com.br/customer/account/forgotpassword/">
@@ -1631,6 +1633,26 @@ function verificarCliente(d){
     .catch(function(){})
     .then(function(){ clearTimeout(limite); liberar(c); });
 }
+/* Cópia do que roda na loja: com conta encontrada, leva ao login sozinho em 5s.
+   Absoluto aqui para funcionar também fora da loja. */
+var loginTimer = null;
+var loginSegundos = 5;
+var LOGIN_URL = "https://www.oderco.com.br/customer/account/login/";
+function cancelarRedirecionamento(){
+  if(loginTimer !== null){ clearInterval(loginTimer); loginTimer = null; }
+}
+function iniciarRedirecionamento(d){
+  cancelarRedirecionamento();
+  loginSegundos = 5;
+  var display = $("#segundosLogin");
+  if(display) display.textContent = String(loginSegundos);
+  loginTimer = setInterval(function(){
+    if(!atual(d) || !ehCliente()) { cancelarRedirecionamento(); return; }
+    loginSegundos--;
+    if(display) display.textContent = String(Math.max(0,loginSegundos));
+    if(loginSegundos <= 0){ cancelarRedirecionamento(); window.location.assign(LOGIN_URL); }
+  },1000);
+}
 /* troca de altura do card animada, em vez de pular */
 function suavizar(fn){
   var h0 = card.offsetHeight;
@@ -1644,6 +1666,7 @@ function suavizar(fn){
 function jaCliente(d){
   clienteDe = d;
   suavizar(function(){ jaClienteJa(d); });
+  iniciarRedirecionamento(d);
 }
 function jaClienteJa(d){
   form.classList.add("ja-cliente");
@@ -1656,6 +1679,7 @@ function jaClienteJa(d){
   fecharManual();
 }
 function semCliente(){
+  cancelarRedirecionamento();
   if(form.classList.contains("cnpj-fechado")) suavizar(function(){ form.classList.remove("cnpj-fechado"); });
   if(!clienteDe) return;
   clienteDe = "";
